@@ -1,1 +1,1105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>EQA Agency | Dashboard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f9;
+      color: #172033;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    /* =========================
+       LAYOUT
+    ========================= */
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar {
+      width: 250px;
+      min-height: 100vh;
+      background: #111827;
+      color: white;
+      padding: 24px 16px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    .logo {
+      padding: 8px 12px 30px;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .logo span {
+      color: #3b82f6;
+    }
+
+    .menu-title {
+      color: #6b7280;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 12px 10px;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .menu a {
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 13px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .menu a:hover {
+      background: #1f2937;
+      color: white;
+    }
+
+    .menu a.active {
+      background: #2563eb;
+      color: white;
+    }
+
+    .icon {
+      width: 20px;
+      text-align: center;
+      font-size: 17px;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      min-height: 100vh;
+    }
+
+    /* =========================
+       TOPBAR
+    ========================= */
+
+    .topbar {
+      height: 72px;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .page-title h1 {
+      font-size: 22px;
+    }
+
+    .page-title p {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 3px;
+    }
+
+    .admin {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .admin-info strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .admin-info span {
+      color: #64748b;
+      font-size: 11px;
+    }
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    .content {
+      padding: 30px;
+      max-width: 1500px;
+    }
+
+    .welcome {
+      margin-bottom: 25px;
+    }
+
+    .welcome h2 {
+      font-size: 26px;
+      margin-bottom: 5px;
+    }
+
+    .welcome p {
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    /* =========================
+       STAT CARDS
+    ========================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 15px;
+      padding: 22px;
+    }
+
+    .stat-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 17px;
+    }
+
+    .stat-label {
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .stat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+    }
+
+    .blue {
+      background: #dbeafe;
+      color: #2563eb;
+    }
+
+    .green {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .red {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .orange {
+      background: #ffedd5;
+      color: #ea580c;
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 5px;
+    }
+
+    .stat-description {
+      color: #94a3b8;
+      font-size: 11px;
+    }
+
+    /* =========================
+       GRID
+    ========================= */
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .card-header {
+      padding: 20px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-header h3 {
+      font-size: 17px;
+    }
+
+    .card-header a {
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       UMKM TABLE
+    ========================= */
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      padding: 13px 20px;
+      text-align: left;
+      color: #64748b;
+      background: #f8fafc;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    td {
+      padding: 16px 20px;
+      border-top: 1px solid #f1f5f9;
+      font-size: 13px;
+    }
+
+    .business {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .business-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: #eff6ff;
+      color: #2563eb;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .business-name {
+      font-weight: 800;
+    }
+
+    .business-type {
+      color: #94a3b8;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .status::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .status-active {
+      color: #15803d;
+      background: #dcfce7;
+    }
+
+    .status-error {
+      color: #b91c1c;
+      background: #fee2e2;
+    }
+
+    .domain {
+      color: #2563eb;
+      font-size: 12px;
+    }
+
+    /* =========================
+       QUICK ACTION
+    ========================= */
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 20px;
+    }
+
+    .action {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      background: white;
+      padding: 18px;
+      text-align: left;
+      transition: .2s;
+    }
+
+    .action:hover {
+      border-color: #2563eb;
+      transform: translateY(-2px);
+    }
+
+    .action-icon {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .action strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .action span {
+      color: #94a3b8;
+      font-size: 11px;
+    }
+
+    /* =========================
+       SYSTEM STATUS
+    ========================= */
+
+    .system-list {
+      padding: 8px 20px 20px;
+    }
+
+    .system-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .system-row:last-child {
+      border-bottom: none;
+    }
+
+    .system-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .system-dot {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+    }
+
+    .system-status {
+      color: #16a34a;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* =========================
+       EMPTY STATE
+    ========================= */
+
+    .empty {
+      padding: 45px 20px;
+      text-align: center;
+      color: #94a3b8;
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .empty h4 {
+      color: #475569;
+      margin-bottom: 5px;
+    }
+
+    .empty p {
+      font-size: 12px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 1100px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+
+      .sidebar {
+        width: 70px;
+        padding: 20px 8px;
+      }
+
+      .logo {
+        font-size: 13px;
+        text-align: center;
+        padding: 8px 0 25px;
+      }
+
+      .menu-title {
+        display: none;
+      }
+
+      .menu a {
+        justify-content: center;
+        padding: 13px 5px;
+        font-size: 0;
+      }
+
+      .icon {
+        font-size: 18px;
+      }
+
+      .main {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+      }
+
+      .topbar {
+        padding: 0 16px;
+      }
+
+      .admin-info {
+        display: none;
+      }
+
+      .content {
+        padding: 20px 15px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 16px;
+      }
+
+      .stat-number {
+        font-size: 25px;
+      }
+
+      .actions {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+      <div class="logo">
+        EQA <span>Agency</span>
+      </div>
+
+      <div class="menu-title">
+        Menu Utama
+      </div>
+
+      <nav class="menu">
+
+        <a href="#" class="active">
+          <span class="icon">▦</span>
+          Dashboard
+        </a>
+
+        <a href="#">
+          <span class="icon">🏪</span>
+          UMKM
+        </a>
+
+        <a href="#">
+          <span class="icon">🌐</span>
+          Website
+        </a>
+
+        <a href="#">
+          <span class="icon">🔗</span>
+          Domain
+        </a>
+
+        <a href="#">
+          <span class="icon">📦</span>
+          Produk
+        </a>
+
+        <a href="#">
+          <span class="icon">🛒</span>
+          Pesanan
+        </a>
+
+        <a href="#">
+          <span class="icon">👥</span>
+          Pelanggan
+        </a>
+
+        <a href="#">
+          <span class="icon">⚙️</span>
+          Pengaturan
+        </a>
+
+      </nav>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+      <!-- TOPBAR -->
+
+      <header class="topbar">
+
+        <div class="page-title">
+
+          <h1>Dashboard</h1>
+
+          <p>
+            Pusat pengelolaan EQA Agency
+          </p>
+
+        </div>
+
+        <div class="admin">
+
+          <div class="admin-avatar">
+            EA
+          </div>
+
+          <div class="admin-info">
+
+            <strong>
+              EQA Admin
+            </strong>
+
+            <span>
+              Administrator
+            </span>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+      <!-- CONTENT -->
+
+      <div class="content">
+
+        <div class="welcome">
+
+          <h2>
+            Selamat datang di EQA Agency
+          </h2>
+
+          <p>
+            Kelola seluruh website dan bisnis UMKM dari satu dashboard.
+          </p>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="stats">
+
+          <div class="stat-card">
+
+            <div class="stat-top">
+
+              <div class="stat-label">
+                Total UMKM
+              </div>
+
+              <div class="stat-icon blue">
+                🏪
+              </div>
+
+            </div>
+
+            <div class="stat-number">
+              0
+            </div>
+
+            <div class="stat-description">
+              UMKM terdaftar
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-top">
+
+              <div class="stat-label">
+                Website Aktif
+              </div>
+
+              <div class="stat-icon green">
+                🌐
+              </div>
+
+            </div>
+
+            <div class="stat-number">
+              0
+            </div>
+
+            <div class="stat-description">
+              Website berjalan normal
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-top">
+
+              <div class="stat-label">
+                Website Bermasalah
+              </div>
+
+              <div class="stat-icon red">
+                ⚠️
+              </div>
+
+            </div>
+
+            <div class="stat-number">
+              0
+            </div>
+
+            <div class="stat-description">
+              Perlu pemeriksaan
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-top">
+
+              <div class="stat-label">
+                Pesanan Hari Ini
+              </div>
+
+              <div class="stat-icon orange">
+                🛒
+              </div>
+
+            </div>
+
+            <div class="stat-number">
+              0
+            </div>
+
+            <div class="stat-description">
+              Total pesanan
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- MAIN GRID -->
+
+        <div class="dashboard-grid">
+
+
+          <!-- UMKM -->
+
+          <div>
+
+            <section class="card">
+
+              <div class="card-header">
+
+                <h3>
+                  Website UMKM
+                </h3>
+
+                <a href="#">
+                  Lihat semua
+                </a>
+
+              </div>
+
+
+              <div class="table-container">
+
+                <table>
+
+                  <thead>
+
+                    <tr>
+                      <th>UMKM</th>
+                      <th>Domain</th>
+                      <th>Website</th>
+                    </tr>
+
+                  </thead>
+
+
+                  <tbody>
+
+                    <tr>
+
+                      <td colspan="3">
+
+                        <div class="empty">
+
+                          <div class="empty-icon">
+                            🏪
+                          </div>
+
+                          <h4>
+                            Belum ada UMKM
+                          </h4>
+
+                          <p>
+                            Data UMKM akan muncul di sini setelah ditambahkan.
+                          </p>
+
+                        </div>
+
+                      </td>
+
+                    </tr>
+
+                  </tbody>
+
+                </table>
+
+              </div>
+
+            </section>
+
+
+            <!-- QUICK ACTION -->
+
+            <section class="card">
+
+              <div class="card-header">
+
+                <h3>
+                  Akses Cepat
+                </h3>
+
+              </div>
+
+
+              <div class="actions">
+
+                <button class="action">
+
+                  <div class="action-icon">
+                    🏪
+                  </div>
+
+                  <strong>
+                    Tambah UMKM
+                  </strong>
+
+                  <span>
+                    Daftarkan bisnis baru
+                  </span>
+
+                </button>
+
+
+                <button class="action">
+
+                  <div class="action-icon">
+                    🌐
+                  </div>
+
+                  <strong>
+                    Buat Website
+                  </strong>
+
+                  <span>
+                    Buat website UMKM
+                  </span>
+
+                </button>
+
+
+                <button class="action">
+
+                  <div class="action-icon">
+                    🔗
+                  </div>
+
+                  <strong>
+                    Tambah Domain
+                  </strong>
+
+                  <span>
+                    Hubungkan domain
+                  </span>
+
+                </button>
+
+
+                <button class="action">
+
+                  <div class="action-icon">
+                    📦
+                  </div>
+
+                  <strong>
+                    Tambah Produk
+                  </strong>
+
+                  <span>
+                    Kelola produk UMKM
+                  </span>
+
+                </button>
+
+              </div>
+
+            </section>
+
+          </div>
+
+
+          <!-- RIGHT COLUMN -->
+
+          <div>
+
+            <section class="card">
+
+              <div class="card-header">
+
+                <h3>
+                  Status Sistem
+                </h3>
+
+              </div>
+
+
+              <div class="system-list">
+
+                <div class="system-row">
+
+                  <div class="system-name">
+
+                    <span class="system-dot"></span>
+
+                    Cloudflare
+
+                  </div>
+
+                  <div class="system-status">
+                    Online
+                  </div>
+
+                </div>
+
+
+                <div class="system-row">
+
+                  <div class="system-name">
+
+                    <span class="system-dot"></span>
+
+                    Website Engine
+
+                  </div>
+
+                  <div class="system-status">
+                    Online
+                  </div>
+
+                </div>
+
+
+                <div class="system-row">
+
+                  <div class="system-name">
+
+                    <span class="system-dot"></span>
+
+                    Database
+
+                  </div>
+
+                  <div class="system-status">
+                    Belum dibuat
+                  </div>
+
+                </div>
+
+
+                <div class="system-row">
+
+                  <div class="system-name">
+
+                    <span class="system-dot"></span>
+
+                    Domain System
+
+                  </div>
+
+                  <div class="system-status">
+                    Belum dibuat
+                  </div>
+
+                </div>
+
+              </div>
+
+            </section>
+
+
+            <!-- INFORMATION -->
+
+            <section class="card">
+
+              <div class="card-header">
+
+                <h3>
+                  Sistem EQA
+                </h3>
+
+              </div>
+
+              <div style="padding:20px;">
+
+                <p style="
+                  color:#64748b;
+                  font-size:13px;
+                  line-height:1.7;
+                ">
+                  Dashboard ini akan menjadi pusat pengelolaan
+                  seluruh website UMKM yang terhubung dengan
+                  EQA Agency.
+                </p>
+
+              </div>
+
+            </section>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
