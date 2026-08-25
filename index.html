@@ -1101,5 +1101,12 @@
 
   </div>
 
+  <script>
+document.querySelectorAll('button').forEach(button => {
+  button.addEventListener('click', function () {
+    console.log('Tombol diklik:', this.textContent);
+  });
+});
+</script>
 </body>
 </html>
