@@ -1768,247 +1768,472 @@ function getProgressBadge(value) {
         style.id = "client-dashboard-style";
         document.head.appendChild(style);
     }
-}
+    function renderDashboard() {
 
+    const clients = getData("UMKM");
 
-  /* =====================================================
-     RENDER WEBSITE TERBARU
-  ===================================================== */
+    title.textContent = "Dashboard";
+    subtitle.textContent = "Database client EQA Agency";
 
-  const websiteTable =
-    document.querySelector("#dashboardWebsite");
+    content.innerHTML = `
+        <div class="client-dashboard">
 
-  if (websites.length === 0) {
+            <div class="dashboard-header">
+                <div>
+                    <h2>Client Dashboard</h2>
+                    <p>Kelola seluruh client website dan konten.</p>
+                </div>
 
-    websiteTable.innerHTML = `
-
-      <tr>
-
-        <td colspan="3">
-
-          <div class="empty">
-
-            <div class="empty-icon">
-              🌐
+                <div class="total-client">
+                    <span>Total Client</span>
+                    <strong>${clients.length}</strong>
+                </div>
             </div>
 
-            <h4>
-              Belum ada website
-            </h4>
 
-            <p>
-              Belum ada data website terdaftar.
-            </p>
+            <div class="client-list">
 
-          </div>
+                ${
+                    clients.length === 0
+                    ? `
+                        <div class="empty-client">
+                            <div class="empty-icon">👤</div>
+                            <h3>Belum ada client</h3>
+                            <p>Tambahkan data client melalui menu UMKM.</p>
+                        </div>
+                    `
+                    :
+                    clients.map((item, index) => {
 
-        </td>
+                        const nama =
+                            item.client ||
+                            item.nama ||
+                            item.name ||
+                            "Client";
 
-      </tr>
+                        const owner =
+                            item.owner ||
+                            item.namaOwner ||
+                            "-";
 
+                        const phone =
+                            item.phone ||
+                            item.telepon ||
+                            item.noHp ||
+                            "-";
+
+                        const domain =
+                            item.domain ||
+                            "-";
+
+                        const layanan =
+                            item.layanan ||
+                            "Website";
+
+                        const masa =
+                            item.masa ||
+                            "1 bulan";
+
+                        const payment =
+                            item.payment ||
+                            item.pembayaran ||
+                            "Unpaid";
+
+                        const progress =
+                            item.progress ||
+                            "On Progress";
+
+
+                        return `
+                            <div class="client-card">
+
+                                <div class="client-card-header">
+
+                                    <div class="client-identity">
+
+                                        <div class="client-avatar">
+                                            ${nama.charAt(0).toUpperCase()}
+                                        </div>
+
+                                        <div>
+                                            <h3>${escapeHTML(nama)}</h3>
+                                            <span>Client #${String(index + 1).padStart(3, "0")}</span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="status-group">
+
+                                        <span class="payment-status ${
+                                            payment.toLowerCase() === "paid"
+                                            ? "paid"
+                                            : "unpaid"
+                                        }">
+                                            ${escapeHTML(payment)}
+                                        </span>
+
+                                        <span class="progress-status">
+                                            ${escapeHTML(progress)}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="client-info-grid">
+
+                                    <div class="client-info">
+
+                                        <span>OWNER</span>
+
+                                        <strong>
+                                            ${escapeHTML(owner)}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="client-info">
+
+                                        <span>NO. HP</span>
+
+                                        <strong>
+                                            ${escapeHTML(phone)}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="client-info">
+
+                                        <span>DOMAIN</span>
+
+                                        <strong>
+                                            ${escapeHTML(domain)}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="client-info">
+
+                                        <span>LAYANAN</span>
+
+                                        <strong>
+                                            ${escapeHTML(layanan)}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="client-info">
+
+                                        <span>MASA LAYANAN</span>
+
+                                        <strong>
+                                            ${escapeHTML(masa)}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="client-info">
+
+                                        <span>PAYMENT</span>
+
+                                        <strong class="payment-text">
+                                            ${escapeHTML(payment)}
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        `;
+
+                    }).join("")
+                }
+
+            </div>
+
+        </div>
     `;
 
-  } else {
 
-    websiteTable.innerHTML = websites
-      .slice(-5)
-      .reverse()
-      .map(function(item) {
+    if (!document.getElementById("client-dashboard-style")) {
 
-        return `
+        const style = document.createElement("style");
 
-          <tr>
+        style.id = "client-dashboard-style";
 
-            <td>
-              ${escapeHTML(
-                item.nama_website ||
-                item.nama ||
-                "-"
-              )}
-            </td>
+        style.textContent = `
 
-            <td>
-              ${escapeHTML(
-                item.umkm ||
-                "-"
-              )}
-            </td>
+            .client-dashboard {
+                width: 100%;
+            }
 
-            <td>
-              ${escapeHTML(
-                item.url ||
-                "-"
-              )}
-            </td>
 
-          </tr>
+            .dashboard-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 24px;
+                gap: 20px;
+            }
+
+
+            .dashboard-header h2 {
+                margin: 0 0 6px;
+                font-size: 24px;
+                font-weight: 700;
+                color: #111827;
+            }
+
+
+            .dashboard-header p {
+                margin: 0;
+                color: #6b7280;
+                font-size: 14px;
+            }
+
+
+            .total-client {
+                background: linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #1d4ed8
+                );
+
+                color: white;
+                padding: 16px 22px;
+                border-radius: 14px;
+                min-width: 130px;
+                box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+            }
+
+
+            .total-client span {
+                display: block;
+                font-size: 12px;
+                opacity: 0.85;
+                margin-bottom: 5px;
+            }
+
+
+            .total-client strong {
+                display: block;
+                font-size: 28px;
+            }
+
+
+            .client-list {
+                display: flex;
+                flex-direction: column;
+                gap: 18px;
+            }
+
+
+            .client-card {
+                background: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 16px;
+                padding: 22px;
+                box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+            }
+
+
+            .client-card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 20px;
+                padding-bottom: 18px;
+                border-bottom: 1px solid #eef0f3;
+            }
+
+
+            .client-identity {
+                display: flex;
+                align-items: center;
+                gap: 13px;
+            }
+
+
+            .client-avatar {
+                width: 46px;
+                height: 46px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #eff6ff;
+                color: #2563eb;
+                font-size: 18px;
+                font-weight: 700;
+            }
+
+
+            .client-identity h3 {
+                margin: 0 0 4px;
+                font-size: 17px;
+                color: #111827;
+            }
+
+
+            .client-identity span {
+                color: #9ca3af;
+                font-size: 12px;
+            }
+
+
+            .status-group {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+
+            .payment-status,
+            .progress-status {
+                padding: 6px 10px;
+                border-radius: 999px;
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+
+
+            .payment-status.paid {
+                background: #dcfce7;
+                color: #15803d;
+            }
+
+
+            .payment-status.unpaid {
+                background: #fee2e2;
+                color: #b91c1c;
+            }
+
+
+            .progress-status {
+                background: #dbeafe;
+                color: #1d4ed8;
+            }
+
+
+            .client-info-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 18px;
+                padding-top: 20px;
+            }
+
+
+            .client-info {
+                min-width: 0;
+            }
+
+
+            .client-info span {
+                display: block;
+                color: #9ca3af;
+                font-size: 10px;
+                font-weight: 700;
+                margin-bottom: 6px;
+                letter-spacing: 0.5px;
+            }
+
+
+            .client-info strong {
+                display: block;
+                color: #374151;
+                font-size: 14px;
+                word-break: break-word;
+            }
+
+
+            .payment-text {
+                color: #15803d !important;
+            }
+
+
+            .empty-client {
+                background: #ffffff;
+                border: 1px dashed #d1d5db;
+                border-radius: 16px;
+                text-align: center;
+                padding: 55px 20px;
+            }
+
+
+            .empty-icon {
+                font-size: 35px;
+                margin-bottom: 12px;
+            }
+
+
+            .empty-client h3 {
+                margin: 0 0 6px;
+                color: #374151;
+            }
+
+
+            .empty-client p {
+                margin: 0;
+                color: #9ca3af;
+                font-size: 14px;
+            }
+
+
+            @media (max-width: 800px) {
+
+                .dashboard-header {
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+
+
+                .total-client {
+                    width: 100%;
+                    box-sizing: border-box;
+                }
+
+
+                .client-card-header {
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+
+
+                .status-group {
+                    justify-content: flex-start;
+                }
+
+
+                .client-info-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+            }
+
+
+            @media (max-width: 500px) {
+
+                .client-info-grid {
+                    grid-template-columns: 1fr;
+                }
+
+            }
 
         `;
 
-      })
-      .join("");
-
-  }
-
-
-  /* =====================================================
-     RENDER PESANAN TERBARU
-  ===================================================== */
-
-  const orderTable =
-    document.querySelector("#dashboardPesanan");
-
-  if (orders.length === 0) {
-
-    orderTable.innerHTML = `
-
-      <tr>
-
-        <td colspan="4">
-
-          <div class="empty">
-
-            <div class="empty-icon">
-              🛒
-            </div>
-
-            <h4>
-              Belum ada pesanan
-            </h4>
-
-            <p>
-              Belum ada data pesanan.
-            </p>
-
-          </div>
-
-        </td>
-
-      </tr>
-
-    `;
-
-  } else {
-
-    orderTable.innerHTML = orders
-      .slice(-5)
-      .reverse()
-      .map(function(item) {
-
-        return `
-
-          <tr>
-
-            <td>
-              ${escapeHTML(
-                item.id_pesanan ||
-                item.id ||
-                "-"
-              )}
-            </td>
-
-            <td>
-              ${escapeHTML(
-                item.pelanggan ||
-                "-"
-              )}
-            </td>
-
-            <td>
-              ${escapeHTML(
-                item.total ||
-                "-"
-              )}
-            </td>
-
-            <td>
-              ${escapeHTML(
-                item.status ||
-                "-"
-              )}
-            </td>
-
-          </tr>
-
-        `;
-
-      })
-      .join("");
-
-  }
-
-
-  /* =====================================================
-     QUICK ACTION
-  ===================================================== */
-
-  document.querySelector("#quickUMKM")
-    .onclick = function () {
-
-      render("UMKM");
-
-    };
-
-
-  document.querySelector("#quickWebsite")
-    .onclick = function () {
-
-      render("Website");
-
-    };
-
-
-  document.querySelector("#quickProduk")
-    .onclick = function () {
-
-      render("Produk");
-
-    };
-
-
-  document.querySelector("#quickPesanan")
-    .onclick = function () {
-
-      render("Pesanan");
-
-    };
-
-
-  /* =====================================================
-     VIEW ALL
-  ===================================================== */
-
-  document.querySelector("#viewUMKM")
-    .onclick = function (event) {
-
-      event.preventDefault();
-
-      render("UMKM");
-
-    };
-
-
-  document.querySelector("#viewWebsite")
-    .onclick = function (event) {
-
-      event.preventDefault();
-
-      render("Website");
-
-    };
-
-
-  document.querySelector("#viewPesanan")
-    .onclick = function (event) {
-
-      event.preventDefault();
-
-      render("Pesanan");
-
-    };
-
+        document.head.appendChild(style);
+    }
 }
-
   function render(page) {
 
     if (page === "Dashboard") {
