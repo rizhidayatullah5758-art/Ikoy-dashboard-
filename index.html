@@ -1104,269 +1104,916 @@
  <script>
 document.addEventListener("DOMContentLoaded", function () {
 
+  /* =====================================================
+     EQA AGENCY - DASHBOARD CONTROLLER
+     ===================================================== */
+
   const content = document.querySelector(".content");
   const title = document.querySelector(".page-title h1");
   const subtitle = document.querySelector(".page-title p");
-  const menu = document.querySelectorAll(".menu a");
+  const menuLinks = document.querySelectorAll(".menu a");
 
   const pages = {
-    "Dashboard": {
+    Dashboard: {
       title: "Dashboard",
       subtitle: "Pusat pengelolaan EQA Agency"
     },
-    "UMKM": {
+
+    UMKM: {
       title: "UMKM",
-      subtitle: "Kelola data bisnis UMKM"
+      subtitle: "Kelola data UMKM"
     },
-    "Website": {
+
+    Website: {
       title: "Website",
       subtitle: "Kelola website UMKM"
     },
-    "Domain": {
+
+    Domain: {
       title: "Domain",
-      subtitle: "Kelola domain yang terhubung"
+      subtitle: "Kelola domain"
     },
-    "Produk": {
+
+    Produk: {
       title: "Produk",
-      subtitle: "Kelola produk UMKM"
+      subtitle: "Kelola produk"
     },
-    "Pesanan": {
+
+    Pesanan: {
       title: "Pesanan",
-      subtitle: "Kelola pesanan pelanggan"
+      subtitle: "Kelola pesanan"
     },
-    "Pelanggan": {
+
+    Pelanggan: {
       title: "Pelanggan",
       subtitle: "Kelola pelanggan"
     },
-    "Pengaturan": {
+
+    Pengaturan: {
       title: "Pengaturan",
       subtitle: "Pengaturan dashboard"
     }
   };
 
+
+  /* =====================================================
+     FIELD DATA
+     ===================================================== */
+
   const fields = {
-    "UMKM": ["Nama", "Jenis Usaha", "Telepon", "Domain"],
-    "Website": ["Nama Website", "UMKM", "URL"],
-    "Domain": ["Domain", "UMKM"],
-    "Produk": ["Nama Produk", "UMKM", "Harga", "Stok"],
-    "Pesanan": ["ID Pesanan", "Pelanggan", "Total", "Status"],
-    "Pelanggan": ["Nama", "Telepon", "Email"]
+
+    UMKM: [
+      "Nama",
+      "Jenis Usaha",
+      "Telepon",
+      "Domain"
+    ],
+
+    Website: [
+      "Nama Website",
+      "UMKM",
+      "URL"
+    ],
+
+    Domain: [
+      "Domain",
+      "UMKM"
+    ],
+
+    Produk: [
+      "Nama Produk",
+      "UMKM",
+      "Harga",
+      "Stok"
+    ],
+
+    Pesanan: [
+      "ID Pesanan",
+      "Pelanggan",
+      "Total",
+      "Status"
+    ],
+
+    Pelanggan: [
+      "Nama",
+      "Telepon",
+      "Email"
+    ]
   };
 
-  function key(name) {
+
+  /* =====================================================
+     LOCAL STORAGE
+     ===================================================== */
+
+  function storageKey(name) {
     return "eqa_" + name.toLowerCase();
   }
 
+
   function getData(name) {
-    return JSON.parse(localStorage.getItem(key(name)) || "[]");
+
+    try {
+
+      return JSON.parse(
+        localStorage.getItem(storageKey(name)) || "[]"
+      );
+
+    } catch (error) {
+
+      console.error("Gagal membaca data:", error);
+
+      return [];
+    }
   }
+
 
   function saveData(name, data) {
-    localStorage.setItem(key(name), JSON.stringify(data));
+
+    localStorage.setItem(
+      storageKey(name),
+      JSON.stringify(data)
+    );
   }
 
-  function render(page) {
 
-    title.textContent = pages[page].title;
-    subtitle.textContent = pages[page].subtitle;
+  /* =====================================================
+     UTILITIES
+     ===================================================== */
 
-    menu.forEach(function(link) {
-      link.classList.toggle(
-        "active",
-        link.textContent.trim() === page
-      );
-    });
+  function escapeHTML(value) {
 
-    if (page === "Dashboard") {
-      location.hash = "";
-      location.reload();
-      return;
-    }
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
 
-    if (page === "Pengaturan") {
 
-      content.innerHTML = `
-        <div class="welcome">
-          <h2>Pengaturan</h2>
-          <p>Pengaturan dashboard EQA Agency</p>
-        </div>
+  function fieldKey(field) {
 
-        <section class="card">
-          <div style="padding:25px">
+    return field
+      .toLowerCase()
+      .replaceAll(" ", "_");
+  }
 
-            <h3 style="margin-bottom:15px">
-              Data Dashboard
-            </h3>
 
-            <p style="color:#64748b;margin-bottom:20px">
-              Data tersimpan di browser perangkat ini.
-            </p>
+  /* =====================================================
+     DASHBOARD
+     ===================================================== */
 
-            <button id="exportBtn" class="action">
-              Ekspor Data
-            </button>
+  function renderDashboard() {
 
-            <button id="deleteAllBtn"
-              class="action"
-              style="margin-left:10px">
-              Hapus Semua Data
-            </button>
+    const umkm = getData("UMKM");
+    const websites = getData("Website");
+    const domains = getData("Domain");
+    const products = getData("Produk");
+    const orders = getData("Pesanan");
+    const customers = getData("Pelanggan");
 
-          </div>
-        </section>
-      `;
+    title.textContent = pages.Dashboard.title;
+    subtitle.textContent = pages.Dashboard.subtitle;
 
-      document
-        .getElementById("exportBtn")
-        .onclick = exportData;
-
-      document
-        .getElementById("deleteAllBtn")
-        .onclick = deleteAll;
-
-      return;
-    }
-
-    const list = getData(page);
-    const cols = fields[page];
-
-    let rows = "";
-
-    if (list.length === 0) {
-
-      rows = `
-        <tr>
-          <td colspan="${cols.length + 1}">
-            <div class="empty">
-              <div class="empty-icon">📂</div>
-              <h4>Belum ada data</h4>
-              <p>Klik tombol Tambah untuk memasukkan data.</p>
-            </div>
-          </td>
-        </tr>
-      `;
-
-    } else {
-
-      list.forEach(function(item, index) {
-
-        rows += "<tr>";
-
-        cols.forEach(function(field) {
-
-          const k = field
-            .toLowerCase()
-            .replaceAll(" ", "_");
-
-          rows += `
-            <td>${item[k] || "-"}</td>
-          `;
-        });
-
-        rows += `
-          <td>
-            <button
-              class="delete-data"
-              data-index="${index}">
-              Hapus
-            </button>
-          </td>
-        `;
-
-        rows += "</tr>";
-      });
-    }
 
     content.innerHTML = `
 
       <div class="welcome">
-        <h2>${page}</h2>
-        <p>${pages[page].subtitle}</p>
+
+        <h2>
+          Selamat datang di EQA Agency
+        </h2>
+
+        <p>
+          Kelola seluruh data agency dari satu dashboard.
+        </p>
+
       </div>
 
-      <section class="card">
+
+      <div class="stats">
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Total UMKM
+            </span>
+
+            <div class="stat-icon blue">
+              🏪
+            </div>
+
+          </div>
+
+          <div class="stat-number">
+            ${umkm.length}
+          </div>
+
+          <div class="stat-description">
+            Data UMKM terdaftar
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Website
+            </span>
+
+            <div class="stat-icon green">
+              🌐
+            </div>
+
+          </div>
+
+          <div class="stat-number">
+            ${websites.length}
+          </div>
+
+          <div class="stat-description">
+            Website terdaftar
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Domain
+            </span>
+
+            <div class="stat-icon orange">
+              🔗
+            </div>
+
+          </div>
+
+          <div class="stat-number">
+            ${domains.length}
+          </div>
+
+          <div class="stat-description">
+            Domain terdaftar
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Pesanan
+            </span>
+
+            <div class="stat-icon red">
+              🛒
+            </div>
+
+          </div>
+
+          <div class="stat-number">
+            ${orders.length}
+          </div>
+
+          <div class="stat-description">
+            Total pesanan
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="dashboard-grid">
+
+        <div>
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <h3>
+                Data UMKM Terbaru
+              </h3>
+
+              <a href="#" id="viewUMKM">
+                Lihat semua
+              </a>
+
+            </div>
+
+            <div class="table-container">
+
+              <table>
+
+                <thead>
+
+                  <tr>
+
+                    <th>UMKM</th>
+                    <th>Jenis Usaha</th>
+                    <th>Telepon</th>
+                    <th>Domain</th>
+
+                  </tr>
+
+                </thead>
+
+                <tbody id="dashboardUMKM">
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <h3>
+                Ringkasan Data
+              </h3>
+
+            </div>
+
+            <div class="system-list">
+
+              <div class="system-row">
+
+                <div class="system-name">
+                  <span class="system-dot"></span>
+                  Produk
+                </div>
+
+                <div class="system-status">
+                  ${products.length} data
+                </div>
+
+              </div>
+
+
+              <div class="system-row">
+
+                <div class="system-name">
+                  <span class="system-dot"></span>
+                  Pelanggan
+                </div>
+
+                <div class="system-status">
+                  ${customers.length} data
+                </div>
+
+              </div>
+
+
+              <div class="system-row">
+
+                <div class="system-name">
+                  <span class="system-dot"></span>
+                  Pesanan
+                </div>
+
+                <div class="system-status">
+                  ${orders.length} data
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <h3>
+                Akses Cepat
+              </h3>
+
+            </div>
+
+            <div class="actions">
+
+              <button
+                class="action"
+                id="quickUMKM"
+                type="button"
+              >
+
+                <div class="action-icon">
+                  🏪
+                </div>
+
+                <strong>
+                  Tambah UMKM
+                </strong>
+
+                <span>
+                  Tambahkan data UMKM
+                </span>
+
+              </button>
+
+
+              <button
+                class="action"
+                id="quickWebsite"
+                type="button"
+              >
+
+                <div class="action-icon">
+                  🌐
+                </div>
+
+                <strong>
+                  Tambah Website
+                </strong>
+
+                <span>
+                  Tambahkan website
+                </span>
+
+              </button>
+
+
+              <button
+                class="action"
+                id="quickProduk"
+                type="button"
+              >
+
+                <div class="action-icon">
+                  📦
+                </div>
+
+                <strong>
+                  Tambah Produk
+                </strong>
+
+                <span>
+                  Tambahkan produk
+                </span>
+
+              </button>
+
+
+              <button
+                class="action"
+                id="quickPesanan"
+                type="button"
+              >
+
+                <div class="action-icon">
+                  🛒
+                </div>
+
+                <strong>
+                  Tambah Pesanan
+                </strong>
+
+                <span>
+                  Tambahkan pesanan
+                </span>
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+
+    /* ==============================================
+       RENDER DATA UMKM KE DASHBOARD
+       ============================================== */
+
+    const table = document.querySelector("#dashboardUMKM");
+
+    if (umkm.length === 0) {
+
+      table.innerHTML = `
+
+        <tr>
+
+          <td colspan="4">
+
+            <div class="empty">
+
+              <div class="empty-icon">
+                🏪
+              </div>
+
+              <h4>
+                Belum ada data UMKM
+              </h4>
+
+              <p>
+                Tambahkan UMKM melalui tombol akses cepat.
+              </p>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    } else {
+
+      table.innerHTML = umkm
+        .slice(-10)
+        .reverse()
+        .map(function(item) {
+
+          return `
+
+            <tr>
+
+              <td>
+
+                <div class="business">
+
+                  <div class="business-logo">
+                    ${(item.nama || "U").charAt(0).toUpperCase()}
+                  </div>
+
+                  <div>
+
+                    <div class="business-name">
+                      ${escapeHTML(item.nama || "-")}
+                    </div>
+
+                    <div class="business-type">
+                      UMKM
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+
+              <td>
+                ${escapeHTML(item.jenis_usaha || "-")}
+              </td>
+
+
+              <td>
+                ${escapeHTML(item.telepon || "-")}
+              </td>
+
+
+              <td>
+
+                <span class="domain">
+                  ${escapeHTML(item.domain || "-")}
+                </span>
+
+              </td>
+
+            </tr>
+
+          `;
+
+        })
+        .join("");
+    }
+
+
+    /* ==============================================
+       QUICK ACTION
+       ============================================== */
+
+    document.querySelector("#quickUMKM")
+      .onclick = function () {
+
+        render("UMKM");
+
+      };
+
+
+    document.querySelector("#quickWebsite")
+      .onclick = function () {
+
+        render("Website");
+
+      };
+
+
+    document.querySelector("#quickProduk")
+      .onclick = function () {
+
+        render("Produk");
+
+      };
+
+
+    document.querySelector("#quickPesanan")
+      .onclick = function () {
+
+        render("Pesanan");
+
+      };
+
+
+    document.querySelector("#viewUMKM")
+      .onclick = function (event) {
+
+        event.preventDefault();
+
+        render("UMKM");
+
+      };
+
+  }
+
+
+  /* =====================================================
+     GENERIC PAGE
+     ===================================================== */
+
+  function render(page) {
+
+    if (page === "Dashboard") {
+
+      renderDashboard();
+
+      return;
+    }
+
+
+    if (page === "Pengaturan") {
+
+      renderSettings();
+
+      return;
+    }
+
+
+    if (!fields[page]) {
+
+      return;
+    }
+
+
+    title.textContent = pages[page].title;
+    subtitle.textContent = pages[page].subtitle;
+
+
+    const data = getData(page);
+    const cols = fields[page];
+
+
+    content.innerHTML = `
+
+      <div class="welcome">
+
+        <h2>
+          ${pages[page].title}
+        </h2>
+
+        <p>
+          ${pages[page].subtitle}
+        </p>
+
+      </div>
+
+
+      <div class="card">
 
         <div class="card-header">
 
-          <h3>Data ${page}</h3>
+          <h3>
+            Data ${page}
+          </h3>
 
           <button
             id="addData"
-            class="action"
-            style="padding:10px 15px">
-            + Tambah
+            type="button"
+            style="
+              background:#2563eb;
+              color:white;
+              border:0;
+              padding:10px 15px;
+              border-radius:8px;
+              font-weight:700;
+            "
+          >
+            + Tambah Data
           </button>
 
         </div>
+
 
         <div class="table-container">
 
           <table>
 
             <thead>
+
               <tr>
-                ${cols.map(function(c) {
-                  return "<th>" + c + "</th>";
+
+                ${cols.map(function(col) {
+
+                  return `<th>${escapeHTML(col)}</th>`;
+
                 }).join("")}
 
                 <th>Aksi</th>
+
               </tr>
+
             </thead>
 
+
             <tbody>
-              ${rows}
+
+              ${
+                data.length === 0
+
+                ? `
+
+                  <tr>
+
+                    <td colspan="${cols.length + 1}">
+
+                      <div class="empty">
+
+                        <div class="empty-icon">
+                          📂
+                        </div>
+
+                        <h4>
+                          Belum ada data
+                        </h4>
+
+                        <p>
+                          Klik Tambah Data untuk membuat data baru.
+                        </p>
+
+                      </div>
+
+                    </td>
+
+                  </tr>
+
+                `
+
+                :
+
+                data.map(function(item, index) {
+
+                  return `
+
+                    <tr>
+
+                      ${cols.map(function(col) {
+
+                        const value =
+                          item[fieldKey(col)] || "-";
+
+                        return `
+                          <td>
+                            ${escapeHTML(value)}
+                          </td>
+                        `;
+
+                      }).join("")}
+
+
+                      <td>
+
+                        <button
+                          class="delete-data"
+                          data-index="${index}"
+                          type="button"
+                          style="
+                            background:#fee2e2;
+                            color:#b91c1c;
+                            border:0;
+                            padding:7px 10px;
+                            border-radius:7px;
+                            font-weight:700;
+                          "
+                        >
+                          Hapus
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  `;
+
+                }).join("")
+              }
+
             </tbody>
 
           </table>
 
         </div>
 
-      </section>
+      </div>
+
     `;
 
-    document
-      .getElementById("addData")
-      .onclick = function() {
-        addData(page, cols);
+
+    document.querySelector("#addData")
+      .onclick = function () {
+
+        addData(page);
+
       };
+
 
     document
       .querySelectorAll(".delete-data")
       .forEach(function(button) {
 
-        button.onclick = function() {
+        button.onclick = function () {
 
-          const data = getData(page);
+          const index =
+            Number(this.dataset.index);
 
-          data.splice(
-            Number(this.dataset.index),
-            1
-          );
+          const data =
+            getData(page);
+
+          if (
+            !confirm("Hapus data ini?")
+          ) {
+
+            return;
+          }
+
+          data.splice(index, 1);
 
           saveData(page, data);
 
           render(page);
+
         };
 
       });
+
   }
 
-  function addData(page, cols) {
+
+  /* =====================================================
+     ADD DATA
+     ===================================================== */
+
+  function addData(page) {
 
     const item = {};
 
-    for (const field of cols) {
+
+    for (const field of fields[page]) {
 
       const value = prompt(
         "Masukkan " + field + ":"
       );
 
-      if (value === null) return;
 
-      item[
-        field.toLowerCase().replaceAll(" ", "_")
-      ] = value;
+      if (value === null) {
+
+        return;
+      }
+
+
+      item[fieldKey(field)] =
+        value.trim();
+
     }
+
 
     const data = getData(page);
 
@@ -1374,60 +2021,168 @@ document.addEventListener("DOMContentLoaded", function () {
 
     saveData(page, data);
 
+
+    alert(
+      "Data " + page + " berhasil ditambahkan."
+    );
+
+
     render(page);
+
   }
 
-  function exportData() {
 
-    const result = {};
+  /* =====================================================
+     SETTINGS
+     ===================================================== */
 
-    Object.keys(fields).forEach(function(page) {
-      result[page] = getData(page);
-    });
+  function renderSettings() {
 
-    const text =
-      JSON.stringify(result, null, 2);
+    title.textContent = pages.Pengaturan.title;
+    subtitle.textContent = pages.Pengaturan.subtitle;
 
-    navigator.clipboard
-      .writeText(text)
-      .then(function() {
+
+    content.innerHTML = `
+
+      <div class="welcome">
+
+        <h2>
+          Pengaturan
+        </h2>
+
+        <p>
+          Kelola data dashboard.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="card-header">
+
+          <h3>
+            Data Dashboard
+          </h3>
+
+        </div>
+
+
+        <div style="padding:20px">
+
+          <button
+            id="clearData"
+            type="button"
+            style="
+              background:#dc2626;
+              color:white;
+              border:0;
+              padding:12px 18px;
+              border-radius:8px;
+              font-weight:700;
+            "
+          >
+            Hapus Semua Data
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    document.querySelector("#clearData")
+      .onclick = function () {
+
+        if (
+          !confirm(
+            "Hapus seluruh data dashboard?"
+          )
+        ) {
+
+          return;
+        }
+
+
+        Object.keys(fields)
+          .forEach(function(page) {
+
+            localStorage.removeItem(
+              storageKey(page)
+            );
+
+          });
+
+
         alert(
-          "Data berhasil disalin. Tempel ke Notes atau file JSON."
+          "Semua data berhasil dihapus."
         );
-      })
-      .catch(function() {
-        prompt(
-          "Salin data berikut:",
-          text
-        );
-      });
+
+
+        render("Dashboard");
+
+      };
+
   }
 
-  function deleteAll() {
 
-    if (
-      !confirm(
-        "Hapus seluruh data dashboard?"
-      )
-    ) return;
+  /* =====================================================
+     SIDEBAR NAVIGATION
+     ===================================================== */
 
-    Object.keys(fields).forEach(function(page) {
-      localStorage.removeItem(key(page));
-    });
+  menuLinks.forEach(function(link) {
 
-    alert("Semua data berhasil dihapus.");
+    /*
+     * PENTING:
+     * Jangan gunakan link.textContent.
+     *
+     * Karena link berisi icon + nama.
+     * Contoh:
+     * "🏪 UMKM"
+     *
+     * Kita ambil teks setelah icon.
+     */
 
-    location.reload();
-  }
+    const icon =
+      link.querySelector(".icon");
 
-  menu.forEach(function(link) {
+    let page = "";
 
-    const page =
-      link.textContent.trim();
 
-    if (!pages[page]) return;
+    if (icon) {
+
+      page =
+        Array.from(link.childNodes)
+          .filter(function(node) {
+
+            return node.nodeType === Node.TEXT_NODE;
+
+          })
+          .map(function(node) {
+
+            return node.textContent.trim();
+
+          })
+          .join(" ")
+          .trim();
+
+    } else {
+
+      page =
+        link.textContent.trim();
+
+    }
+
+
+    if (!pages[page]) {
+
+      return;
+    }
+
 
     link.dataset.page = page;
+
 
     link.addEventListener(
       "click",
@@ -1435,38 +2190,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
         event.preventDefault();
 
+
+        menuLinks.forEach(function(item) {
+
+          item.classList.remove("active");
+
+        });
+
+
+        this.classList.add("active");
+
+
         render(page);
+
       }
     );
+
   });
 
-  document
-    .querySelectorAll(".action")
-    .forEach(function(button) {
 
-      button.addEventListener(
-        "click",
-        function() {
+  /* =====================================================
+     START DASHBOARD
+     ===================================================== */
 
-          const text =
-            this.textContent.toLowerCase();
-
-          Object.keys(pages).forEach(function(page) {
-
-            if (
-              text.includes(
-                page.toLowerCase()
-              )
-            ) {
-              render(page);
-            }
-
-          });
-
-        }
-      );
-
-    });
+  render("Dashboard");
 
 });
 </script>
