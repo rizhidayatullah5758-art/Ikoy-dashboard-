@@ -1266,338 +1266,342 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function renderDashboard() {
 
-    const umkm = getData("UMKM");
-    const websites = getData("Website");
-    const domains = getData("Domain");
-    const products = getData("Produk");
-    const orders = getData("Pesanan");
-    const customers = getData("Pelanggan");
+  const umkm = getData("UMKM");
+  const websites = getData("Website");
+  const domains = getData("Domain");
+  const products = getData("Produk");
+  const orders = getData("Pesanan");
+  const customers = getData("Pelanggan");
 
-    title.textContent = pages.Dashboard.title;
-    subtitle.textContent = pages.Dashboard.subtitle;
+  title.textContent = pages.Dashboard.title;
+  subtitle.textContent = pages.Dashboard.subtitle;
+
+  content.innerHTML = `
+
+    <div class="welcome">
+
+      <h2>
+        Selamat datang di EQA Agency
+      </h2>
+
+      <p>
+        Kelola seluruh data agency dari satu dashboard.
+      </p>
+
+    </div>
 
 
-    content.innerHTML = `
+    <!-- =========================
+         STATISTICS
+    ========================== -->
 
-      <div class="welcome">
+    <div class="stats">
 
-        <h2>
-          Selamat datang di EQA Agency
-        </h2>
+      <div class="stat-card">
 
-        <p>
-          Kelola seluruh data agency dari satu dashboard.
-        </p>
+        <div class="stat-top">
 
-      </div>
+          <span class="stat-label">
+            Total UMKM
+          </span>
 
-
-      <div class="stats">
-
-        <div class="stat-card">
-
-          <div class="stat-top">
-
-            <span class="stat-label">
-              Total UMKM
-            </span>
-
-            <div class="stat-icon blue">
-              🏪
-            </div>
-
-          </div>
-
-          <div class="stat-number">
-            ${umkm.length}
-          </div>
-
-          <div class="stat-description">
-            Data UMKM terdaftar
+          <div class="stat-icon blue">
+            🏪
           </div>
 
         </div>
 
-
-        <div class="stat-card">
-
-          <div class="stat-top">
-
-            <span class="stat-label">
-              Website
-            </span>
-
-            <div class="stat-icon green">
-              🌐
-            </div>
-
-          </div>
-
-          <div class="stat-number">
-            ${websites.length}
-          </div>
-
-          <div class="stat-description">
-            Website terdaftar
-          </div>
-
+        <div class="stat-number">
+          ${umkm.length}
         </div>
 
-
-        <div class="stat-card">
-
-          <div class="stat-top">
-
-            <span class="stat-label">
-              Domain
-            </span>
-
-            <div class="stat-icon orange">
-              🔗
-            </div>
-
-          </div>
-
-          <div class="stat-number">
-            ${domains.length}
-          </div>
-
-          <div class="stat-description">
-            Domain terdaftar
-          </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-          <div class="stat-top">
-
-            <span class="stat-label">
-              Pesanan
-            </span>
-
-            <div class="stat-icon red">
-              🛒
-            </div>
-
-          </div>
-
-          <div class="stat-number">
-            ${orders.length}
-          </div>
-
-          <div class="stat-description">
-            Total pesanan
-          </div>
-
+        <div class="stat-description">
+          Data UMKM terdaftar
         </div>
 
       </div>
 
 
-      <div class="dashboard-grid">
+      <div class="stat-card">
 
-        <div>
+        <div class="stat-top">
 
-          <div class="card">
+          <span class="stat-label">
+            Website
+          </span>
 
-            <div class="card-header">
+          <div class="stat-icon green">
+            🌐
+          </div>
 
-              <h3>
-                Data UMKM Terbaru
-              </h3>
+        </div>
 
-              <a href="#" id="viewUMKM">
-                Lihat semua
-              </a>
+        <div class="stat-number">
+          ${websites.length}
+        </div>
 
-            </div>
+        <div class="stat-description">
+          Website terdaftar
+        </div>
 
-            <div class="table-container">
+      </div>
 
-              <table>
 
-                <thead>
+      <div class="stat-card">
 
-                  <tr>
+        <div class="stat-top">
 
-                    <th>UMKM</th>
-                    <th>Jenis Usaha</th>
-                    <th>Telepon</th>
-                    <th>Domain</th>
+          <span class="stat-label">
+            Domain
+          </span>
 
-                  </tr>
+          <div class="stat-icon orange">
+            🔗
+          </div>
 
-                </thead>
+        </div>
 
-                <tbody id="dashboardUMKM">
+        <div class="stat-number">
+          ${domains.length}
+        </div>
 
-                </tbody>
+        <div class="stat-description">
+          Domain terdaftar
+        </div>
 
-              </table>
+      </div>
 
-            </div>
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+
+          <span class="stat-label">
+            Pesanan
+          </span>
+
+          <div class="stat-icon red">
+            🛒
+          </div>
+
+        </div>
+
+        <div class="stat-number">
+          ${orders.length}
+        </div>
+
+        <div class="stat-description">
+          Total pesanan
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         DATA TERBARU
+    ========================== -->
+
+    <div class="dashboard-grid">
+
+
+      <!-- KOLOM KIRI -->
+
+      <div>
+
+
+        <!-- UMKM TERBARU -->
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <h3>
+              UMKM Terbaru
+            </h3>
+
+            <a href="#" id="viewUMKM">
+              Lihat semua
+            </a>
 
           </div>
 
+          <div class="table-container">
 
-          <div class="card">
+            <table>
 
-            <div class="card-header">
+              <thead>
 
-              <h3>
-                Ringkasan Data
-              </h3>
+                <tr>
 
-            </div>
+                  <th>UMKM</th>
+                  <th>Jenis Usaha</th>
+                  <th>Telepon</th>
+                  <th>Domain</th>
 
-            <div class="system-list">
+                </tr>
 
-              <div class="system-row">
+              </thead>
 
-                <div class="system-name">
-                  <span class="system-dot"></span>
-                  Produk
-                </div>
+              <tbody id="dashboardUMKM"></tbody>
 
-                <div class="system-status">
-                  ${products.length} data
-                </div>
-
-              </div>
-
-
-              <div class="system-row">
-
-                <div class="system-name">
-                  <span class="system-dot"></span>
-                  Pelanggan
-                </div>
-
-                <div class="system-status">
-                  ${customers.length} data
-                </div>
-
-              </div>
-
-
-              <div class="system-row">
-
-                <div class="system-name">
-                  <span class="system-dot"></span>
-                  Pesanan
-                </div>
-
-                <div class="system-status">
-                  ${orders.length} data
-                </div>
-
-              </div>
-
-            </div>
+            </table>
 
           </div>
 
         </div>
 
 
-        <div>
+        <!-- WEBSITE TERBARU -->
 
-          <div class="card">
+        <div class="card">
 
-            <div class="card-header">
+          <div class="card-header">
 
-              <h3>
-                Akses Cepat
-              </h3>
+            <h3>
+              Website Terbaru
+            </h3>
+
+            <a href="#" id="viewWebsite">
+              Lihat semua
+            </a>
+
+          </div>
+
+          <div class="table-container">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>Website</th>
+                  <th>UMKM</th>
+                  <th>URL</th>
+
+                </tr>
+
+              </thead>
+
+              <tbody id="dashboardWebsite"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+
+        <!-- PESANAN TERBARU -->
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <h3>
+              Pesanan Terbaru
+            </h3>
+
+            <a href="#" id="viewPesanan">
+              Lihat semua
+            </a>
+
+          </div>
+
+          <div class="table-container">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>ID Pesanan</th>
+                  <th>Pelanggan</th>
+                  <th>Total</th>
+                  <th>Status</th>
+
+                </tr>
+
+              </thead>
+
+              <tbody id="dashboardPesanan"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+
+        <!-- RINGKASAN -->
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <h3>
+              Ringkasan Data
+            </h3>
+
+          </div>
+
+          <div class="system-list">
+
+            <div class="system-row">
+
+              <div class="system-name">
+                <span class="system-dot"></span>
+                Produk
+              </div>
+
+              <div class="system-status">
+                ${products.length} data
+              </div>
 
             </div>
 
-            <div class="actions">
 
-              <button
-                class="action"
-                id="quickUMKM"
-                type="button"
-              >
+            <div class="system-row">
 
-                <div class="action-icon">
-                  🏪
-                </div>
+              <div class="system-name">
+                <span class="system-dot"></span>
+                Pelanggan
+              </div>
 
-                <strong>
-                  Tambah UMKM
-                </strong>
+              <div class="system-status">
+                ${customers.length} data
+              </div>
 
-                <span>
-                  Tambahkan data UMKM
-                </span>
-
-              </button>
+            </div>
 
 
-              <button
-                class="action"
-                id="quickWebsite"
-                type="button"
-              >
+            <div class="system-row">
 
-                <div class="action-icon">
-                  🌐
-                </div>
+              <div class="system-name">
+                <span class="system-dot"></span>
+                Pesanan
+              </div>
 
-                <strong>
-                  Tambah Website
-                </strong>
+              <div class="system-status">
+                ${orders.length} data
+              </div>
 
-                <span>
-                  Tambahkan website
-                </span>
-
-              </button>
+            </div>
 
 
-              <button
-                class="action"
-                id="quickProduk"
-                type="button"
-              >
+            <div class="system-row">
 
-                <div class="action-icon">
-                  📦
-                </div>
+              <div class="system-name">
+                <span class="system-dot"></span>
+                Domain
+              </div>
 
-                <strong>
-                  Tambah Produk
-                </strong>
-
-                <span>
-                  Tambahkan produk
-                </span>
-
-              </button>
-
-
-              <button
-                class="action"
-                id="quickPesanan"
-                type="button"
-              >
-
-                <div class="action-icon">
-                  🛒
-                </div>
-
-                <strong>
-                  Tambah Pesanan
-                </strong>
-
-                <span>
-                  Tambahkan pesanan
-                </span>
-
-              </button>
+              <div class="system-status">
+                ${domains.length} data
+              </div>
 
             </div>
 
@@ -1606,159 +1610,457 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
 
       </div>
-    `;
 
 
-    /* ==============================================
-       RENDER DATA UMKM KE DASHBOARD
-       ============================================== */
+      <!-- KOLOM KANAN -->
 
-    const table = document.querySelector("#dashboardUMKM");
+      <div>
 
-    if (umkm.length === 0) {
+        <div class="card">
 
-      table.innerHTML = `
+          <div class="card-header">
 
-        <tr>
+            <h3>
+              Akses Cepat
+            </h3>
 
-          <td colspan="4">
+          </div>
 
-            <div class="empty">
+          <div class="actions">
 
-              <div class="empty-icon">
+
+            <button
+              class="action"
+              id="quickUMKM"
+              type="button"
+            >
+
+              <div class="action-icon">
                 🏪
               </div>
 
-              <h4>
-                Belum ada data UMKM
-              </h4>
+              <strong>
+                Tambah UMKM
+              </strong>
 
-              <p>
-                Tambahkan UMKM melalui tombol akses cepat.
-              </p>
+              <span>
+                Tambahkan data UMKM
+              </span>
 
+            </button>
+
+
+            <button
+              class="action"
+              id="quickWebsite"
+              type="button"
+            >
+
+              <div class="action-icon">
+                🌐
+              </div>
+
+              <strong>
+                Tambah Website
+              </strong>
+
+              <span>
+                Tambahkan website
+              </span>
+
+            </button>
+
+
+            <button
+              class="action"
+              id="quickProduk"
+              type="button"
+            >
+
+              <div class="action-icon">
+                📦
+              </div>
+
+              <strong>
+                Tambah Produk
+              </strong>
+
+              <span>
+                Tambahkan produk
+              </span>
+
+            </button>
+
+
+            <button
+              class="action"
+              id="quickPesanan"
+              type="button"
+            >
+
+              <div class="action-icon">
+                🛒
+              </div>
+
+              <strong>
+                Tambah Pesanan
+              </strong>
+
+              <span>
+                Tambahkan pesanan
+              </span>
+
+            </button>
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  /* =====================================================
+     RENDER UMKM TERBARU
+  ===================================================== */
+
+  const umkmTable =
+    document.querySelector("#dashboardUMKM");
+
+  if (umkm.length === 0) {
+
+    umkmTable.innerHTML = `
+
+      <tr>
+
+        <td colspan="4">
+
+          <div class="empty">
+
+            <div class="empty-icon">
+              🏪
             </div>
 
-          </td>
+            <h4>
+              Belum ada data UMKM
+            </h4>
 
-        </tr>
+            <p>
+              Tambahkan UMKM melalui tombol akses cepat.
+            </p>
 
-      `;
+          </div>
 
-    } else {
+        </td>
 
-      table.innerHTML = umkm
-        .slice(-10)
-        .reverse()
-        .map(function(item) {
+      </tr>
 
-          return `
+    `;
 
-            <tr>
+  } else {
 
-              <td>
+    umkmTable.innerHTML = umkm
+      .slice(-5)
+      .reverse()
+      .map(function(item) {
 
-                <div class="business">
+        return `
 
-                  <div class="business-logo">
-                    ${(item.nama || "U").charAt(0).toUpperCase()}
+          <tr>
+
+            <td>
+
+              <div class="business">
+
+                <div class="business-logo">
+                  ${(item.nama || "U")
+                    .charAt(0)
+                    .toUpperCase()}
+                </div>
+
+                <div>
+
+                  <div class="business-name">
+                    ${escapeHTML(item.nama || "-")}
                   </div>
 
-                  <div>
-
-                    <div class="business-name">
-                      ${escapeHTML(item.nama || "-")}
-                    </div>
-
-                    <div class="business-type">
-                      UMKM
-                    </div>
-
+                  <div class="business-type">
+                    UMKM
                   </div>
 
                 </div>
 
-              </td>
+              </div>
 
+            </td>
 
-              <td>
-                ${escapeHTML(item.jenis_usaha || "-")}
-              </td>
+            <td>
+              ${escapeHTML(item.jenis_usaha || "-")}
+            </td>
 
+            <td>
+              ${escapeHTML(item.telepon || "-")}
+            </td>
 
-              <td>
-                ${escapeHTML(item.telepon || "-")}
-              </td>
+            <td>
 
+              <span class="domain">
+                ${escapeHTML(item.domain || "-")}
+              </span>
 
-              <td>
+            </td>
 
-                <span class="domain">
-                  ${escapeHTML(item.domain || "-")}
-                </span>
+          </tr>
 
-              </td>
+        `;
 
-            </tr>
-
-          `;
-
-        })
-        .join("");
-    }
-
-
-    /* ==============================================
-       QUICK ACTION
-       ============================================== */
-
-    document.querySelector("#quickUMKM")
-      .onclick = function () {
-
-        render("UMKM");
-
-      };
-
-
-    document.querySelector("#quickWebsite")
-      .onclick = function () {
-
-        render("Website");
-
-      };
-
-
-    document.querySelector("#quickProduk")
-      .onclick = function () {
-
-        render("Produk");
-
-      };
-
-
-    document.querySelector("#quickPesanan")
-      .onclick = function () {
-
-        render("Pesanan");
-
-      };
-
-
-    document.querySelector("#viewUMKM")
-      .onclick = function (event) {
-
-        event.preventDefault();
-
-        render("UMKM");
-
-      };
+      })
+      .join("");
 
   }
 
 
   /* =====================================================
-     GENERIC PAGE
-     ===================================================== */
+     RENDER WEBSITE TERBARU
+  ===================================================== */
+
+  const websiteTable =
+    document.querySelector("#dashboardWebsite");
+
+  if (websites.length === 0) {
+
+    websiteTable.innerHTML = `
+
+      <tr>
+
+        <td colspan="3">
+
+          <div class="empty">
+
+            <div class="empty-icon">
+              🌐
+            </div>
+
+            <h4>
+              Belum ada website
+            </h4>
+
+            <p>
+              Belum ada data website terdaftar.
+            </p>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  } else {
+
+    websiteTable.innerHTML = websites
+      .slice(-5)
+      .reverse()
+      .map(function(item) {
+
+        return `
+
+          <tr>
+
+            <td>
+              ${escapeHTML(
+                item.nama_website ||
+                item.nama ||
+                "-"
+              )}
+            </td>
+
+            <td>
+              ${escapeHTML(
+                item.umkm ||
+                "-"
+              )}
+            </td>
+
+            <td>
+              ${escapeHTML(
+                item.url ||
+                "-"
+              )}
+            </td>
+
+          </tr>
+
+        `;
+
+      })
+      .join("");
+
+  }
+
+
+  /* =====================================================
+     RENDER PESANAN TERBARU
+  ===================================================== */
+
+  const orderTable =
+    document.querySelector("#dashboardPesanan");
+
+  if (orders.length === 0) {
+
+    orderTable.innerHTML = `
+
+      <tr>
+
+        <td colspan="4">
+
+          <div class="empty">
+
+            <div class="empty-icon">
+              🛒
+            </div>
+
+            <h4>
+              Belum ada pesanan
+            </h4>
+
+            <p>
+              Belum ada data pesanan.
+            </p>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  } else {
+
+    orderTable.innerHTML = orders
+      .slice(-5)
+      .reverse()
+      .map(function(item) {
+
+        return `
+
+          <tr>
+
+            <td>
+              ${escapeHTML(
+                item.id_pesanan ||
+                item.id ||
+                "-"
+              )}
+            </td>
+
+            <td>
+              ${escapeHTML(
+                item.pelanggan ||
+                "-"
+              )}
+            </td>
+
+            <td>
+              ${escapeHTML(
+                item.total ||
+                "-"
+              )}
+            </td>
+
+            <td>
+              ${escapeHTML(
+                item.status ||
+                "-"
+              )}
+            </td>
+
+          </tr>
+
+        `;
+
+      })
+      .join("");
+
+  }
+
+
+  /* =====================================================
+     QUICK ACTION
+  ===================================================== */
+
+  document.querySelector("#quickUMKM")
+    .onclick = function () {
+
+      render("UMKM");
+
+    };
+
+
+  document.querySelector("#quickWebsite")
+    .onclick = function () {
+
+      render("Website");
+
+    };
+
+
+  document.querySelector("#quickProduk")
+    .onclick = function () {
+
+      render("Produk");
+
+    };
+
+
+  document.querySelector("#quickPesanan")
+    .onclick = function () {
+
+      render("Pesanan");
+
+    };
+
+
+  /* =====================================================
+     VIEW ALL
+  ===================================================== */
+
+  document.querySelector("#viewUMKM")
+    .onclick = function (event) {
+
+      event.preventDefault();
+
+      render("UMKM");
+
+    };
+
+
+  document.querySelector("#viewWebsite")
+    .onclick = function (event) {
+
+      event.preventDefault();
+
+      render("Website");
+
+    };
+
+
+  document.querySelector("#viewPesanan")
+    .onclick = function (event) {
+
+      event.preventDefault();
+
+      render("Pesanan");
+
+    };
+
+}
 
   function render(page) {
 
