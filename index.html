@@ -1101,6 +1101,374 @@
 
   </div>
 
- 
+ <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const content = document.querySelector(".content");
+  const title = document.querySelector(".page-title h1");
+  const subtitle = document.querySelector(".page-title p");
+  const menu = document.querySelectorAll(".menu a");
+
+  const pages = {
+    "Dashboard": {
+      title: "Dashboard",
+      subtitle: "Pusat pengelolaan EQA Agency"
+    },
+    "UMKM": {
+      title: "UMKM",
+      subtitle: "Kelola data bisnis UMKM"
+    },
+    "Website": {
+      title: "Website",
+      subtitle: "Kelola website UMKM"
+    },
+    "Domain": {
+      title: "Domain",
+      subtitle: "Kelola domain yang terhubung"
+    },
+    "Produk": {
+      title: "Produk",
+      subtitle: "Kelola produk UMKM"
+    },
+    "Pesanan": {
+      title: "Pesanan",
+      subtitle: "Kelola pesanan pelanggan"
+    },
+    "Pelanggan": {
+      title: "Pelanggan",
+      subtitle: "Kelola pelanggan"
+    },
+    "Pengaturan": {
+      title: "Pengaturan",
+      subtitle: "Pengaturan dashboard"
+    }
+  };
+
+  const fields = {
+    "UMKM": ["Nama", "Jenis Usaha", "Telepon", "Domain"],
+    "Website": ["Nama Website", "UMKM", "URL"],
+    "Domain": ["Domain", "UMKM"],
+    "Produk": ["Nama Produk", "UMKM", "Harga", "Stok"],
+    "Pesanan": ["ID Pesanan", "Pelanggan", "Total", "Status"],
+    "Pelanggan": ["Nama", "Telepon", "Email"]
+  };
+
+  function key(name) {
+    return "eqa_" + name.toLowerCase();
+  }
+
+  function getData(name) {
+    return JSON.parse(localStorage.getItem(key(name)) || "[]");
+  }
+
+  function saveData(name, data) {
+    localStorage.setItem(key(name), JSON.stringify(data));
+  }
+
+  function render(page) {
+
+    title.textContent = pages[page].title;
+    subtitle.textContent = pages[page].subtitle;
+
+    menu.forEach(function(link) {
+      link.classList.toggle(
+        "active",
+        link.textContent.trim() === page
+      );
+    });
+
+    if (page === "Dashboard") {
+      location.hash = "";
+      location.reload();
+      return;
+    }
+
+    if (page === "Pengaturan") {
+
+      content.innerHTML = `
+        <div class="welcome">
+          <h2>Pengaturan</h2>
+          <p>Pengaturan dashboard EQA Agency</p>
+        </div>
+
+        <section class="card">
+          <div style="padding:25px">
+
+            <h3 style="margin-bottom:15px">
+              Data Dashboard
+            </h3>
+
+            <p style="color:#64748b;margin-bottom:20px">
+              Data tersimpan di browser perangkat ini.
+            </p>
+
+            <button id="exportBtn" class="action">
+              Ekspor Data
+            </button>
+
+            <button id="deleteAllBtn"
+              class="action"
+              style="margin-left:10px">
+              Hapus Semua Data
+            </button>
+
+          </div>
+        </section>
+      `;
+
+      document
+        .getElementById("exportBtn")
+        .onclick = exportData;
+
+      document
+        .getElementById("deleteAllBtn")
+        .onclick = deleteAll;
+
+      return;
+    }
+
+    const list = getData(page);
+    const cols = fields[page];
+
+    let rows = "";
+
+    if (list.length === 0) {
+
+      rows = `
+        <tr>
+          <td colspan="${cols.length + 1}">
+            <div class="empty">
+              <div class="empty-icon">📂</div>
+              <h4>Belum ada data</h4>
+              <p>Klik tombol Tambah untuk memasukkan data.</p>
+            </div>
+          </td>
+        </tr>
+      `;
+
+    } else {
+
+      list.forEach(function(item, index) {
+
+        rows += "<tr>";
+
+        cols.forEach(function(field) {
+
+          const k = field
+            .toLowerCase()
+            .replaceAll(" ", "_");
+
+          rows += `
+            <td>${item[k] || "-"}</td>
+          `;
+        });
+
+        rows += `
+          <td>
+            <button
+              class="delete-data"
+              data-index="${index}">
+              Hapus
+            </button>
+          </td>
+        `;
+
+        rows += "</tr>";
+      });
+    }
+
+    content.innerHTML = `
+
+      <div class="welcome">
+        <h2>${page}</h2>
+        <p>${pages[page].subtitle}</p>
+      </div>
+
+      <section class="card">
+
+        <div class="card-header">
+
+          <h3>Data ${page}</h3>
+
+          <button
+            id="addData"
+            class="action"
+            style="padding:10px 15px">
+            + Tambah
+          </button>
+
+        </div>
+
+        <div class="table-container">
+
+          <table>
+
+            <thead>
+              <tr>
+                ${cols.map(function(c) {
+                  return "<th>" + c + "</th>";
+                }).join("")}
+
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              ${rows}
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+    `;
+
+    document
+      .getElementById("addData")
+      .onclick = function() {
+        addData(page, cols);
+      };
+
+    document
+      .querySelectorAll(".delete-data")
+      .forEach(function(button) {
+
+        button.onclick = function() {
+
+          const data = getData(page);
+
+          data.splice(
+            Number(this.dataset.index),
+            1
+          );
+
+          saveData(page, data);
+
+          render(page);
+        };
+
+      });
+  }
+
+  function addData(page, cols) {
+
+    const item = {};
+
+    for (const field of cols) {
+
+      const value = prompt(
+        "Masukkan " + field + ":"
+      );
+
+      if (value === null) return;
+
+      item[
+        field.toLowerCase().replaceAll(" ", "_")
+      ] = value;
+    }
+
+    const data = getData(page);
+
+    data.push(item);
+
+    saveData(page, data);
+
+    render(page);
+  }
+
+  function exportData() {
+
+    const result = {};
+
+    Object.keys(fields).forEach(function(page) {
+      result[page] = getData(page);
+    });
+
+    const text =
+      JSON.stringify(result, null, 2);
+
+    navigator.clipboard
+      .writeText(text)
+      .then(function() {
+        alert(
+          "Data berhasil disalin. Tempel ke Notes atau file JSON."
+        );
+      })
+      .catch(function() {
+        prompt(
+          "Salin data berikut:",
+          text
+        );
+      });
+  }
+
+  function deleteAll() {
+
+    if (
+      !confirm(
+        "Hapus seluruh data dashboard?"
+      )
+    ) return;
+
+    Object.keys(fields).forEach(function(page) {
+      localStorage.removeItem(key(page));
+    });
+
+    alert("Semua data berhasil dihapus.");
+
+    location.reload();
+  }
+
+  menu.forEach(function(link) {
+
+    const page =
+      link.textContent.trim();
+
+    if (!pages[page]) return;
+
+    link.dataset.page = page;
+
+    link.addEventListener(
+      "click",
+      function(event) {
+
+        event.preventDefault();
+
+        render(page);
+      }
+    );
+  });
+
+  document
+    .querySelectorAll(".action")
+    .forEach(function(button) {
+
+      button.addEventListener(
+        "click",
+        function() {
+
+          const text =
+            this.textContent.toLowerCase();
+
+          Object.keys(pages).forEach(function(page) {
+
+            if (
+              text.includes(
+                page.toLowerCase()
+              )
+            ) {
+              render(page);
+            }
+
+          });
+
+        }
+      );
+
+    });
+
+});
+</script>
 </body>
 </html>
