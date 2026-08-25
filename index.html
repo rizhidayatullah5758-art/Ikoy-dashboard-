@@ -353,38 +353,61 @@
       margin-top: 2px;
     }
 
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 9px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 800;
-    }
+  /* =========================
+   CLIENT BADGES
+========================= */
 
-    .status::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: currentColor;
-    }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
 
-    .status-active {
-      color: #15803d;
-      background: #dcfce7;
-    }
 
-    .status-error {
-      color: #b91c1c;
-      background: #fee2e2;
-    }
+/* PAYMENT */
 
-    .domain {
-      color: #2563eb;
-      font-size: 12px;
-    }
+.badge-paid {
+  color: #15803d;
+  background: #dcfce7;
+}
+
+.badge-unpaid {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+
+.badge-dp {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+
+/* PROGRESS */
+
+.badge-progress {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
+.badge-active {
+  color: #15803d;
+  background: #dcfce7;
+}
+
+.badge-completed {
+  color: #4338ca;
+  background: #e0e7ff;
+}
+
+.badge-inactive {
+  color: #475569;
+  background: #f1f5f9;
+}
 
     /* =========================
        QUICK ACTION
@@ -1119,9 +1142,10 @@ document.addEventListener("DOMContentLoaded", function () {
       subtitle: "Pusat pengelolaan EQA Agency"
     },
 
-    UMKM: {
-      title: "UMKM",
-      subtitle: "Kelola data UMKM"
+    Client: {
+  title: "Client",
+  subtitle: "Kelola database client"
+},
     },
 
     Website: {
@@ -1160,13 +1184,16 @@ document.addEventListener("DOMContentLoaded", function () {
      FIELD DATA
      ===================================================== */
 
-  const fields = {
-
-    UMKM: [
-      "Nama",
-      "Jenis Usaha",
-      "Telepon",
-      "Domain"
+  Client: [
+  "Client",
+  "Owner",
+  "No. HP",
+  "Domain",
+  "Layanan",
+  "Masa",
+  "Payment",
+  "Progress"
+],
     ],
 
     Website: [
@@ -1252,12 +1279,60 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  function fieldKey(field) {
+  function getPaymentBadge(value) {
 
-    return field
-      .toLowerCase()
-      .replaceAll(" ", "_");
+  const payment = String(value || "")
+    .trim()
+    .toLowerCase();
+
+  let className = "badge badge-unpaid";
+
+  if (payment === "paid") {
+    className = "badge badge-paid";
   }
+
+  if (payment === "dp") {
+    className = "badge badge-dp";
+  }
+
+  return `
+    <span class="${className}">
+      ${escapeHTML(value || "-")}
+    </span>
+  `;
+}
+
+
+function getProgressBadge(value) {
+
+  const progress = String(value || "")
+    .trim()
+    .toLowerCase();
+
+  let className = "badge badge-progress";
+
+  if (progress === "aktif") {
+    className = "badge badge-active";
+  }
+
+  if (progress === "on progress") {
+    className = "badge badge-progress";
+  }
+
+  if (progress === "selesai") {
+    className = "badge badge-completed";
+  }
+
+  if (progress === "nonaktif") {
+    className = "badge badge-inactive";
+  }
+
+  return `
+    <span class="${className}">
+      ${escapeHTML(value || "-")}
+    </span>
+  `;
+}
 
 
   /* =====================================================
@@ -2298,23 +2373,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const item = {};
 
 
-    for (const field of fields[page]) {
+    const client = {
+    client: prompt("Nama Client:"),
+    owner: prompt("Nama Owner:"),
+    phone: prompt("No. HP:"),
+    domain: prompt("Domain:"),
+    layanan: prompt("Layanan:"),
+    masa: prompt("Masa Berlangganan:"),
+    payment: prompt("Payment:"),
+    progress: prompt("Progress:")
+};
 
-      const value = prompt(
-        "Masukkan " + field + ":"
-      );
+if (
+    Object.values(client).some(
+        value => value === null
+    )
+) {
+    return;
+}
 
-
-      if (value === null) {
-
-        return;
-      }
-
-
-      item[fieldKey(field)] =
-        value.trim();
-
-    }
+item.client = client.client.trim();
+item.owner = client.owner.trim();
+item.phone = client.phone.trim();
+item.domain = client.domain.trim();
+item.layanan = client.layanan.trim();
+item.masa = client.masa.trim();
+item.payment = client.payment.trim();
+item.progress = client.progress.trim();
 
 
     const data = getData(page);
