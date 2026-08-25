@@ -1,1 +1,11 @@
-
+{
+  "name": "ikoy-dashboard",
+  "compatibility_date": "2026-08-25",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ikoy-db",
+      "database_id": "6d7e44b1-0069-47f0-84fa-b99aa231b477"
+    }
+  ]
+}
