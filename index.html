@@ -1,2923 +1,1525 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#a8dff5">
-<title>IKOY AGENCY | Client Control Center</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
-
-:root{
-  --blue:#a9ddf3;
-  --blue-soft:#e8f7fc;
-  --blue-dark:#4f9fc4;
-  --black:#111111;
-  --white:#ffffff;
-  --brown:#795744;
-  --brown-soft:#eee2da;
-  --green:#287653;
-  --green-soft:#e9f6ef;
-  --red:#a53d3d;
-  --red-soft:#faeaea;
-  --yellow:#8b651b;
-  --yellow-soft:#fff5da;
-  --gray:#777;
-  --gray-soft:#f5f5f5;
-  --border:#e8e8e8;
-  --shadow:0 16px 45px rgba(0,0,0,.06);
-}
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  margin:0;
-  background:#f5f6f7;
-  color:var(--black);
-  font-family:"DM Sans",sans-serif;
-}
-
-button,
-input,
-select,
-textarea{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-a{
-  color:inherit;
-}
-
-.app{
-  min-height:100vh;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  width:250px;
-  background:var(--black);
-  color:#fff;
-  padding:30px 18px;
-  z-index:100;
-}
-
-.logo{
-  padding:0 12px 35px;
-}
-
-.logo-main{
-  font-family:"Playfair Display",serif;
-  font-size:27px;
-  font-weight:700;
-  letter-spacing:.04em;
-}
-
-.logo-sub{
-  display:block;
-  margin-top:5px;
-  font-size:9px;
-  letter-spacing:.2em;
-  color:#888;
-}
-
-.nav{
-  display:grid;
-  gap:5px;
-}
-
-.nav-btn{
-  width:100%;
-  border:0;
-  background:transparent;
-  color:#999;
-  padding:13px 14px;
-  border-radius:12px;
-  text-align:left;
-  font-size:12px;
-  transition:.2s;
-}
-
-.nav-btn:hover,
-.nav-btn.active{
-  background:#242424;
-  color:#fff;
-}
-
-.nav-icon{
-  display:inline-block;
-  width:24px;
-  font-size:14px;
-}
-
-.sidebar-bottom{
-  position:absolute;
-  left:30px;
-  bottom:25px;
-  color:#666;
-  font-size:9px;
-  line-height:1.7;
-}
-
-/* MAIN */
-
-.main{
-  margin-left:250px;
-  padding:34px;
-  max-width:1700px;
-}
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:25px;
-  margin-bottom:28px;
-}
-
-.eyebrow{
-  color:var(--brown);
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:.2em;
-  text-transform:uppercase;
-}
-
-.page-title{
-  font-family:"Playfair Display",serif;
-  font-size:40px;
-  line-height:1.05;
-  margin:6px 0;
-}
-
-.page-subtitle{
-  color:var(--gray);
-  font-size:12px;
-}
-
-.actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
-
-.btn{
-  border:1px solid var(--border);
-  background:#fff;
-  color:#111;
-  border-radius:10px;
-  padding:10px 14px;
-  font-size:11px;
-  font-weight:700;
-}
-
-.btn:hover{
-  transform:translateY(-1px);
-}
-
-.btn-primary{
-  background:var(--black);
-  color:#fff;
-  border-color:var(--black);
-}
-
-.btn-blue{
-  background:var(--blue);
-  border-color:var(--blue);
-}
-
-.btn-brown{
-  background:var(--brown);
-  color:#fff;
-  border-color:var(--brown);
-}
-
-.btn-danger{
-  color:var(--red);
-}
-
-/* STATS */
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:13px;
-  margin-bottom:18px;
-}
-
-.card{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:18px;
-  box-shadow:var(--shadow);
-}
-
-.stat-card{
-  min-height:125px;
-  padding:20px;
-  position:relative;
-  overflow:hidden;
-}
-
-.stat-card::after{
-  content:"";
-  position:absolute;
-  width:85px;
-  height:85px;
-  border-radius:50%;
-  background:var(--blue-soft);
-  right:-28px;
-  bottom:-30px;
-}
-
-.stat-label{
-  color:#888;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-}
-
-.stat-number{
-  display:block;
-  margin-top:13px;
-  font-size:34px;
-  font-weight:700;
-  position:relative;
-  z-index:2;
-}
-
-.stat-note{
-  color:#999;
-  font-size:9px;
-}
-
-/* GRID */
-
-.content-grid{
-  display:grid;
-  grid-template-columns:1.45fr .75fr;
-  gap:14px;
-}
-
-.panel{
-  padding:21px;
-}
-
-.panel-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  margin-bottom:17px;
-}
-
-.panel-title{
-  font-family:"Playfair Display",serif;
-  font-size:22px;
-}
-
-/* TABLE */
-
-.table-wrap{
-  width:100%;
-  overflow:auto;
-}
-
-table{
-  width:100%;
-  min-width:760px;
-  border-collapse:collapse;
-}
-
-th{
-  padding:11px 9px;
-  border-bottom:1px solid var(--border);
-  color:#888;
-  text-align:left;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-}
-
-td{
-  padding:13px 9px;
-  border-bottom:1px solid #f1f1f1;
-  font-size:11px;
-  vertical-align:middle;
-}
-
-td strong{
-  display:block;
-  font-size:12px;
-}
-
-td small{
-  display:block;
-  color:#999;
-  margin-top:3px;
-}
-
-.badge{
-  display:inline-flex;
-  align-items:center;
-  padding:6px 9px;
-  border-radius:99px;
-  font-size:8px;
-  font-weight:700;
-  letter-spacing:.07em;
-  white-space:nowrap;
-}
-
-.badge-active{
-  color:var(--green);
-  background:var(--green-soft);
-}
-
-.badge-progress{
-  color:#28637e;
-  background:var(--blue-soft);
-}
-
-.badge-expiring{
-  color:var(--yellow);
-  background:var(--yellow-soft);
-}
-
-.badge-expired{
-  color:var(--red);
-  background:var(--red-soft);
-}
-
-.badge-neutral{
-  color:#555;
-  background:#eee;
-}
-
-.icon-btn{
-  width:31px;
-  height:31px;
-  border:1px solid var(--border);
-  background:#fff;
-  border-radius:9px;
-  font-size:12px;
-}
-
-.action-group{
-  display:flex;
-  gap:5px;
-}
-
-/* SEARCH */
-
-.filters{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:14px;
-}
-
-.search{
-  max-width:330px;
-}
-
-input,
-select,
-textarea{
-  width:100%;
-  border:1px solid var(--border);
-  background:#fafafa;
-  border-radius:10px;
-  padding:10px 11px;
-  color:#111;
-  outline:none;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-  background:#fff;
-  border-color:var(--blue-dark);
-}
-
-/* MONITOR */
-
-.monitor-list{
-  display:grid;
-  gap:9px;
-}
-
-.monitor-item{
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:14px;
-}
-
-.monitor-top{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:center;
-}
-
-.monitor-name{
-  font-size:12px;
-  font-weight:700;
-}
-
-.monitor-url{
-  margin-top:4px;
-  color:#999;
-  font-size:9px;
-  word-break:break-all;
-}
-
-.monitor-meta{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  margin-top:11px;
-  color:#777;
-  font-size:9px;
-}
-
-.status-dot{
-  display:inline-block;
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#999;
-  margin-right:5px;
-}
-
-.dot-online{
-  background:var(--green);
-}
-
-.dot-error{
-  background:var(--red);
-}
-
-.dot-checking{
-  background:#d19a25;
-}
-
-/* PROGRESS */
-
-.progress-item{
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:10px;
-}
-
-.progress-top{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.progress-brand{
-  font-size:13px;
-  font-weight:700;
-}
-
-.progress-owner{
-  color:#999;
-  font-size:10px;
-  margin-top:4px;
-}
-
-.progress-meta{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:14px;
-}
-
-.progress-meta-box{
-  background:#fafafa;
-  border-radius:10px;
-  padding:10px;
-}
-
-.progress-meta-box label{
-  display:block;
-  color:#999;
-  font-size:8px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-}
-
-.progress-meta-box strong{
-  display:block;
-  margin-top:4px;
-  font-size:10px;
-}
-
-/* ALERT */
-
-.alert{
-  padding:14px;
-  border-radius:13px;
-  background:var(--red-soft);
-  border:1px solid #f0cccc;
-  margin-bottom:9px;
-}
-
-.alert-title{
-  color:var(--red);
-  font-weight:700;
-  font-size:11px;
-}
-
-.alert-text{
-  color:#855;
-  font-size:9px;
-  margin-top:4px;
-}
-
-.info{
-  padding:14px;
-  background:var(--blue-soft);
-  border-radius:12px;
-  color:#2b6178;
-  font-size:10px;
-  line-height:1.6;
-  margin-bottom:14px;
-}
-
-/* EMPTY */
-
-.empty{
-  padding:35px 15px;
-  text-align:center;
-  color:#999;
-  font-size:11px;
-}
-
-/* MODAL */
-
-.modal-backdrop{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  z-index:500;
-  padding:25px;
-  overflow:auto;
-}
-
-.modal-backdrop.show{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.modal{
-  width:min(760px,100%);
-  background:#fff;
-  border-radius:20px;
-  padding:25px;
-  box-shadow:0 30px 90px rgba(0,0,0,.25);
-}
-
-.modal-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
-
-.modal-title{
-  font:600 26px "Playfair Display";
-  margin:0;
-}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:13px;
-}
-
-.field label{
-  display:block;
-  color:#777;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-  margin-bottom:6px;
-}
-
-.full{
-  grid-column:1/-1;
-}
-
-.modal-footer{
-  display:flex;
-  justify-content:flex-end;
-  gap:8px;
-  margin-top:20px;
-}
-
-/* DETAIL */
-
-.detail-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.detail-box{
-  padding:13px;
-  background:#fafafa;
-  border-radius:11px;
-}
-
-.detail-box label{
-  display:block;
-  color:#999;
-  font-size:8px;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-}
-
-.detail-box strong{
-  display:block;
-  margin-top:5px;
-  font-size:11px;
-  word-break:break-word;
-}
-
-.detail-note{
-  margin-top:12px;
-  background:var(--blue-soft);
-  padding:14px;
-  border-radius:11px;
-  font-size:10px;
-  line-height:1.6;
-}
-
-/* MOBILE */
-
-@media(max-width:1100px){
-  .stats{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .content-grid{
-    grid-template-columns:1fr;
-  }
-}
-
-@media(max-width:760px){
-  .sidebar{
-    width:70px;
-    padding:20px 9px;
-  }
-
-  .logo{
-    padding:0 6px 30px;
-  }
-
-  .logo-main{
-    font-size:0;
-  }
-
-  .logo-main::after{
-    content:"I";
-    font-size:28px;
-  }
-
-  .logo-sub,
-  .nav-text,
-  .sidebar-bottom{
-    display:none;
-  }
-
-  .main{
-    margin-left:70px;
-    padding:20px;
-  }
-
-  .topbar{
-    display:block;
-  }
-
-  .actions{
-    margin-top:15px;
-  }
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .form-grid,
-  .detail-grid{
-    grid-template-columns:1fr;
-  }
-
-  .full{
-    grid-column:auto;
-  }
-}
-
-@media(max-width:450px){
-  .main{
-    padding:14px;
-  }
-
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  .page-title{
-    font-size:32px;
-  }
-
-  .progress-meta{
-    grid-template-columns:1fr;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rizky Hidayat | Portfolio</title>
+  <meta name="description" content="Rizky Hidayat - Digital, Website, Branding & Creative Portfolio">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --blue: #b9dff5;
+      --blue-dark: #79b8dc;
+      --blue-soft: #eaf6fc;
+      --black: #111111;
+      --black-soft: #1b1b1b;
+      --brown: #795548;
+      --brown-light: #b89b8c;
+      --white: #ffffff;
+      --cream: #f7f4ef;
+      --gray: #777777;
+      --line: rgba(17,17,17,.12);
+      --shadow: 0 20px 60px rgba(17,17,17,.08);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    /* NAVIGATION */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 18px 0;
+      transition: .3s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 10px 40px rgba(0,0,0,.06);
+    }
+
+    .nav-inner {
+      width: min(1180px, calc(100% - 40px));
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -.04em;
+    }
+
+    .logo span {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: #444;
+      transition: .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--black);
+    }
+
+    .nav-contact {
+      background: var(--black);
+      color: white !important;
+      padding: 11px 18px;
+      border-radius: 100px;
+    }
+
+    .menu-btn {
+      display: none;
+      border: 0;
+      background: none;
+      font-size: 25px;
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 100vh;
+      padding: 150px 0 80px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 85% 20%, var(--blue) 0, transparent 27%),
+        radial-gradient(circle at 10% 85%, #eadfd8 0, transparent 23%),
+        var(--white);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 70px;
+      align-items: center;
+      min-height: 70vh;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 35px;
+      height: 1px;
+      background: var(--brown);
+    }
+
+    .hero h1 {
+      font-size: clamp(54px, 8vw, 105px);
+      line-height: .94;
+      letter-spacing: -.065em;
+      max-width: 800px;
+    }
+
+    .hero h1 em {
+      font-family: "Playfair Display", serif;
+      font-weight: 500;
+      color: var(--brown);
+    }
+
+    .hero-text {
+      max-width: 570px;
+      margin-top: 30px;
+      font-size: 18px;
+      color: var(--gray);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 35px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 23px;
+      border-radius: 100px;
+      border: 1px solid var(--black);
+      transition: .25s ease;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .btn-dark {
+      background: var(--black);
+      color: white;
+    }
+
+    .btn-dark:hover {
+      background: var(--brown);
+      border-color: var(--brown);
+      transform: translateY(-2px);
+    }
+
+    .btn-light:hover {
+      background: var(--blue-soft);
+      transform: translateY(-2px);
+    }
+
+    .hero-card {
+      position: relative;
+      background: var(--black);
+      color: white;
+      border-radius: 40px;
+      padding: 40px;
+      min-height: 430px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: var(--blue);
+      top: -90px;
+      right: -80px;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: var(--brown);
+      bottom: -100px;
+      left: -70px;
+    }
+
+    .card-number {
+      font-size: 12px;
+      opacity: .6;
+      letter-spacing: .15em;
+    }
+
+    .hero-card-content {
+      position: absolute;
+      left: 40px;
+      right: 40px;
+      bottom: 40px;
+      z-index: 2;
+    }
+
+    .hero-card h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 46px;
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .hero-card p {
+      margin-top: 15px;
+      color: #cfcfcf;
+      font-size: 14px;
+    }
+
+    /* INTRO */
+
+    .intro {
+      padding: 120px 0;
+      background: var(--cream);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: .7fr 1.3fr;
+      gap: 80px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--brown);
+    }
+
+    .intro h2 {
+      font-size: clamp(36px, 5vw, 65px);
+      line-height: 1;
+      letter-spacing: -.05em;
+      max-width: 800px;
+    }
+
+    .intro h2 span {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .intro-copy {
+      margin-top: 30px;
+      max-width: 700px;
+      color: var(--gray);
+      font-size: 17px;
+    }
+
+    /* SERVICES */
+
+    .services {
+      padding: 120px 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .section-head h2 {
+      margin-top: 12px;
+      font-size: clamp(38px, 5vw, 64px);
+      letter-spacing: -.05em;
+      line-height: 1;
+    }
+
+    .section-head p {
+      max-width: 350px;
+      color: var(--gray);
+      font-size: 14px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .service {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 35px;
+      min-height: 290px;
+      transition: .3s ease;
+      background: white;
+    }
+
+    .service:hover {
+      transform: translateY(-7px);
+      box-shadow: var(--shadow);
+      border-color: transparent;
+    }
+
+    .service-number {
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+      color: var(--brown);
+    }
+
+    .service h3 {
+      font-size: 25px;
+      margin-top: 65px;
+      letter-spacing: -.03em;
+    }
+
+    .service p {
+      color: var(--gray);
+      font-size: 14px;
+      margin-top: 12px;
+    }
+
+    /* PROJECTS */
+
+    .projects {
+      padding: 120px 0;
+      background: var(--black);
+      color: white;
+    }
+
+    .projects .section-label {
+      color: var(--blue);
+    }
+
+    .projects .section-head p {
+      color: #aaa;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .project {
+      position: relative;
+      min-height: 420px;
+      border-radius: 30px;
+      overflow: hidden;
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background: #222;
+      isolation: isolate;
+    }
+
+    .project:nth-child(1) {
+      background: linear-gradient(135deg, #b9dff5, #6faed1);
+      color: var(--black);
+    }
+
+    .project:nth-child(2) {
+      background: linear-gradient(135deg, #795548, #34251f);
+    }
+
+    .project:nth-child(3) {
+      background: linear-gradient(135deg, #f1ede7, #c8bdb0);
+      color: var(--black);
+    }
+
+    .project:nth-child(4) {
+      background: linear-gradient(135deg, #252525, #111);
+    }
+
+    .project-tag {
+      position: absolute;
+      top: 28px;
+      left: 30px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 100px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .project:nth-child(1) .project-tag,
+    .project:nth-child(3) .project-tag {
+      border-color: rgba(0,0,0,.2);
+    }
+
+    .project h3 {
+      font-size: 42px;
+      line-height: 1;
+      letter-spacing: -.05em;
+      max-width: 500px;
+    }
+
+    .project p {
+      margin-top: 12px;
+      opacity: .7;
+      font-size: 14px;
+      max-width: 450px;
+    }
+
+    .project-btn {
+      margin-top: 22px;
+      width: fit-content;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      color: inherit;
+      border-radius: 100px;
+      padding: 10px 17px;
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .project:nth-child(1) .project-btn,
+    .project:nth-child(3) .project-btn {
+      background: rgba(0,0,0,.08);
+      border-color: rgba(0,0,0,.15);
+    }
+
+    .project-btn:hover {
+      transform: translateX(5px);
+      background: var(--white);
+      color: var(--black);
+    }
+
+    /* ABOUT */
+
+    .about {
+      padding: 120px 0;
+      background: var(--blue-soft);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 90px;
+      align-items: start;
+    }
+
+    .about-box {
+      background: var(--white);
+      border-radius: 35px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.05);
+    }
+
+    .about-box h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 45px;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .about-box p {
+      margin-top: 20px;
+      color: var(--gray);
+      font-size: 14px;
+    }
+
+    .about-content h2 {
+      font-size: clamp(38px, 5vw, 65px);
+      line-height: 1;
+      letter-spacing: -.05em;
+    }
+
+    .about-content h2 em {
+      font-family: "Playfair Display", serif;
+      font-weight: 500;
+    }
+
+    .about-content > p {
+      color: var(--gray);
+      max-width: 680px;
+      margin-top: 25px;
+      font-size: 17px;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 45px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .fact {
+      padding: 25px 15px;
+      border-right: 1px solid var(--line);
+    }
+
+    .fact:last-child {
+      border-right: 0;
+    }
+
+    .fact strong {
+      display: block;
+      font-size: 28px;
+    }
+
+    .fact span {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* CONTACT */
+
+    .contact {
+      padding: 130px 0;
+      background: var(--white);
+    }
+
+    .contact-box {
+      background: var(--black);
+      color: white;
+      border-radius: 40px;
+      padding: 70px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-box::before {
+      content: "";
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: var(--blue);
+      right: -160px;
+      top: -200px;
+      opacity: .9;
+    }
+
+    .contact-box h2 {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      font-size: clamp(45px, 7vw, 90px);
+      line-height: .95;
+      letter-spacing: -.06em;
+    }
+
+    .contact-box h2 em {
+      font-family: "Playfair Display", serif;
+      font-weight: 500;
+      color: var(--blue);
+    }
+
+    .contact-content {
+      position: relative;
+      z-index: 2;
+      margin-top: 35px;
+    }
+
+    .contact-content p {
+      color: #aaa;
+      max-width: 500px;
+    }
+
+    .contact-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .contact-buttons .btn-light {
+      color: white;
+      border-color: white;
+    }
+
+    .contact-buttons .btn-light:hover {
+      color: var(--black);
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: var(--black);
+      color: white;
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding: 30px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+    }
+
+    footer p {
+      color: #777;
+      font-size: 12px;
+    }
+
+    .footer-logo {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    /* MODAL */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.7);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-box {
+      width: min(600px, 100%);
+      background: white;
+      color: var(--black);
+      border-radius: 30px;
+      padding: 40px;
+      position: relative;
+      animation: modalIn .25s ease;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: white;
+      font-size: 20px;
+    }
+
+    .modal-box .section-label {
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .modal-box h3 {
+      font-size: 38px;
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+
+    .modal-box p {
+      margin-top: 20px;
+      color: var(--gray);
+    }
+
+    /* REVEAL */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 850px) {
+
+      .nav-links {
+        position: fixed;
+        top: 72px;
+        left: 20px;
+        right: 20px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 10px;
+        background: rgba(255,255,255,.96);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links li a {
+        display: block;
+        padding: 14px;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .hero {
+        padding-top: 120px;
+      }
+
+      .hero-grid,
+      .intro-grid,
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 45px;
+      }
+
+      .hero-card {
+        min-height: 350px;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-head p {
+        margin-top: 20px;
+      }
+
+      .facts {
+        grid-template-columns: 1fr;
+      }
+
+      .fact {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .fact:last-child {
+        border-bottom: 0;
+      }
+
+      .contact-box {
+        padding: 40px 25px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 500px) {
+
+      .container,
+      .nav-inner {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .hero h1 {
+        font-size: 54px;
+      }
+
+      .hero-text {
+        font-size: 16px;
+      }
+
+      .hero-card {
+        padding: 30px;
+      }
+
+      .hero-card-content {
+        left: 30px;
+        right: 30px;
+        bottom: 30px;
+      }
+
+      .hero-card h2 {
+        font-size: 38px;
+      }
+
+      .service {
+        min-height: auto;
+      }
+
+      .project {
+        min-height: 360px;
+      }
+
+      .project h3 {
+        font-size: 34px;
+      }
+
+      .contact-box h2 {
+        font-size: 50px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="app">
+  <!-- NAVIGATION -->
+  <nav id="navbar">
+    <div class="nav-inner">
 
-<aside class="sidebar">
+      <a href="#home" class="logo">
+        RIZKY<span>HIDAYAT</span>
+      </a>
 
-  <div class="logo">
-    <div class="logo-main">IKOY AGENCY</div>
-    <span class="logo-sub">CLIENT CONTROL CENTER</span>
-  </div>
+      <button class="menu-btn" id="menuBtn" aria-label="Buka menu">
+        ☰
+      </button>
 
-  <nav class="nav">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact" class="nav-contact">Contact</a></li>
+      </ul>
 
-    <button class="nav-btn active" data-page="dashboard">
-      <span class="nav-icon">⌂</span>
-      <span class="nav-text">Dashboard</span>
-    </button>
-
-    <button class="nav-btn" data-page="clients">
-      <span class="nav-icon">◉</span>
-      <span class="nav-text">Clients</span>
-    </button>
-
-    <button class="nav-btn" data-page="progress">
-      <span class="nav-icon">◌</span>
-      <span class="nav-text">Client On Progress</span>
-    </button>
-
-    <button class="nav-btn" data-page="monitor">
-      <span class="nav-icon">⌁</span>
-      <span class="nav-text">Monitoring</span>
-    </button>
-
-    <button class="nav-btn" data-page="alerts">
-      <span class="nav-icon">!</span>
-      <span class="nav-text">Alerts</span>
-    </button>
-
+    </div>
   </nav>
 
-  <div class="sidebar-bottom">
-    IKOY AGENCY<br>
-    CLIENT OPERATIONS
-  </div>
 
-</aside>
+  <!-- HERO -->
+  <main>
 
-<main class="main">
+    <section class="hero" id="home">
+      <div class="container">
 
-<!-- DASHBOARD -->
+        <div class="hero-grid">
 
-<section id="dashboard" class="page active">
+          <div class="reveal">
 
-  <div class="topbar">
-
-    <div>
-      <div class="eyebrow">IKOY AGENCY</div>
-      <h1 class="page-title">Client Control Center</h1>
-      <div class="page-subtitle">
-        Monitoring client, masa aktif, website dan sistem dalam satu tempat.
-      </div>
-    </div>
-
-    <div class="actions">
-      <button class="btn btn-blue" onclick="openClientModal()">
-        + Add Client
-      </button>
-
-      <button class="btn" onclick="runAllChecks()">
-        Check Systems
-      </button>
-    </div>
-
-  </div>
-
-  <div class="stats">
-
-    <div class="card stat-card">
-      <div class="stat-label">Total Client</div>
-      <span class="stat-number" id="totalClients">0</span>
-    </div>
-
-    <div class="card stat-card">
-      <div class="stat-label">Active</div>
-      <span class="stat-number" id="activeClients">0</span>
-    </div>
-
-    <div class="card stat-card">
-      <div class="stat-label">On Progress</div>
-      <span class="stat-number" id="progressClients">0</span>
-    </div>
-
-    <div class="card stat-card">
-      <div class="stat-label">Expiring Soon</div>
-      <span class="stat-number" id="expiringClients">0</span>
-      <div class="stat-note">3 hari atau kurang</div>
-    </div>
-
-    <div class="card stat-card">
-      <div class="stat-label">Expired</div>
-      <span class="stat-number" id="expiredClients">0</span>
-    </div>
-
-  </div>
-
-  <div class="content-grid">
-
-    <div class="card panel">
-
-      <div class="panel-header">
-        <div class="panel-title">Client Overview</div>
-
-        <button class="btn" onclick="showPage('clients')">
-          View All
-        </button>
-      </div>
-
-      <div class="table-wrap">
-
-        <table>
-
-          <thead>
-            <tr>
-              <th>Client</th>
-              <th>Paket</th>
-              <th>Masa Aktif</th>
-              <th>Status</th>
-              <th></th>
-            </tr>
-          </thead>
-
-          <tbody id="dashboardTable"></tbody>
-
-        </table>
-
-      </div>
-
-    </div>
-
-    <div class="card panel">
-
-      <div class="panel-header">
-        <div class="panel-title">System Health</div>
-
-        <button class="btn" onclick="showPage('monitor')">
-          Open
-        </button>
-      </div>
-
-      <div id="dashboardMonitor" class="monitor-list"></div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- CLIENTS -->
-
-<section id="clients" class="page">
-
-  <div class="topbar">
-
-    <div>
-      <div class="eyebrow">CLIENT DATABASE</div>
-      <h1 class="page-title">Clients</h1>
-      <div class="page-subtitle">
-        Semua informasi client tersimpan dalam satu database.
-      </div>
-    </div>
-
-    <div class="actions">
-      <button class="btn btn-blue" onclick="openClientModal()">
-        + Add Client
-      </button>
-    </div>
-
-  </div>
-
-  <div class="card panel">
-
-    <div class="filters">
-
-      <input
-        class="search"
-        id="searchInput"
-        placeholder="Cari brand, owner, website..."
-        oninput="renderAll()"
-      >
-
-      <select id="statusFilter" onchange="renderAll()">
-        <option value="ALL">Semua Status</option>
-        <option value="ACTIVE">Active</option>
-        <option value="ON PROGRESS">On Progress</option>
-        <option value="EXPIRING">Expiring Soon</option>
-        <option value="EXPIRED">Expired</option>
-      </select>
-
-      <select id="packageFilter" onchange="renderAll()">
-        <option value="ALL">Semua Paket</option>
-        <option value="Website">Website</option>
-        <option value="Website + Content">Website + Content</option>
-      </select>
-
-    </div>
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-          <tr>
-            <th>Client</th>
-            <th>Owner</th>
-            <th>Paket</th>
-            <th>Website</th>
-            <th>Masa Aktif</th>
-            <th>Status</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-
-        <tbody id="clientsTable"></tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- PROGRESS -->
-
-<section id="progress" class="page">
-
-  <div class="topbar">
-
-    <div>
-      <div class="eyebrow">WORK PIPELINE</div>
-      <h1 class="page-title">Client On Progress</h1>
-      <div class="page-subtitle">
-        Client yang sedang dalam proses pengerjaan.
-      </div>
-    </div>
-
-    <div class="actions">
-      <button
-        class="btn btn-blue"
-        onclick="openClientModal('ON PROGRESS')"
-      >
-        + Add Progress
-      </button>
-    </div>
-
-  </div>
-
-  <div class="card panel">
-
-    <div id="progressList"></div>
-
-  </div>
-
-</section>
-
-
-<!-- MONITOR -->
-
-<section id="monitor" class="page">
-
-  <div class="topbar">
-
-    <div>
-      <div class="eyebrow">SYSTEM MONITOR</div>
-      <h1 class="page-title">Website & Domain</h1>
-      <div class="page-subtitle">
-        Pemeriksaan website dari browser.
-      </div>
-    </div>
-
-    <div class="actions">
-
-      <button class="btn btn-blue" onclick="runAllChecks()">
-        Run Check
-      </button>
-
-    </div>
-
-  </div>
-
-  <div class="info">
-    Monitoring browser dapat mendeteksi sebagian masalah akses.
-    Beberapa server memblokir request dari browser melalui CORS.
-    Untuk monitoring 24/7 yang benar-benar independen dari dashboard,
-    diperlukan service monitoring backend.
-  </div>
-
-  <div class="card panel">
-
-    <div id="monitorList" class="monitor-list"></div>
-
-  </div>
-
-</section>
-
-
-<!-- ALERT -->
-
-<section id="alerts" class="page">
-
-  <div class="topbar">
-
-    <div>
-      <div class="eyebrow">INCIDENT CENTER</div>
-      <h1 class="page-title">Alerts</h1>
-      <div class="page-subtitle">
-        Reminder masa aktif dan masalah website.
-      </div>
-    </div>
-
-  </div>
-
-  <div class="card panel">
-
-    <div id="alertList"></div>
-
-  </div>
-
-</section>
-
-</main>
-
-</div>
-
-
-<!-- CLIENT MODAL -->
-
-<div id="clientModal" class="modal-backdrop">
-
-  <div class="modal">
-
-    <div class="modal-header">
-
-      <h2 class="modal-title" id="modalTitle">
-        Add Client
-      </h2>
-
-      <button class="icon-btn" onclick="closeClientModal()">
-        ×
-      </button>
-
-    </div>
-
-    <form id="clientForm">
-
-      <input type="hidden" id="clientId">
-
-      <div class="form-grid">
-
-        <div>
-          <div class="field">
-            <label>Nama Brand *</label>
-            <input id="brand" required>
-          </div>
-        </div>
-
-        <div>
-          <div class="field">
-            <label>Owner *</label>
-            <input id="owner" required>
-          </div>
-        </div>
-
-        <div>
-          <div class="field">
-            <label>Nomor HP</label>
-            <input id="phone">
-          </div>
-        </div>
-
-        <div>
-          <div class="field">
-            <label>Email</label>
-            <input id="email" type="email">
-          </div>
-        </div>
-
-        <div>
-          <div class="field">
-            <label>Website / Domain</label>
-            <input
-              id="website"
-              placeholder="https://contoh.com"
-            >
-          </div>
-        </div>
-
-        <div>
-          <div class="field">
-            <label>Paket *</label>
-
-            <select id="package" required>
-              <option value="Website">Website</option>
-              <option value="Website + Content">
-                Website + Content
-              </option>
-            </select>
-
-          </div>
-        </div>
-
-        <div>
-          <div class="field">
-            <label>Tanggal Mulai *</label>
-            <input id="startDate" type="date" required>
-          </div>
-        </div>
-
-        <div>
-          <div class="field">
-            <label>Tanggal Berakhir</label>
-            <input id="endDate" type="date">
-          </div>
-        </div>
-
-        <div>
-          <div class="field">
-            <label>Status *</label>
-
-            <select id="status">
-              <option value="ACTIVE">ACTIVE</option>
-              <option value="ON PROGRESS">ON PROGRESS</option>
-              <option value="EXPIRED">EXPIRED</option>
-            </select>
-
-          </div>
-        </div>
-
-        <div>
-          <div class="field">
-            <label>Tahap</label>
-
-            <select id="stage">
-              <option value="Planning">Planning</option>
-              <option value="Design">Design</option>
-              <option value="Development">Development</option>
-              <option value="Content">Content</option>
-              <option value="Revision">Revision</option>
-              <option value="Launch">Launch</option>
-            </select>
-
-          </div>
-        </div>
-
-        <div class="full">
-
-          <div class="field">
-
-            <label>Catatan</label>
-
-            <textarea
-              id="notes"
-              rows="3"
-            ></textarea>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="modal-footer">
-
-        <button
-          type="button"
-          class="btn"
-          onclick="closeClientModal()"
-        >
-          Cancel
-        </button>
-
-        <button
-          type="submit"
-          class="btn btn-primary"
-        >
-          Save Client
-        </button>
-
-      </div>
-
-    </form>
-
-  </div>
-
-</div>
-
-
-<!-- DETAIL MODAL -->
-
-<div id="detailModal" class="modal-backdrop">
-
-  <div class="modal">
-
-    <div class="modal-header">
-
-      <h2 class="modal-title">
-        Client Detail
-      </h2>
-
-      <button
-        class="icon-btn"
-        onclick="closeDetailModal()"
-      >
-        ×
-      </button>
-
-    </div>
-
-    <div id="detailContent"></div>
-
-    <div class="modal-footer">
-
-      <button
-        class="btn"
-        onclick="closeDetailModal()"
-      >
-        Close
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<script>
-
-/* =========================================================
-   DATABASE
-========================================================= */
-
-const STORAGE_KEY = "ikoy_agency_clients_v1";
-
-let clients = [];
-
-let monitorResults = {};
-
-
-/* =========================================================
-   LOAD DATABASE
-========================================================= */
-
-function loadClients(){
-
-  try{
-
-    const saved =
-      localStorage.getItem(STORAGE_KEY);
-
-    clients =
-      saved ? JSON.parse(saved) : [];
-
-    if(!Array.isArray(clients)){
-      clients = [];
-    }
-
-  }catch(error){
-
-    clients = [];
-
-  }
-
-}
-
-
-/* =========================================================
-   SAVE DATABASE
-========================================================= */
-
-function saveClients(){
-
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(clients)
-  );
-
-  renderAll();
-
-}
-
-
-/* =========================================================
-   ID
-========================================================= */
-
-function generateId(){
-
-  return "client_" +
-    Date.now() +
-    "_" +
-    Math.random()
-      .toString(36)
-      .substring(2,8);
-
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHtml(value){
-
-  if(value === null || value === undefined){
-    return "";
-  }
-
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================================================
-   DATE
-========================================================= */
-
-function formatDate(date){
-
-  if(!date){
-    return "—";
-  }
-
-  const d =
-    new Date(date + "T00:00:00");
-
-  return d.toLocaleDateString(
-    "id-ID",
-    {
-      day:"2-digit",
-      month:"short",
-      year:"numeric"
-    }
-  );
-
-}
-
-
-/* =========================================================
-   DAYS LEFT
-========================================================= */
-
-function daysLeft(date){
-
-  if(!date){
-    return null;
-  }
-
-  const now = new Date();
-
-  const end =
-    new Date(date + "T23:59:59");
-
-  return Math.ceil(
-    (end - now) /
-    86400000
-  );
-
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-function getStatus(client){
-
-  if(client.status === "ON PROGRESS"){
-    return "ON PROGRESS";
-  }
-
-  const days =
-    daysLeft(client.endDate);
-
-  if(days !== null && days < 0){
-    return "EXPIRED";
-  }
-
-  if(days !== null && days <= 3){
-    return "EXPIRING";
-  }
-
-  return "ACTIVE";
-
-}
-
-
-/* =========================================================
-   BADGE
-========================================================= */
-
-function statusBadge(status){
-
-  let className = "badge-neutral";
-
-  if(status === "ACTIVE"){
-    className = "badge-active";
-  }
-
-  if(status === "ON PROGRESS"){
-    className = "badge-progress";
-  }
-
-  if(status === "EXPIRING"){
-    className = "badge-expiring";
-  }
-
-  if(status === "EXPIRED"){
-    className = "badge-expired";
-  }
-
-  return `
-    <span class="badge ${className}">
-      ${escapeHtml(status)}
-    </span>
-  `;
-
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-function showPage(page){
-
-  document
-    .querySelectorAll(".page")
-    .forEach(item=>{
-      item.classList.remove("active");
-    });
-
-  const target =
-    document.getElementById(page);
-
-  if(target){
-    target.classList.add("active");
-  }
-
-  document
-    .querySelectorAll(".nav-btn")
-    .forEach(button=>{
-      button.classList.toggle(
-        "active",
-        button.dataset.page === page
-      );
-    });
-
-  renderAll();
-
-}
-
-
-document
-  .querySelectorAll(".nav-btn")
-  .forEach(button=>{
-
-    button.addEventListener(
-      "click",
-      ()=>{
-        showPage(
-          button.dataset.page
-        );
-      }
-    );
-
-  });
-
-
-/* =========================================================
-   STATS
-========================================================= */
-
-function renderStats(){
-
-  const statuses =
-    clients.map(getStatus);
-
-  document.getElementById(
-    "totalClients"
-  ).textContent = clients.length;
-
-  document.getElementById(
-    "activeClients"
-  ).textContent =
-    statuses.filter(
-      s=>s==="ACTIVE"
-    ).length;
-
-  document.getElementById(
-    "progressClients"
-  ).textContent =
-    statuses.filter(
-      s=>s==="ON PROGRESS"
-    ).length;
-
-  document.getElementById(
-    "expiringClients"
-  ).textContent =
-    statuses.filter(
-      s=>s==="EXPIRING"
-    ).length;
-
-  document.getElementById(
-    "expiredClients"
-  ).textContent =
-    statuses.filter(
-      s=>s==="EXPIRED"
-    ).length;
-
-}
-
-
-/* =========================================================
-   DASHBOARD TABLE
-========================================================= */
-
-function renderDashboard(){
-
-  const tbody =
-    document.getElementById(
-      "dashboardTable"
-    );
-
-  const list =
-    clients.slice(0,8);
-
-  if(!list.length){
-
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="5">
-          <div class="empty">
-            Belum ada client.
-          </div>
-        </td>
-      </tr>
-    `;
-
-    return;
-
-  }
-
-  tbody.innerHTML =
-    list.map(client=>{
-
-      const status =
-        getStatus(client);
-
-      const days =
-        daysLeft(client.endDate);
-
-      let activeText = "—";
-
-      if(days !== null){
-
-        if(days < 0){
-          activeText = "Expired";
-        }else{
-          activeText =
-            days + " hari";
-        }
-
-      }
-
-      return `
-        <tr>
-
-          <td>
-            <strong>
-              ${escapeHtml(client.brand)}
-            </strong>
-
-            <small>
-              ${escapeHtml(client.owner)}
-            </small>
-          </td>
-
-          <td>
-            ${escapeHtml(client.package)}
-          </td>
-
-          <td>
-            ${activeText}
-          </td>
-
-          <td>
-            ${statusBadge(status)}
-          </td>
-
-          <td>
-            <button
-              class="icon-btn"
-              onclick="viewClient('${client.id}')"
-            >
-              ↗
-            </button>
-          </td>
-
-        </tr>
-      `;
-
-    }).join("");
-
-}
-
-
-/* =========================================================
-   CLIENT FILTER
-========================================================= */
-
-function getFilteredClients(){
-
-  const search =
-    (
-      document.getElementById(
-        "searchInput"
-      )?.value || ""
-    ).toLowerCase();
-
-  const statusFilter =
-    document.getElementById(
-      "statusFilter"
-    )?.value || "ALL";
-
-  const packageFilter =
-    document.getElementById(
-      "packageFilter"
-    )?.value || "ALL";
-
-  return clients.filter(client=>{
-
-    const text = [
-      client.brand,
-      client.owner,
-      client.website,
-      client.email,
-      client.phone,
-      client.package
-    ]
-      .join(" ")
-      .toLowerCase();
-
-    const matchSearch =
-      !search ||
-      text.includes(search);
-
-    const status =
-      getStatus(client);
-
-    const matchStatus =
-      statusFilter === "ALL" ||
-      status === statusFilter;
-
-    const matchPackage =
-      packageFilter === "ALL" ||
-      client.package === packageFilter;
-
-    return (
-      matchSearch &&
-      matchStatus &&
-      matchPackage
-    );
-
-  });
-
-}
-
-
-/* =========================================================
-   CLIENT TABLE
-========================================================= */
-
-function renderClients(){
-
-  const tbody =
-    document.getElementById(
-      "clientsTable"
-    );
-
-  const list =
-    getFilteredClients();
-
-  if(!list.length){
-
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="7">
-          <div class="empty">
-            Tidak ada data client.
-          </div>
-        </td>
-      </tr>
-    `;
-
-    return;
-
-  }
-
-  tbody.innerHTML =
-    list.map(client=>{
-
-      const status =
-        getStatus(client);
-
-      const days =
-        daysLeft(client.endDate);
-
-      let activeText = "—";
-
-      if(days !== null){
-
-        activeText =
-          days < 0
-            ? "Expired"
-            : days + " hari";
-
-      }
-
-      const website =
-        client.website
-          ? `
-            <a
-              href="${escapeHtml(client.website)}"
-              target="_blank"
-              rel="noopener"
-            >
-              ${escapeHtml(client.website)}
-            </a>
-          `
-          : "—";
-
-      return `
-        <tr>
-
-          <td>
-            <strong>
-              ${escapeHtml(client.brand)}
-            </strong>
-
-            <small>
-              ${escapeHtml(client.email || "")}
-            </small>
-          </td>
-
-          <td>
-            ${escapeHtml(client.owner)}
-          </td>
-
-          <td>
-            ${escapeHtml(client.package)}
-          </td>
-
-          <td>
-            ${website}
-          </td>
-
-          <td>
-            ${activeText}
-          </td>
-
-          <td>
-            ${statusBadge(status)}
-          </td>
-
-          <td>
-
-            <div class="action-group">
-
-              <button
-                class="icon-btn"
-                onclick="viewClient('${client.id}')"
-                title="Detail"
-              >
-                ↗
-              </button>
-
-              <button
-                class="icon-btn"
-                onclick="editClient('${client.id}')"
-                title="Edit"
-              >
-                ✎
-              </button>
-
-              <button
-                class="icon-btn"
-                onclick="deleteClient('${client.id}')"
-                title="Hapus"
-              >
-                ×
-              </button>
-
+            <div class="eyebrow">
+              Independent Creative & Digital
             </div>
 
-          </td>
+            <h1>
+              Ideas into
+              <em>digital</em>
+              experiences.
+            </h1>
 
-        </tr>
-      `;
+            <p class="hero-text">
+              Saya Rizky Hidayat. Membangun website, digital experience,
+              branding, dan sistem yang dirancang untuk terlihat baik
+              sekaligus bekerja dengan baik.
+            </p>
 
-    }).join("");
+            <div class="hero-actions">
+              <a href="#projects" class="btn btn-dark">
+                Lihat Project
+              </a>
 
-}
-
-
-/* =========================================================
-   PROGRESS
-========================================================= */
-
-function renderProgress(){
-
-  const container =
-    document.getElementById(
-      "progressList"
-    );
-
-  const list =
-    clients.filter(
-      client =>
-        getStatus(client) ===
-        "ON PROGRESS"
-    );
-
-  if(!list.length){
-
-    container.innerHTML = `
-      <div class="empty">
-        Tidak ada client on progress.
-      </div>
-    `;
-
-    return;
-
-  }
-
-  container.innerHTML =
-    list.map(client=>{
-
-      return `
-        <div class="progress-item">
-
-          <div class="progress-top">
-
-            <div>
-
-              <div class="progress-brand">
-                ${escapeHtml(client.brand)}
-              </div>
-
-              <div class="progress-owner">
-                Owner:
-                ${escapeHtml(client.owner)}
-              </div>
-
-            </div>
-
-            ${statusBadge("ON PROGRESS")}
-
-          </div>
-
-          <div class="progress-meta">
-
-            <div class="progress-meta-box">
-
-              <label>Website</label>
-
-              <strong>
-                ${escapeHtml(
-                  client.website || "—"
-                )}
-              </strong>
-
-            </div>
-
-            <div class="progress-meta-box">
-
-              <label>Paket</label>
-
-              <strong>
-                ${escapeHtml(
-                  client.package
-                )}
-              </strong>
-
-            </div>
-
-            <div class="progress-meta-box">
-
-              <label>Tahap</label>
-
-              <strong>
-                ${escapeHtml(
-                  client.stage || "Planning"
-                )}
-              </strong>
-
-            </div>
-
-            <div class="progress-meta-box">
-
-              <label>Tanggal Mulai</label>
-
-              <strong>
-                ${formatDate(
-                  client.startDate
-                )}
-              </strong>
-
+              <a href="#contact" class="btn btn-light">
+                Hubungi Saya
+              </a>
             </div>
 
           </div>
 
-          <div
-            class="actions"
-            style="margin-top:12px"
-          >
 
-            <button
-              class="btn"
-              onclick="viewClient('${client.id}')"
-            >
-              Detail
-            </button>
+          <div class="hero-card reveal">
 
-            <button
-              class="btn"
-              onclick="editClient('${client.id}')"
-            >
-              Edit
-            </button>
+            <span class="card-number">
+              PORTFOLIO / 2026
+            </span>
+
+            <div class="hero-card-content">
+              <h2>
+                Digital,
+                <br>
+                but human.
+              </h2>
+
+              <p>
+                Strategy · Design · Development · Digital
+              </p>
+            </div>
 
           </div>
 
         </div>
-      `;
 
-    }).join("");
-
-}
-
-
-/* =========================================================
-   MONITOR CARD
-========================================================= */
-
-function monitorCards(limit = 999){
-
-  const list =
-    clients
-      .filter(
-        client => client.website
-      )
-      .slice(0,limit);
-
-  if(!list.length){
-
-    return `
-      <div class="empty">
-        Belum ada website yang
-        bisa dimonitor.
       </div>
-    `;
+    </section>
 
-  }
 
-  return list.map(client=>{
+    <!-- INTRO -->
+    <section class="intro" id="about">
 
-    const result =
-      monitorResults[client.id] || {
-        state:"NOT CHECKED",
-        response:"—",
-        time:"—"
-      };
+      <div class="container">
 
-    let dot =
-      "status-dot";
+        <div class="intro-grid">
 
-    if(result.state === "ONLINE"){
-      dot += " dot-online";
-    }
-
-    if(result.state === "ERROR"){
-      dot += " dot-error";
-    }
-
-    if(result.state === "CHECKING"){
-      dot += " dot-checking";
-    }
-
-    return `
-      <div class="monitor-item">
-
-        <div class="monitor-top">
-
-          <div class="monitor-name">
-            ${escapeHtml(client.brand)}
+          <div class="section-label reveal">
+            About
           </div>
+
+          <div class="reveal">
+
+            <h2>
+              Membuat sesuatu yang
+              <span>punya alasan</span>
+              untuk ada.
+            </h2>
+
+            <p class="intro-copy">
+              Website bukan sekadar kumpulan halaman dan tombol.
+              Saya berfokus pada bagaimana sebuah brand tampil,
+              bagaimana pengguna berinteraksi, dan bagaimana sistem
+              tersebut bisa digunakan dalam jangka panjang.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+
+      <div class="container">
+
+        <div class="section-head reveal">
 
           <div>
-            <span class="${dot}"></span>
-            ${escapeHtml(result.state)}
+            <div class="section-label">
+              What I Do
+            </div>
+
+            <h2>
+              Services.
+            </h2>
           </div>
 
+          <p>
+            Dari ide awal sampai produk digital yang siap digunakan.
+            Tidak semua proyek membutuhkan hal yang sama.
+          </p>
+
         </div>
 
-        <div class="monitor-url">
-          ${escapeHtml(client.website)}
-        </div>
 
-        <div class="monitor-meta">
+        <div class="services-grid">
 
-          <span>
-            Response:
-            ${escapeHtml(
-              result.response || "—"
-            )}
-          </span>
+          <article class="service reveal">
+            <div class="service-number">01</div>
 
-          <span>
-            Checked:
-            ${escapeHtml(
-              result.time || "—"
-            )}
-          </span>
+            <h3>
+              Website
+            </h3>
+
+            <p>
+              Website company profile, portfolio, landing page,
+              business website, hingga website dengan sistem khusus.
+            </p>
+          </article>
+
+
+          <article class="service reveal">
+            <div class="service-number">02</div>
+
+            <h3>
+              Branding
+            </h3>
+
+            <p>
+              Identitas visual, direction, typography, warna,
+              dan penerapan brand ke media digital.
+            </p>
+          </article>
+
+
+          <article class="service reveal">
+            <div class="service-number">03</div>
+
+            <h3>
+              Digital System
+            </h3>
+
+            <p>
+              Dashboard, client monitoring, internal tools,
+              dan sistem digital yang dibuat sesuai kebutuhan.
+            </p>
+          </article>
 
         </div>
 
       </div>
-    `;
 
-  }).join("");
-
-}
+    </section>
 
 
-/* =========================================================
-   MONITOR RENDER
-========================================================= */
+    <!-- PROJECTS -->
+    <section class="projects" id="projects">
 
-function renderMonitor(){
+      <div class="container">
 
-  document.getElementById(
-    "monitorList"
-  ).innerHTML =
-    monitorCards();
+        <div class="section-head reveal">
 
-  document.getElementById(
-    "dashboardMonitor"
-  ).innerHTML =
-    monitorCards(4);
+          <div>
+            <div class="section-label">
+              Selected Work
+            </div>
 
-}
-
-
-/* =========================================================
-   ALERTS
-========================================================= */
-
-function renderAlerts(){
-
-  const container =
-    document.getElementById(
-      "alertList"
-    );
-
-  const alerts = [];
-
-  clients.forEach(client=>{
-
-    const status =
-      getStatus(client);
-
-    const days =
-      daysLeft(client.endDate);
-
-    if(status === "EXPIRING"){
-
-      alerts.push(`
-        <div class="alert">
-
-          <div class="alert-title">
-            ${escapeHtml(client.brand)}
-            · Masa aktif ${days} hari lagi
+            <h2>
+              Projects.
+            </h2>
           </div>
 
-          <div class="alert-text">
-            Owner:
-            ${escapeHtml(client.owner)}
-            · Berakhir:
-            ${formatDate(client.endDate)}
+          <p>
+            Beberapa kategori pekerjaan yang dapat ditampilkan
+            dan dikembangkan menjadi portfolio lengkap.
+          </p>
+
+        </div>
+
+
+        <div class="projects-grid">
+
+          <article class="project reveal">
+
+            <span class="project-tag">
+              Website
+            </span>
+
+            <h3>
+              Brand Website
+            </h3>
+
+            <p>
+              Website modern untuk membangun identitas dan
+              kepercayaan sebuah brand.
+            </p>
+
+            <button
+              class="project-btn"
+              data-title="Brand Website"
+              data-description="Website dengan fokus pada visual identity, struktur informasi, responsive design, dan pengalaman pengguna."
+            >
+              View Project →
+            </button>
+
+          </article>
+
+
+          <article class="project reveal">
+
+            <span class="project-tag">
+              Digital
+            </span>
+
+            <h3>
+              Business System
+            </h3>
+
+            <p>
+              Sistem digital untuk membantu bisnis memonitor
+              pekerjaan dan informasi penting.
+            </p>
+
+            <button
+              class="project-btn"
+              data-title="Business System"
+              data-description="Dashboard internal untuk mengelola client, paket layanan, masa aktif, status pekerjaan, dan informasi operasional."
+            >
+              View Project →
+            </button>
+
+          </article>
+
+
+          <article class="project reveal">
+
+            <span class="project-tag">
+              Creative
+            </span>
+
+            <h3>
+              Creative Direction
+            </h3>
+
+            <p>
+              Pengembangan arah visual agar sebuah brand
+              memiliki karakter yang konsisten.
+            </p>
+
+            <button
+              class="project-btn"
+              data-title="Creative Direction"
+              data-description="Pengembangan visual direction yang mencakup typography, warna, layout, visual language, dan penerapannya pada media digital."
+            >
+              View Project →
+            </button>
+
+          </article>
+
+
+          <article class="project reveal">
+
+            <span class="project-tag">
+              Development
+            </span>
+
+            <h3>
+              Custom Experience
+            </h3>
+
+            <p>
+              Pengembangan pengalaman digital yang dibuat
+              berdasarkan kebutuhan spesifik.
+            </p>
+
+            <button
+              class="project-btn"
+              data-title="Custom Experience"
+              data-description="Pengembangan interface dan fungsi custom untuk kebutuhan bisnis atau produk digital tertentu."
+            >
+              View Project →
+            </button>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ABOUT DETAIL -->
+    <section class="about">
+
+      <div class="container">
+
+        <div class="about-grid">
+
+          <div class="about-box reveal">
+
+            <h3>
+              Rizky
+              <br>
+              Hidayat
+            </h3>
+
+            <p>
+              Digital creator & developer.
+              Berfokus pada website, digital product,
+              branding, dan sistem bisnis.
+            </p>
+
+          </div>
+
+
+          <div class="about-content reveal">
+
+            <div class="section-label">
+              Philosophy
+            </div>
+
+            <h2>
+              Simple does not mean
+              <em>ordinary.</em>
+            </h2>
+
+            <p>
+              Saya percaya desain yang bagus bukan tentang membuat
+              sesuatu terlihat rumit. Justru sebaliknya, pekerjaan
+              yang baik membuat hal yang rumit terasa sederhana.
+            </p>
+
+
+            <div class="facts">
+
+              <div class="fact">
+                <strong>01</strong>
+                <span>Strategy</span>
+              </div>
+
+              <div class="fact">
+                <strong>02</strong>
+                <span>Design</span>
+              </div>
+
+              <div class="fact">
+                <strong>03</strong>
+                <span>Development</span>
+              </div>
+
+            </div>
+
           </div>
 
         </div>
-      `);
 
-    }
+      </div>
 
-    if(status === "EXPIRED"){
+    </section>
 
-      alerts.push(`
-        <div class="alert">
 
-          <div class="alert-title">
-            ${escapeHtml(client.brand)}
-            · Masa aktif sudah habis
-          </div>
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
 
-          <div class="alert-text">
-            Berakhir:
-            ${formatDate(client.endDate)}
+      <div class="container">
+
+        <div class="contact-box reveal">
+
+          <h2>
+            Let's build
+            <em>something.</em>
+          </h2>
+
+          <div class="contact-content">
+
+            <p>
+              Punya ide, bisnis, atau project digital yang ingin
+              dikembangkan? Mulai dari pembicaraan sederhana.
+            </p>
+
+            <div class="contact-buttons">
+
+              <a
+                href="mailto:hello@rizkyhidayat.com"
+                class="btn btn-dark"
+              >
+                Email Me
+              </a>
+
+              <a
+                href="#home"
+                class="btn btn-light"
+              >
+                Back to Top ↑
+              </a>
+
+            </div>
+
           </div>
 
         </div>
-      `);
 
-    }
+      </div>
 
-    const monitor =
-      monitorResults[client.id];
+    </section>
 
-    if(
-      monitor &&
-      monitor.state === "ERROR"
-    ){
+  </main>
 
-      alerts.push(`
-        <div class="alert">
 
-          <div class="alert-title">
-            ${escapeHtml(client.brand)}
-            · Website bermasalah
-          </div>
+  <!-- FOOTER -->
+  <footer>
 
-          <div class="alert-text">
-            ${escapeHtml(
-              monitor.error ||
-              "Tidak dapat diakses"
-            )}
-          </div>
+    <div class="container">
 
+      <div class="footer-inner">
+
+        <div class="footer-logo">
+          RIZKYHIDAYAT
         </div>
-      `);
 
-    }
+        <p>
+          © 2026 Rizky Hidayat. All rights reserved.
+        </p>
 
-  });
+      </div>
 
-  container.innerHTML =
-    alerts.length
-      ? alerts.join("")
-      : `
-        <div class="empty">
-          Tidak ada alert aktif.
-        </div>
-      `;
+    </div>
 
-}
+  </footer>
 
 
-/* =========================================================
-   OPEN MODAL
-========================================================= */
+  <!-- PROJECT MODAL -->
+  <div class="modal" id="projectModal">
 
-function openClientModal(
-  forcedStatus = ""
-){
+    <div class="modal-box">
 
-  document
-    .getElementById("clientForm")
-    .reset();
+      <button
+        class="modal-close"
+        id="modalClose"
+        aria-label="Tutup"
+      >
+        ×
+      </button>
 
-  document.getElementById(
-    "clientId"
-  ).value = "";
+      <span class="section-label">
+        Project
+      </span>
 
-  document.getElementById(
-    "modalTitle"
-  ).textContent =
-    forcedStatus === "ON PROGRESS"
-      ? "Add Client On Progress"
-      : "Add Client";
+      <h3 id="modalTitle">
+        Project
+      </h3>
 
-  document.getElementById(
-    "status"
-  ).value =
-    forcedStatus || "ACTIVE";
+      <p id="modalDescription">
+        Project description.
+      </p>
 
-  document.getElementById(
-    "clientModal"
-  ).classList.add("show");
+    </div>
 
-}
+  </div>
 
 
-/* =========================================================
-   CLOSE MODAL
-========================================================= */
+  <script>
 
-function closeClientModal(){
+    /* NAVBAR */
 
-  document
-    .getElementById("clientModal")
-    .classList.remove("show");
+    const navbar = document.getElementById("navbar");
 
-}
+    window.addEventListener("scroll", () => {
 
-
-/* =========================================================
-   FORM SUBMIT
-========================================================= */
-
-document
-  .getElementById("clientForm")
-  .addEventListener(
-    "submit",
-    function(event){
-
-      event.preventDefault();
-
-      const id =
-        document.getElementById(
-          "clientId"
-        ).value;
-
-      const data = {
-
-        id:
-          id || generateId(),
-
-        brand:
-          document.getElementById(
-            "brand"
-          ).value.trim(),
-
-        owner:
-          document.getElementById(
-            "owner"
-          ).value.trim(),
-
-        phone:
-          document.getElementById(
-            "phone"
-          ).value.trim(),
-
-        email:
-          document.getElementById(
-            "email"
-          ).value.trim(),
-
-        website:
-          document.getElementById(
-            "website"
-          ).value.trim(),
-
-        package:
-          document.getElementById(
-            "package"
-          ).value,
-
-        startDate:
-          document.getElementById(
-            "startDate"
-          ).value,
-
-        endDate:
-          document.getElementById(
-            "endDate"
-          ).value,
-
-        status:
-          document.getElementById(
-            "status"
-          ).value,
-
-        stage:
-          document.getElementById(
-            "stage"
-          ).value,
-
-        notes:
-          document.getElementById(
-            "notes"
-          ).value.trim()
-
-      };
-
-
-      if(id){
-
-        clients =
-          clients.map(client =>
-            client.id === id
-              ? data
-              : client
-          );
-
-      }else{
-
-        clients.unshift(data);
-
+      if (window.scrollY > 30) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
       }
 
-
-      saveClients();
-
-      closeClientModal();
-
-    }
-  );
+    });
 
 
-/* =========================================================
-   EDIT CLIENT
-========================================================= */
+    /* MOBILE MENU */
 
-function editClient(id){
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
 
-  const client =
-    clients.find(
-      item => item.id === id
-    );
-
-  if(!client){
-    return;
-  }
-
-  document.getElementById(
-    "clientId"
-  ).value = client.id;
-
-  document.getElementById(
-    "brand"
-  ).value = client.brand;
-
-  document.getElementById(
-    "owner"
-  ).value = client.owner;
-
-  document.getElementById(
-    "phone"
-  ).value = client.phone || "";
-
-  document.getElementById(
-    "email"
-  ).value = client.email || "";
-
-  document.getElementById(
-    "website"
-  ).value = client.website || "";
-
-  document.getElementById(
-    "package"
-  ).value = client.package;
-
-  document.getElementById(
-    "startDate"
-  ).value = client.startDate || "";
-
-  document.getElementById(
-    "endDate"
-  ).value = client.endDate || "";
-
-  document.getElementById(
-    "status"
-  ).value = client.status;
-
-  document.getElementById(
-    "stage"
-  ).value =
-    client.stage || "Planning";
-
-  document.getElementById(
-    "notes"
-  ).value =
-    client.notes || "";
-
-  document.getElementById(
-    "modalTitle"
-  ).textContent =
-    "Edit Client";
-
-  document.getElementById(
-    "clientModal"
-  ).classList.add("show");
-
-}
+    menuBtn.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
 
 
-/* =========================================================
-   DELETE
-========================================================= */
+    document.querySelectorAll(".nav-links a").forEach(link => {
 
-function deleteClient(id){
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+      });
 
-  const client =
-    clients.find(
-      item => item.id === id
-    );
-
-  if(!client){
-    return;
-  }
-
-  const confirmed =
-    confirm(
-      `Hapus client "${client.brand}"?`
-    );
-
-  if(!confirmed){
-    return;
-  }
-
-  clients =
-    clients.filter(
-      item => item.id !== id
-    );
-
-  saveClients();
-
-}
+    });
 
 
-/* =========================================================
-   DETAIL
-========================================================= */
+    /* REVEAL ANIMATION */
 
-function viewClient(id){
+    const revealElements = document.querySelectorAll(".reveal");
 
-  const client =
-    clients.find(
-      item => item.id === id
-    );
+    const revealObserver = new IntersectionObserver(
+      entries => {
 
-  if(!client){
-    return;
-  }
+        entries.forEach(entry => {
 
-  const status =
-    getStatus(client);
-
-  const days =
-    daysLeft(client.endDate);
-
-  let activeText = "—";
-
-  if(days !== null){
-
-    activeText =
-      days < 0
-        ? "Sudah habis"
-        : days + " hari";
-
-  }
-
-  const website =
-    client.website
-      ? `
-        <a
-          href="${escapeHtml(client.website)}"
-          target="_blank"
-          rel="noopener"
-        >
-          ${escapeHtml(client.website)}
-        </a>
-      `
-      : "—";
-
-
-  document.getElementById(
-    "detailContent"
-  ).innerHTML = `
-
-    <div class="detail-grid">
-
-      <div class="detail-box">
-        <label>Nama Brand</label>
-        <strong>
-          ${escapeHtml(client.brand)}
-        </strong>
-      </div>
-
-      <div class="detail-box">
-        <label>Owner</label>
-        <strong>
-          ${escapeHtml(client.owner)}
-        </strong>
-      </div>
-
-      <div class="detail-box">
-        <label>Nomor HP</label>
-        <strong>
-          ${escapeHtml(
-            client.phone || "—"
-          )}
-        </strong>
-      </div>
-
-      <div class="detail-box">
-        <label>Email</label>
-        <strong>
-          ${escapeHtml(
-            client.email || "—"
-          )}
-        </strong>
-      </div>
-
-      <div class="detail-box">
-        <label>Website / Domain</label>
-        <strong>
-          ${website}
-        </strong>
-      </div>
-
-      <div class="detail-box">
-        <label>Paket</label>
-        <strong>
-          ${escapeHtml(client.package)}
-        </strong>
-      </div>
-
-      <div class="detail-box">
-        <label>Tanggal Mulai</label>
-        <strong>
-          ${formatDate(client.startDate)}
-        </strong>
-      </div>
-
-      <div class="detail-box">
-        <label>Tanggal Berakhir</label>
-        <strong>
-          ${formatDate(client.endDate)}
-        </strong>
-      </div>
-
-      <div class="detail-box">
-        <label>Sisa Masa Aktif</label>
-        <strong>
-          ${activeText}
-        </strong>
-      </div>
-
-      <div class="detail-box">
-        <label>Status</label>
-        <strong>
-          ${statusBadge(status)}
-        </strong>
-      </div>
-
-      <div class="detail-box">
-        <label>Tahap</label>
-        <strong>
-          ${escapeHtml(
-            client.stage || "—"
-          )}
-        </strong>
-      </div>
-
-      <div class="detail-box">
-        <label>Website Monitor</label>
-        <strong>
-          ${
-            monitorResults[client.id]?.state ||
-            "NOT CHECKED"
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            revealObserver.unobserve(entry.target);
           }
-        </strong>
-      </div>
 
-    </div>
+        });
 
-    <div class="detail-note">
-
-      <strong>Catatan</strong><br>
-
-      ${escapeHtml(
-        client.notes ||
-        "Tidak ada catatan."
-      )}
-
-    </div>
-
-  `;
-
-  document
-    .getElementById("detailModal")
-    .classList.add("show");
-
-}
-
-
-/* =========================================================
-   CLOSE DETAIL
-========================================================= */
-
-function closeDetailModal(){
-
-  document
-    .getElementById("detailModal")
-    .classList.remove("show");
-
-}
-
-
-/* =========================================================
-   WEBSITE CHECK
-========================================================= */
-
-async function checkWebsite(client){
-
-  if(!client.website){
-    return;
-  }
-
-  let url =
-    client.website.trim();
-
-  if(
-    !/^https?:\/\//i.test(url)
-  ){
-    url =
-      "https://" + url;
-  }
-
-
-  monitorResults[client.id] = {
-
-    state:"CHECKING",
-
-    response:"...",
-
-    time:
-      new Date()
-        .toLocaleTimeString(
-          "id-ID"
-        )
-
-  };
-
-  renderMonitor();
-
-
-  const started =
-    performance.now();
-
-
-  try{
-
-    const controller =
-      new AbortController();
-
-    const timeout =
-      setTimeout(
-        ()=>controller.abort(),
-        8000
-      );
-
-
-    await fetch(
-      url,
+      },
       {
-        method:"HEAD",
-        mode:"cors",
-        cache:"no-store",
-        signal:controller.signal
+        threshold: 0.12
       }
     );
 
 
-    clearTimeout(timeout);
+    revealElements.forEach(element => {
+      revealObserver.observe(element);
+    });
 
 
-    monitorResults[client.id] = {
+    /* PROJECT MODAL */
 
-      state:"ONLINE",
+    const modal = document.getElementById("projectModal");
+    const modalClose = document.getElementById("modalClose");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDescription = document.getElementById("modalDescription");
 
-      response:
-        Math.round(
-          performance.now() -
-          started
-        ) + " ms",
+    document.querySelectorAll(".project-btn").forEach(button => {
 
-      time:
-        new Date()
-          .toLocaleTimeString(
-            "id-ID"
-          )
+      button.addEventListener("click", () => {
 
-    };
+        modalTitle.textContent = button.dataset.title;
+        modalDescription.textContent = button.dataset.description;
 
+        modal.classList.add("active");
 
-  }catch(error){
+        document.body.style.overflow = "hidden";
 
-    monitorResults[client.id] = {
+      });
 
-      state:"ERROR",
-
-      response:"—",
-
-      time:
-        new Date()
-          .toLocaleTimeString(
-            "id-ID"
-          ),
-
-      error:
-        error.name === "AbortError"
-          ? "TIMEOUT"
-          : "Tidak dapat diverifikasi dari browser. Kemungkinan CORS atau network."
-
-    };
-
-  }
+    });
 
 
-  renderAll();
+    function closeModal() {
 
-}
+      modal.classList.remove("active");
+      document.body.style.overflow = "";
 
-
-/* =========================================================
-   CHECK ALL
-========================================================= */
-
-async function runAllChecks(){
-
-  const list =
-    clients.filter(
-      client =>
-        client.website
-    );
-
-  if(!list.length){
-
-    alert(
-      "Belum ada client dengan website."
-    );
-
-    return;
-
-  }
-
-  for(
-    const client of list
-  ){
-
-    await checkWebsite(client);
-
-  }
-
-}
+    }
 
 
-/* =========================================================
-   RENDER ALL
-========================================================= */
-
-function renderAll(){
-
-  renderStats();
-
-  renderDashboard();
-
-  renderClients();
-
-  renderProgress();
-
-  renderMonitor();
-
-  renderAlerts();
-
-}
+    modalClose.addEventListener("click", closeModal);
 
 
-/* =========================================================
-   CLOSE MODAL WHEN CLICK OUTSIDE
-========================================================= */
+    modal.addEventListener("click", event => {
 
-document
-  .getElementById("clientModal")
-  .addEventListener(
-    "click",
-    function(event){
-
-      if(
-        event.target === this
-      ){
-        closeClientModal();
+      if (event.target === modal) {
+        closeModal();
       }
 
-    }
-  );
+    });
 
 
-document
-  .getElementById("detailModal")
-  .addEventListener(
-    "click",
-    function(event){
+    document.addEventListener("keydown", event => {
 
-      if(
-        event.target === this
-      ){
-        closeDetailModal();
+      if (event.key === "Escape") {
+        closeModal();
       }
 
-    }
-  );
+    });
 
 
-/* =========================================================
-   ESC CLOSE
-========================================================= */
-
-document.addEventListener(
-  "keydown",
-  function(event){
-
-    if(event.key !== "Escape"){
-      return;
-    }
-
-    closeClientModal();
-
-    closeDetailModal();
-
-  }
-);
-
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
-loadClients();
-
-renderAll();
-
-</script>
+  </script>
 
 </body>
 </html>
