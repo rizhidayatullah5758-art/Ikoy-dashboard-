@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#8ecae6">
+<title>IKOY AGENCY | Client Control Center</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+:root{
+  --blue:#8ecae6;
+  --blue-dark:#219ebc;
+  --blue-soft:#eaf7fc;
+  --black:#171717;
+  --brown:#795548;
+  --brown-soft:#f4ede9;
+  --white:#ffffff;
+  --bg:#f5f7f9;
+  --line:#e3e7eb;
+  --muted:#737b83;
+  --green:#2e7d5b;
+  --green-soft:#e9f6ef;
+  --orange:#b76e00;
+  --orange-soft:#fff3df;
+  --red:#b42318;
+  --red-soft:#fff0ee;
+  --shadow:0 15px 45px rgba(23,23,23,.08);
+  --radius:20px;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--black);
+}
+
+button,input,select,textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:250px;
+  background:#111;
+  color:white;
+  padding:28px 20px;
+  z-index:20;
+}
+
+.brand{
+  padding:0 12px 30px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.brand small{
+  color:#8ecae6;
+  letter-spacing:3px;
+  font-size:10px;
+}
+
+.brand h1{
+  font-family:'Playfair Display',serif;
+  font-size:27px;
+  margin-top:5px;
+}
+
+.brand p{
+  color:#888;
+  font-size:12px;
+  margin-top:4px;
+}
+
+.nav{
+  margin-top:25px;
+}
+
+.nav button{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#aaa;
+  text-align:left;
+  padding:13px 14px;
+  border-radius:12px;
+  margin-bottom:5px;
+}
+
+.nav button:hover,
+.nav button.active{
+  background:#202020;
+  color:white;
+}
+
+.nav button.active{
+  box-shadow:inset 3px 0 var(--blue);
+}
+
+/* MAIN */
+
+.main{
+  margin-left:250px;
+  padding:35px;
+  max-width:1700px;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  margin-bottom:30px;
+}
+
+.page-title small{
+  color:var(--brown);
+  letter-spacing:3px;
+  font-size:10px;
+  font-weight:700;
+}
+
+.page-title h2{
+  font-family:'Playfair Display',serif;
+  font-size:38px;
+  line-height:1.1;
+  margin:5px 0;
+}
+
+.page-title p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  font-weight:700;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn-primary{
+  background:var(--black);
+  color:white;
+}
+
+.btn-blue{
+  background:var(--blue);
+  color:var(--black);
+}
+
+.btn-light{
+  background:white;
+  border:1px solid var(--line);
+  color:var(--black);
+}
+
+.btn-danger{
+  background:var(--red-soft);
+  color:var(--red);
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:16px;
+  margin-bottom:22px;
+}
+
+.stat{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px;
+  min-height:130px;
+  box-shadow:0 5px 20px rgba(0,0,0,.025);
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+}
+
+.stat-value{
+  font-size:34px;
+  font-weight:700;
+  margin-top:15px;
+}
+
+.stat-note{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+/* TOOLBAR */
+
+.panel{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.panel-head{
+  padding:22px 24px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.panel-head h3{
+  font-family:'Playfair Display',serif;
+  font-size:25px;
+}
+
+.toolbar{
+  padding:16px 24px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  border-bottom:1px solid var(--line);
+}
+
+.search{
+  flex:1;
+  min-width:220px;
+  position:relative;
+}
+
+.search input{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px 15px;
+  outline:none;
+}
+
+.search input:focus{
+  border-color:var(--blue-dark);
+}
+
+select{
+  border:1px solid var(--line);
+  background:white;
+  border-radius:12px;
+  padding:12px 15px;
+  outline:none;
+}
+
+/* TABLE */
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:950px;
+}
+
+th{
+  text-align:left;
+  padding:14px 24px;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1.2px;
+  color:var(--muted);
+  background:#fafafa;
+}
+
+td{
+  padding:17px 24px;
+  border-top:1px solid var(--line);
+  font-size:13px;
+  vertical-align:middle;
+}
+
+.client-name{
+  font-weight:700;
+}
+
+.client-owner{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:6px 10px;
+  border-radius:30px;
+  font-size:10px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.badge-active{
+  background:var(--green-soft);
+  color:var(--green);
+}
+
+.badge-progress{
+  background:var(--blue-soft);
+  color:var(--blue-dark);
+}
+
+.badge-expiring{
+  background:var(--orange-soft);
+  color:var(--orange);
+}
+
+.badge-expired,
+.badge-problem{
+  background:var(--red-soft);
+  color:var(--red);
+}
+
+.badge-off{
+  background:#eee;
+  color:#666;
+}
+
+.health{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-size:11px;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#aaa;
+}
+
+.dot.online{
+  background:var(--green);
+}
+
+.dot.offline{
+  background:var(--red);
+}
+
+.dot.checking{
+  background:var(--orange);
+}
+
+.actions{
+  display:flex;
+  gap:6px;
+}
+
+.icon-btn{
+  width:34px;
+  height:34px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:white;
+  font-size:14px;
+}
+
+.icon-btn:hover{
+  background:var(--blue-soft);
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  backdrop-filter:blur(5px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:100;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:min(850px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:white;
+  border-radius:24px;
+  box-shadow:0 30px 80px rgba(0,0,0,.25);
+}
+
+.modal-head{
+  padding:24px;
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px solid var(--line);
+}
+
+.modal-head h3{
+  font-family:'Playfair Display',serif;
+  font-size:27px;
+}
+
+.close{
+  width:35px;
+  height:35px;
+  border:0;
+  border-radius:10px;
+  background:#f1f1f1;
+}
+
+.form{
+  padding:24px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  font-size:11px;
+  color:var(--muted);
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  outline:none;
+  background:white;
+}
+
+.field textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--blue-dark);
+}
+
+.modal-foot{
+  padding:20px 24px;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+/* DETAIL */
+
+.detail{
+  display:none;
+}
+
+.detail.show{
+  display:block;
+}
+
+.detail-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr;
+  gap:18px;
+}
+
+.detail-card{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:24px;
+  box-shadow:var(--shadow);
+}
+
+.detail-card h3{
+  font-family:'Playfair Display',serif;
+  margin-bottom:20px;
+  font-size:24px;
+}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+
+.info{
+  padding:14px;
+  background:#fafafa;
+  border-radius:12px;
+}
+
+.info span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:5px;
+}
+
+.info strong{
+  font-size:14px;
+}
+
+.health-box{
+  padding:18px;
+  background:var(--blue-soft);
+  border-radius:15px;
+  margin-top:15px;
+}
+
+.health-title{
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+.health-result{
+  font-size:13px;
+}
+
+/* EMPTY */
+
+.empty{
+  padding:60px 20px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.empty strong{
+  display:block;
+  color:var(--black);
+  font-size:17px;
+  margin-bottom:5px;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  background:#111;
+  color:white;
+  padding:14px 18px;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(15px);
+  transition:.25s;
+  z-index:300;
+  font-size:13px;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+  .stats{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .detail-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:800px){
+  .sidebar{
+    position:static;
+    width:100%;
+    height:auto;
+  }
+
+  .nav{
+    display:flex;
+    gap:5px;
+    overflow:auto;
+  }
+
+  .nav button{
+    white-space:nowrap;
+  }
+
+  .main{
+    margin-left:0;
+    padding:20px;
+  }
+
+  .topbar{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+}
+
+@media(max-width:500px){
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .page-title h2{
+    font-size:30px;
+  }
+
+  .info-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="brand">
+    <small>IKOY AGENCY</small>
+    <h1>Client Center</h1>
+    <p>Client management system</p>
+  </div>
+
+  <nav class="nav">
+    <button class="active" onclick="showDashboard()">Dashboard</button>
+    <button onclick="focusClients()">Clients</button>
+    <button onclick="openClientModal()">+ Add Client</button>
+  </nav>
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="topbar">
+    <div class="page-title">
+      <small>IKOY AGENCY</small>
+      <h2>Client Control Center</h2>
+      <p>Monitoring client, paket, masa aktif, domain dan server dalam satu tempat.</p>
+    </div>
+
+    <button class="btn btn-blue" onclick="openClientModal()">
+      + Add Client
+    </button>
+  </div>
+
+
+  <!-- DASHBOARD -->
+  <section id="dashboardSection">
+
+    <div class="stats">
+
+      <div class="stat">
+        <div class="stat-label">Total Client</div>
+        <div class="stat-value" id="totalClient">0</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">Active</div>
+        <div class="stat-value" id="activeClient">0</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">On Progress</div>
+        <div class="stat-value" id="progressClient">0</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">Expiring Soon</div>
+        <div class="stat-value" id="expiringClient">0</div>
+        <div class="stat-note">30 hari atau kurang</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">System Problem</div>
+        <div class="stat-value" id="problemClient">0</div>
+        <div class="stat-note">Domain / server</div>
+      </div>
+
+    </div>
+
+
+    <section class="panel" id="clientsPanel">
+
+      <div class="panel-head">
+        <h3>Client Overview</h3>
+        <button class="btn btn-light" onclick="resetFilters()">Reset</button>
+      </div>
+
+      <div class="toolbar">
+
+        <div class="search">
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Cari client, owner, domain, PIC..."
+            oninput="renderClients()"
+          >
+        </div>
+
+        <select id="statusFilter" onchange="renderClients()">
+          <option value="">Semua Status</option>
+          <option value="Active">Active</option>
+          <option value="On Progress">On Progress</option>
+          <option value="Expiring Soon">Expiring Soon</option>
+          <option value="Expired">Expired</option>
+        </select>
+
+        <select id="packageFilter" onchange="renderClients()">
+          <option value="">Semua Paket</option>
+          <option value="Website">Website</option>
+          <option value="Website + Content">Website + Content</option>
+          <option value="Website + Maintenance">Website + Maintenance</option>
+          <option value="Website + Content + Maintenance">Website + Content + Maintenance</option>
+          <option value="Custom">Custom</option>
+        </select>
+
+      </div>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Paket</th>
+              <th>Tahap</th>
+              <th>Masa Aktif</th>
+              <th>PIC</th>
+              <th>Status</th>
+              <th>System</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody id="clientTable"></tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+  </section>
+
+
+  <!-- DETAIL -->
+  <section class="detail" id="detailSection">
+
+    <div style="margin-bottom:18px;">
+      <button class="btn btn-light" onclick="showDashboard()">← Kembali</button>
+    </div>
+
+    <div class="detail-grid">
+
+      <div class="detail-card">
+        <h3 id="detailName">Client</h3>
+
+        <div class="info-grid">
+
+          <div class="info">
+            <span>Owner</span>
+            <strong id="detailOwner">-</strong>
+          </div>
+
+          <div class="info">
+            <span>Paket</span>
+            <strong id="detailPackage">-</strong>
+          </div>
+
+          <div class="info">
+            <span>Tahap</span>
+            <strong id="detailStage">-</strong>
+          </div>
+
+          <div class="info">
+            <span>PIC</span>
+            <strong id="detailPic">-</strong>
+          </div>
+
+          <div class="info">
+            <span>Tanggal Mulai</span>
+            <strong id="detailStart">-</strong>
+          </div>
+
+          <div class="info">
+            <span>Masa Aktif</span>
+            <strong id="detailDuration">-</strong>
+          </div>
+
+          <div class="info">
+            <span>Berakhir</span>
+            <strong id="detailEnd">-</strong>
+          </div>
+
+          <div class="info">
+            <span>Status</span>
+            <strong id="detailStatus">-</strong>
+          </div>
+
+          <div class="info">
+            <span>Domain</span>
+            <strong id="detailDomain">-</strong>
+          </div>
+
+          <div class="info">
+            <span>Server</span>
+            <strong id="detailServer">-</strong>
+          </div>
+
+        </div>
+
+        <div class="health-box">
+          <div class="health-title">System Monitoring</div>
+          <div class="health-result" id="detailHealth">
+            Belum diperiksa.
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="detail-card">
+
+        <h3>Catatan Client</h3>
+
+        <div class="info" style="margin-bottom:15px;">
+          <span>Kontak</span>
+          <strong id="detailContact">-</strong>
+        </div>
+
+        <div class="info" style="margin-bottom:15px;">
+          <span>Email</span>
+          <strong id="detailEmail">-</strong>
+        </div>
+
+        <div class="info">
+          <span>Catatan</span>
+          <strong id="detailNotes" style="white-space:pre-line;">-</strong>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:20px;">
+          <button class="btn btn-primary" id="detailEditBtn">
+            Edit Client
+          </button>
+
+          <button class="btn btn-light" id="detailCheckBtn">
+            Check System
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+</div>
+
+
+<!-- MODAL -->
+<div class="modal" id="clientModal">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h3 id="modalTitle">Add Client</h3>
+      <button class="close" onclick="closeClientModal()">×</button>
+    </div>
+
+    <form class="form" id="clientForm">
+
+      <input type="hidden" id="clientId">
+
+      <div class="form-grid">
+
+        <div class="field">
+          <label>Nama Client</label>
+          <input id="name" required placeholder="Contoh: PT ABC">
+        </div>
+
+        <div class="field">
+          <label>Owner</label>
+          <input id="owner" placeholder="Nama owner">
+        </div>
+
+        <div class="field">
+          <label>Paket</label>
+          <select id="package">
+            <option>Website</option>
+            <option>Website + Content</option>
+            <option>Website + Maintenance</option>
+            <option>Website + Content + Maintenance</option>
+            <option>Custom</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Tahap</label>
+          <select id="stage">
+            <option>Onboarding</option>
+            <option>Design</option>
+            <option>Development</option>
+            <option>Revision</option>
+            <option>Launch</option>
+            <option>Maintenance</option>
+            <option>Completed</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Tanggal Mulai</label>
+          <input id="startDate" type="date" required>
+        </div>
+
+        <div class="field">
+          <label>Masa Aktif (Hari)</label>
+          <input id="duration" type="number" min="1" value="365" required>
+        </div>
+
+        <div class="field">
+          <label>PIC</label>
+          <input id="pic" placeholder="Nama PIC">
+        </div>
+
+        <div class="field">
+          <label>Kontak</label>
+          <input id="contact" placeholder="08xxxxxxxxxx">
+        </div>
+
+        <div class="field">
+          <label>Email</label>
+          <input id="email" type="email" placeholder="email@client.com">
+        </div>
+
+        <div class="field">
+          <label>Domain</label>
+          <input id="domain" placeholder="client.com">
+        </div>
+
+        <div class="field">
+          <label>Server URL</label>
+          <input id="server" placeholder="https://client.com">
+        </div>
+
+        <div class="field">
+          <label>Status</label>
+          <select id="manualStatus">
+            <option value="auto">Otomatis</option>
+            <option value="Active">Active</option>
+            <option value="On Progress">On Progress</option>
+            <option value="Expired">Expired</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>Catatan</label>
+          <textarea id="notes" placeholder="Catatan project, kebutuhan client, renewal, dll."></textarea>
+        </div>
+
+      </div>
+
+    </form>
+
+    <div class="modal-foot">
+
+      <button class="btn btn-danger" id="deleteBtn" onclick="deleteClient()" style="display:none;">
+        Hapus
+      </button>
+
+      <div style="flex:1"></div>
+
+      <button class="btn btn-light" onclick="closeClientModal()">
+        Batal
+      </button>
+
+      <button class="btn btn-primary" onclick="saveClient()">
+        Simpan Client
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+/* =========================================================
+   DATA
+========================================================= */
+
+const STORAGE_KEY = "ikoy_client_control_v1";
+
+let clients = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+
+if(!clients){
+  clients = [
+    {
+      id: crypto.randomUUID(),
+      name:"Cirengindi",
+      owner:"Intan Ismaya",
+      package:"Website + Content",
+      stage:"Maintenance",
+      startDate:"2026-08-26",
+      duration:365,
+      pic:"IKOY Agency",
+      contact:"",
+      email:"",
+      domain:"",
+      server:"",
+      manualStatus:"auto",
+      notes:"Client website dan content.",
+      health:"unknown"
+    }
+  ];
+
+  saveData();
+}
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function saveData(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(clients));
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function getEndDate(client){
+  const date = new Date(client.startDate + "T00:00:00");
+  date.setDate(date.getDate() + Number(client.duration || 0));
+
+  return date;
+}
+
+function daysRemaining(client){
+  const end = getEndDate(client);
+  const now = new Date();
+
+  now.setHours(0,0,0,0);
+
+  return Math.ceil((end-now)/86400000);
+}
+
+function formatDate(date){
+  if(!date) return "-";
+
+  return new Intl.DateTimeFormat("id-ID",{
+    day:"2-digit",
+    month:"short",
+    year:"numeric"
+  }).format(new Date(date+"T00:00:00"));
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function getStatus(client){
+
+  if(client.manualStatus && client.manualStatus !== "auto"){
+    return client.manualStatus;
+  }
+
+  if(client.stage !== "Maintenance" && client.stage !== "Completed"){
+    return "On Progress";
+  }
+
+  const days = daysRemaining(client);
+
+  if(days <= 0) return "Expired";
+  if(days <= 30) return "Expiring Soon";
+
+  return "Active";
+}
+
+function statusBadge(status){
+
+  let cls = "badge-active";
+
+  if(status === "On Progress") cls = "badge-progress";
+  if(status === "Expiring Soon") cls = "badge-expiring";
+  if(status === "Expired") cls = "badge-expired";
+
+  return `<span class="badge ${cls}">${status}</span>`;
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderClients(){
+
+  const table = document.getElementById("clientTable");
+
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const statusFilter = document.getElementById("statusFilter").value;
+  const packageFilter = document.getElementById("packageFilter").value;
+
+  let filtered = clients.filter(client => {
+
+    const status = getStatus(client);
+
+    const text = `
+      ${client.name}
+      ${client.owner}
+      ${client.domain}
+      ${client.pic}
+      ${client.package}
+    `.toLowerCase();
+
+    return (
+      text.includes(search) &&
+      (!statusFilter || status === statusFilter) &&
+      (!packageFilter || client.package === packageFilter)
+    );
+  });
+
+  if(filtered.length === 0){
+
+    table.innerHTML = `
+      <tr>
+        <td colspan="8">
+          <div class="empty">
+            <strong>Tidak ada client</strong>
+            Belum ada data yang sesuai filter.
+          </div>
+        </td>
+      </tr>
+    `;
+
+    updateStats();
+
+    return;
+  }
+
+
+  table.innerHTML = filtered.map(client => {
+
+    const status = getStatus(client);
+    const days = daysRemaining(client);
+
+    let durationText;
+
+    if(days <= 0){
+      durationText = "Expired";
+    }else{
+      durationText = days + " hari";
+    }
+
+    let health = "Belum dicek";
+    let dot = "";
+
+    if(client.health === "online"){
+      health = "Online";
+      dot = "online";
+    }
+
+    if(client.health === "offline"){
+      health = "Problem";
+      dot = "offline";
+    }
+
+    if(client.health === "checking"){
+      health = "Checking";
+      dot = "checking";
+    }
+
+    return `
+      <tr>
+
+        <td>
+          <div class="client-name">${escapeHTML(client.name)}</div>
+          <div class="client-owner">${escapeHTML(client.owner || "Owner belum diisi")}</div>
+        </td>
+
+        <td>${escapeHTML(client.package)}</td>
+
+        <td>${escapeHTML(client.stage)}</td>
+
+        <td>
+          <strong>${durationText}</strong>
+          <div style="font-size:10px;color:#737b83;">
+            ${formatDate(client.startDate)}
+          </div>
+        </td>
+
+        <td>${escapeHTML(client.pic || "-")}</td>
+
+        <td>${statusBadge(status)}</td>
+
+        <td>
+          <div class="health">
+            <span class="dot ${dot}"></span>
+            ${health}
+          </div>
+        </td>
+
+        <td>
+
+          <div class="actions">
+
+            <button
+              class="icon-btn"
+              title="Detail"
+              onclick="openDetail('${client.id}')">
+              ↗
+            </button>
+
+            <button
+              class="icon-btn"
+              title="Edit"
+              onclick="openClientModal('${client.id}')">
+              ✎
+            </button>
+
+            <button
+              class="icon-btn"
+              title="Check"
+              onclick="checkClientHealth('${client.id}')">
+              ◉
+            </button>
+
+          </div>
+
+        </td>
+
+      </tr>
+    `;
+
+  }).join("");
+
+  updateStats();
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+  const total = clients.length;
+
+  const active = clients.filter(
+    c => getStatus(c) === "Active"
+  ).length;
+
+  const progress = clients.filter(
+    c => getStatus(c) === "On Progress"
+  ).length;
+
+  const expiring = clients.filter(
+    c => getStatus(c) === "Expiring Soon"
+  ).length;
+
+  const problems = clients.filter(
+    c => c.health === "offline"
+  ).length;
+
+  document.getElementById("totalClient").textContent = total;
+  document.getElementById("activeClient").textContent = active;
+  document.getElementById("progressClient").textContent = progress;
+  document.getElementById("expiringClient").textContent = expiring;
+  document.getElementById("problemClient").textContent = problems;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openClientModal(id=null){
+
+  document.getElementById("clientModal").classList.add("show");
+
+  document.getElementById("clientForm").reset();
+
+  document.getElementById("clientId").value = "";
+
+  document.getElementById("duration").value = 365;
+
+  document.getElementById("startDate").value =
+    new Date().toISOString().slice(0,10);
+
+  document.getElementById("modalTitle").textContent =
+    "Add Client";
+
+  document.getElementById("deleteBtn").style.display = "none";
+
+  if(id){
+
+    const client = clients.find(c => c.id === id);
+
+    if(!client) return;
+
+    document.getElementById("modalTitle").textContent =
+      "Edit Client";
+
+    document.getElementById("clientId").value = client.id;
+
+    document.getElementById("name").value = client.name || "";
+    document.getElementById("owner").value = client.owner || "";
+    document.getElementById("package").value = client.package || "Website";
+    document.getElementById("stage").value = client.stage || "Onboarding";
+    document.getElementById("startDate").value = client.startDate || "";
+    document.getElementById("duration").value = client.duration || 365;
+    document.getElementById("pic").value = client.pic || "";
+    document.getElementById("contact").value = client.contact || "";
+    document.getElementById("email").value = client.email || "";
+    document.getElementById("domain").value = client.domain || "";
+    document.getElementById("server").value = client.server || "";
+    document.getElementById("manualStatus").value = client.manualStatus || "auto";
+    document.getElementById("notes").value = client.notes || "";
+
+    document.getElementById("deleteBtn").style.display = "block";
+  }
+}
+
+function closeClientModal(){
+  document.getElementById("clientModal").classList.remove("show");
+}
+
+
+/* =========================================================
+   SAVE CLIENT
+========================================================= */
+
+function saveClient(){
+
+  const name = document.getElementById("name").value.trim();
+
+  if(!name){
+    toast("Nama client wajib diisi.");
+    return;
+  }
+
+  const id = document.getElementById("clientId").value;
+
+  const data = {
+    name:name,
+    owner:document.getElementById("owner").value.trim(),
+    package:document.getElementById("package").value,
+    stage:document.getElementById("stage").value,
+    startDate:document.getElementById("startDate").value,
+    duration:Number(document.getElementById("duration").value || 365),
+    pic:document.getElementById("pic").value.trim(),
+    contact:document.getElementById("contact").value.trim(),
+    email:document.getElementById("email").value.trim(),
+    domain:cleanDomain(document.getElementById("domain").value.trim()),
+    server:document.getElementById("server").value.trim(),
+    manualStatus:document.getElementById("manualStatus").value,
+    notes:document.getElementById("notes").value.trim(),
+    health:"unknown"
+  };
+
+  if(id){
+
+    const index = clients.findIndex(c => c.id === id);
+
+    if(index !== -1){
+
+      data.id = id;
+
+      data.health = clients[index].health || "unknown";
+
+      clients[index] = data;
+    }
+
+  }else{
+
+    data.id = crypto.randomUUID();
+
+    clients.push(data);
+  }
+
+  saveData();
+
+  closeClientModal();
+
+  renderClients();
+
+  toast(id ? "Client diperbarui." : "Client berhasil ditambahkan.");
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+function deleteClient(){
+
+  const id = document.getElementById("clientId").value;
+
+  if(!id) return;
+
+  const client = clients.find(c => c.id === id);
+
+  if(!client) return;
+
+  if(!confirm(`Hapus client "${client.name}"?`)){
+    return;
+  }
+
+  clients = clients.filter(c => c.id !== id);
+
+  saveData();
+
+  closeClientModal();
+
+  showDashboard();
+
+  renderClients();
+
+  toast("Client dihapus.");
+}
+
+
+/* =========================================================
+   DETAIL
+========================================================= */
+
+function openDetail(id){
+
+  const client = clients.find(c => c.id === id);
+
+  if(!client) return;
+
+  document.getElementById("dashboardSection").style.display = "none";
+  document.getElementById("detailSection").classList.add("show");
+
+  document.getElementById("detailName").textContent = client.name;
+  document.getElementById("detailOwner").textContent = client.owner || "-";
+  document.getElementById("detailPackage").textContent = client.package || "-";
+  document.getElementById("detailStage").textContent = client.stage || "-";
+  document.getElementById("detailPic").textContent = client.pic || "-";
+  document.getElementById("detailStart").textContent = formatDate(client.startDate);
+  document.getElementById("detailDuration").textContent =
+    `${daysRemaining(client) > 0 ? daysRemaining(client) : 0} hari tersisa`;
+  document.getElementById("detailEnd").textContent =
+    formatDate(getEndDate(client).toISOString().slice(0,10));
+  document.getElementById("detailStatus").innerHTML =
+    statusBadge(getStatus(client));
+  document.getElementById("detailDomain").textContent =
+    client.domain || "-";
+  document.getElementById("detailServer").textContent =
+    client.server || "-";
+  document.getElementById("detailContact").textContent =
+    client.contact || "-";
+  document.getElementById("detailEmail").textContent =
+    client.email || "-";
+  document.getElementById("detailNotes").textContent =
+    client.notes || "-";
+
+  updateHealthDisplay(client);
+
+  document.getElementById("detailEditBtn").onclick =
+    () => openClientModal(client.id);
+
+  document.getElementById("detailCheckBtn").onclick =
+    () => checkClientHealth(client.id);
+}
+
+function showDashboard(){
+
+  document.getElementById("detailSection").classList.remove("show");
+
+  document.getElementById("dashboardSection").style.display = "block";
+
+  renderClients();
+}
+
+function focusClients(){
+
+  showDashboard();
+
+  document.getElementById("clientsPanel")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+}
+
+
+/* =========================================================
+   SYSTEM HEALTH
+========================================================= */
+
+async function checkClientHealth(id){
+
+  const client = clients.find(c => c.id === id);
+
+  if(!client) return;
+
+  if(!client.domain && !client.server){
+
+    toast("Domain atau server belum diisi.");
+
+    return;
+  }
+
+  client.health = "checking";
+
+  saveData();
+
+  renderClients();
+
+  if(
+    document.getElementById("detailSection")
+      .classList.contains("show")
+  ){
+    updateHealthDisplay(client);
+  }
+
+  const target =
+    client.server ||
+    ("https://" + client.domain);
+
+  const url =
+    target.startsWith("http")
+      ? target
+      : "https://" + target;
+
+  try{
+
+    const controller = new AbortController();
+
+    const timeout = setTimeout(
+      () => controller.abort(),
+      8000
+    );
+
+    await fetch(
+      url,
+      {
+        method:"GET",
+        mode:"no-cors",
+        cache:"no-store",
+        signal:controller.signal
+      }
+    );
+
+    clearTimeout(timeout);
+
+    client.health = "online";
+
+    toast("Server/domain dapat dijangkau.");
+
+  }catch(error){
+
+    client.health = "offline";
+
+    toast("Domain/server tidak dapat dijangkau.");
+  }
+
+  saveData();
+
+  renderClients();
+
+  if(
+    document.getElementById("detailSection")
+      .classList.contains("show")
+  ){
+    updateHealthDisplay(client);
+  }
+}
+
+function updateHealthDisplay(client){
+
+  const element =
+    document.getElementById("detailHealth");
+
+  if(!element) return;
+
+  if(client.health === "online"){
+
+    element.innerHTML =
+      `<span class="badge badge-active">● ONLINE</span>
+       <br><br>
+       Domain/server dapat dijangkau dari browser.`;
+
+  }else if(client.health === "offline"){
+
+    element.innerHTML =
+      `<span class="badge badge-problem">● PROBLEM</span>
+       <br><br>
+       Domain/server tidak dapat dijangkau.`;
+
+  }else if(client.health === "checking"){
+
+    element.innerHTML =
+      `<span class="badge badge-expiring">● CHECKING</span>
+       <br><br>
+       Sedang memeriksa koneksi...`;
+
+  }else{
+
+    element.innerHTML =
+      `Belum diperiksa.
+       Gunakan tombol <b>Check System</b>.`;
+  }
+}
+
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+function cleanDomain(domain){
+
+  if(!domain) return "";
+
+  return domain
+    .replace(/^https?:\/\//,"")
+    .replace(/\/.*$/,"")
+    .trim();
+}
+
+function escapeHTML(value){
+
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function resetFilters(){
+
+  document.getElementById("searchInput").value = "";
+  document.getElementById("statusFilter").value = "";
+  document.getElementById("packageFilter").value = "";
+
+  renderClients();
+}
+
+function toast(message){
+
+  const element =
+    document.getElementById("toast");
+
+  element.textContent = message;
+
+  element.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer =
+    setTimeout(
+      () => element.classList.remove("show"),
+      2500
+    );
+}
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
+========================================================= */
+
+document.getElementById("clientModal")
+  .addEventListener("click",function(e){
+
+    if(e.target === this){
+      closeClientModal();
+    }
+
+  });
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+renderClients();
+
+</script>
+
+</body>
+</html>
