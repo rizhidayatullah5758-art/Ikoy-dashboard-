@@ -1,1 +1,2923 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#a8dff5">
+<title>IKOЯ AGENCY | Client Control Center</title>
 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+:root{
+  --blue:#a9ddf3;
+  --blue-soft:#e8f7fc;
+  --blue-dark:#4f9fc4;
+  --black:#111111;
+  --white:#ffffff;
+  --brown:#795744;
+  --brown-soft:#eee2da;
+  --green:#287653;
+  --green-soft:#e9f6ef;
+  --red:#a53d3d;
+  --red-soft:#faeaea;
+  --yellow:#8b651b;
+  --yellow-soft:#fff5da;
+  --gray:#777;
+  --gray-soft:#f5f5f5;
+  --border:#e8e8e8;
+  --shadow:0 16px 45px rgba(0,0,0,.06);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:#f5f6f7;
+  color:var(--black);
+  font-family:"DM Sans",sans-serif;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+}
+
+.app{
+  min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:250px;
+  background:var(--black);
+  color:#fff;
+  padding:30px 18px;
+  z-index:100;
+}
+
+.logo{
+  padding:0 12px 35px;
+}
+
+.logo-main{
+  font-family:"Playfair Display",serif;
+  font-size:27px;
+  font-weight:700;
+  letter-spacing:.04em;
+}
+
+.logo-sub{
+  display:block;
+  margin-top:5px;
+  font-size:9px;
+  letter-spacing:.2em;
+  color:#888;
+}
+
+.nav{
+  display:grid;
+  gap:5px;
+}
+
+.nav-btn{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#999;
+  padding:13px 14px;
+  border-radius:12px;
+  text-align:left;
+  font-size:12px;
+  transition:.2s;
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+  background:#242424;
+  color:#fff;
+}
+
+.nav-icon{
+  display:inline-block;
+  width:24px;
+  font-size:14px;
+}
+
+.sidebar-bottom{
+  position:absolute;
+  left:30px;
+  bottom:25px;
+  color:#666;
+  font-size:9px;
+  line-height:1.7;
+}
+
+/* MAIN */
+
+.main{
+  margin-left:250px;
+  padding:34px;
+  max-width:1700px;
+}
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:25px;
+  margin-bottom:28px;
+}
+
+.eyebrow{
+  color:var(--brown);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+
+.page-title{
+  font-family:"Playfair Display",serif;
+  font-size:40px;
+  line-height:1.05;
+  margin:6px 0;
+}
+
+.page-subtitle{
+  color:var(--gray);
+  font-size:12px;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.btn{
+  border:1px solid var(--border);
+  background:#fff;
+  color:#111;
+  border-radius:10px;
+  padding:10px 14px;
+  font-size:11px;
+  font-weight:700;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn-primary{
+  background:var(--black);
+  color:#fff;
+  border-color:var(--black);
+}
+
+.btn-blue{
+  background:var(--blue);
+  border-color:var(--blue);
+}
+
+.btn-brown{
+  background:var(--brown);
+  color:#fff;
+  border-color:var(--brown);
+}
+
+.btn-danger{
+  color:var(--red);
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:13px;
+  margin-bottom:18px;
+}
+
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+}
+
+.stat-card{
+  min-height:125px;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+}
+
+.stat-card::after{
+  content:"";
+  position:absolute;
+  width:85px;
+  height:85px;
+  border-radius:50%;
+  background:var(--blue-soft);
+  right:-28px;
+  bottom:-30px;
+}
+
+.stat-label{
+  color:#888;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+
+.stat-number{
+  display:block;
+  margin-top:13px;
+  font-size:34px;
+  font-weight:700;
+  position:relative;
+  z-index:2;
+}
+
+.stat-note{
+  color:#999;
+  font-size:9px;
+}
+
+/* GRID */
+
+.content-grid{
+  display:grid;
+  grid-template-columns:1.45fr .75fr;
+  gap:14px;
+}
+
+.panel{
+  padding:21px;
+}
+
+.panel-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:17px;
+}
+
+.panel-title{
+  font-family:"Playfair Display",serif;
+  font-size:22px;
+}
+
+/* TABLE */
+
+.table-wrap{
+  width:100%;
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  min-width:760px;
+  border-collapse:collapse;
+}
+
+th{
+  padding:11px 9px;
+  border-bottom:1px solid var(--border);
+  color:#888;
+  text-align:left;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+td{
+  padding:13px 9px;
+  border-bottom:1px solid #f1f1f1;
+  font-size:11px;
+  vertical-align:middle;
+}
+
+td strong{
+  display:block;
+  font-size:12px;
+}
+
+td small{
+  display:block;
+  color:#999;
+  margin-top:3px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  padding:6px 9px;
+  border-radius:99px;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.07em;
+  white-space:nowrap;
+}
+
+.badge-active{
+  color:var(--green);
+  background:var(--green-soft);
+}
+
+.badge-progress{
+  color:#28637e;
+  background:var(--blue-soft);
+}
+
+.badge-expiring{
+  color:var(--yellow);
+  background:var(--yellow-soft);
+}
+
+.badge-expired{
+  color:var(--red);
+  background:var(--red-soft);
+}
+
+.badge-neutral{
+  color:#555;
+  background:#eee;
+}
+
+.icon-btn{
+  width:31px;
+  height:31px;
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius:9px;
+  font-size:12px;
+}
+
+.action-group{
+  display:flex;
+  gap:5px;
+}
+
+/* SEARCH */
+
+.filters{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:14px;
+}
+
+.search{
+  max-width:330px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid var(--border);
+  background:#fafafa;
+  border-radius:10px;
+  padding:10px 11px;
+  color:#111;
+  outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  background:#fff;
+  border-color:var(--blue-dark);
+}
+
+/* MONITOR */
+
+.monitor-list{
+  display:grid;
+  gap:9px;
+}
+
+.monitor-item{
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:14px;
+}
+
+.monitor-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+}
+
+.monitor-name{
+  font-size:12px;
+  font-weight:700;
+}
+
+.monitor-url{
+  margin-top:4px;
+  color:#999;
+  font-size:9px;
+  word-break:break-all;
+}
+
+.monitor-meta{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:11px;
+  color:#777;
+  font-size:9px;
+}
+
+.status-dot{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#999;
+  margin-right:5px;
+}
+
+.dot-online{
+  background:var(--green);
+}
+
+.dot-error{
+  background:var(--red);
+}
+
+.dot-checking{
+  background:#d19a25;
+}
+
+/* PROGRESS */
+
+.progress-item{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:10px;
+}
+
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.progress-brand{
+  font-size:13px;
+  font-weight:700;
+}
+
+.progress-owner{
+  color:#999;
+  font-size:10px;
+  margin-top:4px;
+}
+
+.progress-meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:14px;
+}
+
+.progress-meta-box{
+  background:#fafafa;
+  border-radius:10px;
+  padding:10px;
+}
+
+.progress-meta-box label{
+  display:block;
+  color:#999;
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.progress-meta-box strong{
+  display:block;
+  margin-top:4px;
+  font-size:10px;
+}
+
+/* ALERT */
+
+.alert{
+  padding:14px;
+  border-radius:13px;
+  background:var(--red-soft);
+  border:1px solid #f0cccc;
+  margin-bottom:9px;
+}
+
+.alert-title{
+  color:var(--red);
+  font-weight:700;
+  font-size:11px;
+}
+
+.alert-text{
+  color:#855;
+  font-size:9px;
+  margin-top:4px;
+}
+
+.info{
+  padding:14px;
+  background:var(--blue-soft);
+  border-radius:12px;
+  color:#2b6178;
+  font-size:10px;
+  line-height:1.6;
+  margin-bottom:14px;
+}
+
+/* EMPTY */
+
+.empty{
+  padding:35px 15px;
+  text-align:center;
+  color:#999;
+  font-size:11px;
+}
+
+/* MODAL */
+
+.modal-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  z-index:500;
+  padding:25px;
+  overflow:auto;
+}
+
+.modal-backdrop.show{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal{
+  width:min(760px,100%);
+  background:#fff;
+  border-radius:20px;
+  padding:25px;
+  box-shadow:0 30px 90px rgba(0,0,0,.25);
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.modal-title{
+  font:600 26px "Playfair Display";
+  margin:0;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.field label{
+  display:block;
+  color:#777;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  margin-bottom:6px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.modal-footer{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:20px;
+}
+
+/* DETAIL */
+
+.detail-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.detail-box{
+  padding:13px;
+  background:#fafafa;
+  border-radius:11px;
+}
+
+.detail-box label{
+  display:block;
+  color:#999;
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+.detail-box strong{
+  display:block;
+  margin-top:5px;
+  font-size:11px;
+  word-break:break-word;
+}
+
+.detail-note{
+  margin-top:12px;
+  background:var(--blue-soft);
+  padding:14px;
+  border-radius:11px;
+  font-size:10px;
+  line-height:1.6;
+}
+
+/* MOBILE */
+
+@media(max-width:1100px){
+  .stats{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .content-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:760px){
+  .sidebar{
+    width:70px;
+    padding:20px 9px;
+  }
+
+  .logo{
+    padding:0 6px 30px;
+  }
+
+  .logo-main{
+    font-size:0;
+  }
+
+  .logo-main::after{
+    content:"I";
+    font-size:28px;
+  }
+
+  .logo-sub,
+  .nav-text,
+  .sidebar-bottom{
+    display:none;
+  }
+
+  .main{
+    margin-left:70px;
+    padding:20px;
+  }
+
+  .topbar{
+    display:block;
+  }
+
+  .actions{
+    margin-top:15px;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .form-grid,
+  .detail-grid{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+}
+
+@media(max-width:450px){
+  .main{
+    padding:14px;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .page-title{
+    font-size:32px;
+  }
+
+  .progress-meta{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+  <div class="logo">
+    <div class="logo-main">IKOЯ AGENCY</div>
+    <span class="logo-sub">CLIENT CONTROL CENTER</span>
+  </div>
+
+  <nav class="nav">
+
+    <button class="nav-btn active" data-page="dashboard">
+      <span class="nav-icon">⌂</span>
+      <span class="nav-text">Dashboard</span>
+    </button>
+
+    <button class="nav-btn" data-page="clients">
+      <span class="nav-icon">◉</span>
+      <span class="nav-text">Clients</span>
+    </button>
+
+    <button class="nav-btn" data-page="progress">
+      <span class="nav-icon">◌</span>
+      <span class="nav-text">Client On Progress</span>
+    </button>
+
+    <button class="nav-btn" data-page="monitor">
+      <span class="nav-icon">⌁</span>
+      <span class="nav-text">Monitoring</span>
+    </button>
+
+    <button class="nav-btn" data-page="alerts">
+      <span class="nav-icon">!</span>
+      <span class="nav-text">Alerts</span>
+    </button>
+
+  </nav>
+
+  <div class="sidebar-bottom">
+    IKOЯ AGENCY<br>
+    CLIENT OPERATIONS
+  </div>
+
+</aside>
+
+<main class="main">
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page active">
+
+  <div class="topbar">
+
+    <div>
+      <div class="eyebrow">IKOЯ AGENCY</div>
+      <h1 class="page-title">Client Control Center</h1>
+      <div class="page-subtitle">
+        Monitoring client, masa aktif, website dan sistem dalam satu tempat.
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-blue" onclick="openClientModal()">
+        + Add Client
+      </button>
+
+      <button class="btn" onclick="runAllChecks()">
+        Check Systems
+      </button>
+    </div>
+
+  </div>
+
+  <div class="stats">
+
+    <div class="card stat-card">
+      <div class="stat-label">Total Client</div>
+      <span class="stat-number" id="totalClients">0</span>
+    </div>
+
+    <div class="card stat-card">
+      <div class="stat-label">Active</div>
+      <span class="stat-number" id="activeClients">0</span>
+    </div>
+
+    <div class="card stat-card">
+      <div class="stat-label">On Progress</div>
+      <span class="stat-number" id="progressClients">0</span>
+    </div>
+
+    <div class="card stat-card">
+      <div class="stat-label">Expiring Soon</div>
+      <span class="stat-number" id="expiringClients">0</span>
+      <div class="stat-note">3 hari atau kurang</div>
+    </div>
+
+    <div class="card stat-card">
+      <div class="stat-label">Expired</div>
+      <span class="stat-number" id="expiredClients">0</span>
+    </div>
+
+  </div>
+
+  <div class="content-grid">
+
+    <div class="card panel">
+
+      <div class="panel-header">
+        <div class="panel-title">Client Overview</div>
+
+        <button class="btn" onclick="showPage('clients')">
+          View All
+        </button>
+      </div>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Paket</th>
+              <th>Masa Aktif</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody id="dashboardTable"></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+    <div class="card panel">
+
+      <div class="panel-header">
+        <div class="panel-title">System Health</div>
+
+        <button class="btn" onclick="showPage('monitor')">
+          Open
+        </button>
+      </div>
+
+      <div id="dashboardMonitor" class="monitor-list"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- CLIENTS -->
+
+<section id="clients" class="page">
+
+  <div class="topbar">
+
+    <div>
+      <div class="eyebrow">CLIENT DATABASE</div>
+      <h1 class="page-title">Clients</h1>
+      <div class="page-subtitle">
+        Semua informasi client tersimpan dalam satu database.
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-blue" onclick="openClientModal()">
+        + Add Client
+      </button>
+    </div>
+
+  </div>
+
+  <div class="card panel">
+
+    <div class="filters">
+
+      <input
+        class="search"
+        id="searchInput"
+        placeholder="Cari brand, owner, website..."
+        oninput="renderAll()"
+      >
+
+      <select id="statusFilter" onchange="renderAll()">
+        <option value="ALL">Semua Status</option>
+        <option value="ACTIVE">Active</option>
+        <option value="ON PROGRESS">On Progress</option>
+        <option value="EXPIRING">Expiring Soon</option>
+        <option value="EXPIRED">Expired</option>
+      </select>
+
+      <select id="packageFilter" onchange="renderAll()">
+        <option value="ALL">Semua Paket</option>
+        <option value="Website">Website</option>
+        <option value="Website + Content">Website + Content</option>
+      </select>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Owner</th>
+            <th>Paket</th>
+            <th>Website</th>
+            <th>Masa Aktif</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+
+        <tbody id="clientsTable"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- PROGRESS -->
+
+<section id="progress" class="page">
+
+  <div class="topbar">
+
+    <div>
+      <div class="eyebrow">WORK PIPELINE</div>
+      <h1 class="page-title">Client On Progress</h1>
+      <div class="page-subtitle">
+        Client yang sedang dalam proses pengerjaan.
+      </div>
+    </div>
+
+    <div class="actions">
+      <button
+        class="btn btn-blue"
+        onclick="openClientModal('ON PROGRESS')"
+      >
+        + Add Progress
+      </button>
+    </div>
+
+  </div>
+
+  <div class="card panel">
+
+    <div id="progressList"></div>
+
+  </div>
+
+</section>
+
+
+<!-- MONITOR -->
+
+<section id="monitor" class="page">
+
+  <div class="topbar">
+
+    <div>
+      <div class="eyebrow">SYSTEM MONITOR</div>
+      <h1 class="page-title">Website & Domain</h1>
+      <div class="page-subtitle">
+        Pemeriksaan website dari browser.
+      </div>
+    </div>
+
+    <div class="actions">
+
+      <button class="btn btn-blue" onclick="runAllChecks()">
+        Run Check
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="info">
+    Monitoring browser dapat mendeteksi sebagian masalah akses.
+    Beberapa server memblokir request dari browser melalui CORS.
+    Untuk monitoring 24/7 yang benar-benar independen dari dashboard,
+    diperlukan service monitoring backend.
+  </div>
+
+  <div class="card panel">
+
+    <div id="monitorList" class="monitor-list"></div>
+
+  </div>
+
+</section>
+
+
+<!-- ALERT -->
+
+<section id="alerts" class="page">
+
+  <div class="topbar">
+
+    <div>
+      <div class="eyebrow">INCIDENT CENTER</div>
+      <h1 class="page-title">Alerts</h1>
+      <div class="page-subtitle">
+        Reminder masa aktif dan masalah website.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card panel">
+
+    <div id="alertList"></div>
+
+  </div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<!-- CLIENT MODAL -->
+
+<div id="clientModal" class="modal-backdrop">
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h2 class="modal-title" id="modalTitle">
+        Add Client
+      </h2>
+
+      <button class="icon-btn" onclick="closeClientModal()">
+        ×
+      </button>
+
+    </div>
+
+    <form id="clientForm">
+
+      <input type="hidden" id="clientId">
+
+      <div class="form-grid">
+
+        <div>
+          <div class="field">
+            <label>Nama Brand *</label>
+            <input id="brand" required>
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <label>Owner *</label>
+            <input id="owner" required>
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <label>Nomor HP</label>
+            <input id="phone">
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <label>Email</label>
+            <input id="email" type="email">
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <label>Website / Domain</label>
+            <input
+              id="website"
+              placeholder="https://contoh.com"
+            >
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <label>Paket *</label>
+
+            <select id="package" required>
+              <option value="Website">Website</option>
+              <option value="Website + Content">
+                Website + Content
+              </option>
+            </select>
+
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <label>Tanggal Mulai *</label>
+            <input id="startDate" type="date" required>
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <label>Tanggal Berakhir</label>
+            <input id="endDate" type="date">
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <label>Status *</label>
+
+            <select id="status">
+              <option value="ACTIVE">ACTIVE</option>
+              <option value="ON PROGRESS">ON PROGRESS</option>
+              <option value="EXPIRED">EXPIRED</option>
+            </select>
+
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <label>Tahap</label>
+
+            <select id="stage">
+              <option value="Planning">Planning</option>
+              <option value="Design">Design</option>
+              <option value="Development">Development</option>
+              <option value="Content">Content</option>
+              <option value="Revision">Revision</option>
+              <option value="Launch">Launch</option>
+            </select>
+
+          </div>
+        </div>
+
+        <div class="full">
+
+          <div class="field">
+
+            <label>Catatan</label>
+
+            <textarea
+              id="notes"
+              rows="3"
+            ></textarea>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="btn"
+          onclick="closeClientModal()"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          Save Client
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- DETAIL MODAL -->
+
+<div id="detailModal" class="modal-backdrop">
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h2 class="modal-title">
+        Client Detail
+      </h2>
+
+      <button
+        class="icon-btn"
+        onclick="closeDetailModal()"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <div id="detailContent"></div>
+
+    <div class="modal-footer">
+
+      <button
+        class="btn"
+        onclick="closeDetailModal()"
+      >
+        Close
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DATABASE
+========================================================= */
+
+const STORAGE_KEY = "ikoy_agency_clients_v1";
+
+let clients = [];
+
+let monitorResults = {};
+
+
+/* =========================================================
+   LOAD DATABASE
+========================================================= */
+
+function loadClients(){
+
+  try{
+
+    const saved =
+      localStorage.getItem(STORAGE_KEY);
+
+    clients =
+      saved ? JSON.parse(saved) : [];
+
+    if(!Array.isArray(clients)){
+      clients = [];
+    }
+
+  }catch(error){
+
+    clients = [];
+
+  }
+
+}
+
+
+/* =========================================================
+   SAVE DATABASE
+========================================================= */
+
+function saveClients(){
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(clients)
+  );
+
+  renderAll();
+
+}
+
+
+/* =========================================================
+   ID
+========================================================= */
+
+function generateId(){
+
+  return "client_" +
+    Date.now() +
+    "_" +
+    Math.random()
+      .toString(36)
+      .substring(2,8);
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value){
+
+  if(value === null || value === undefined){
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function formatDate(date){
+
+  if(!date){
+    return "—";
+  }
+
+  const d =
+    new Date(date + "T00:00:00");
+
+  return d.toLocaleDateString(
+    "id-ID",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+/* =========================================================
+   DAYS LEFT
+========================================================= */
+
+function daysLeft(date){
+
+  if(!date){
+    return null;
+  }
+
+  const now = new Date();
+
+  const end =
+    new Date(date + "T23:59:59");
+
+  return Math.ceil(
+    (end - now) /
+    86400000
+  );
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function getStatus(client){
+
+  if(client.status === "ON PROGRESS"){
+    return "ON PROGRESS";
+  }
+
+  const days =
+    daysLeft(client.endDate);
+
+  if(days !== null && days < 0){
+    return "EXPIRED";
+  }
+
+  if(days !== null && days <= 3){
+    return "EXPIRING";
+  }
+
+  return "ACTIVE";
+
+}
+
+
+/* =========================================================
+   BADGE
+========================================================= */
+
+function statusBadge(status){
+
+  let className = "badge-neutral";
+
+  if(status === "ACTIVE"){
+    className = "badge-active";
+  }
+
+  if(status === "ON PROGRESS"){
+    className = "badge-progress";
+  }
+
+  if(status === "EXPIRING"){
+    className = "badge-expiring";
+  }
+
+  if(status === "EXPIRED"){
+    className = "badge-expired";
+  }
+
+  return `
+    <span class="badge ${className}">
+      ${escapeHtml(status)}
+    </span>
+  `;
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(page){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(item=>{
+      item.classList.remove("active");
+    });
+
+  const target =
+    document.getElementById(page);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  document
+    .querySelectorAll(".nav-btn")
+    .forEach(button=>{
+      button.classList.toggle(
+        "active",
+        button.dataset.page === page
+      );
+    });
+
+  renderAll();
+
+}
+
+
+document
+  .querySelectorAll(".nav-btn")
+  .forEach(button=>{
+
+    button.addEventListener(
+      "click",
+      ()=>{
+        showPage(
+          button.dataset.page
+        );
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function renderStats(){
+
+  const statuses =
+    clients.map(getStatus);
+
+  document.getElementById(
+    "totalClients"
+  ).textContent = clients.length;
+
+  document.getElementById(
+    "activeClients"
+  ).textContent =
+    statuses.filter(
+      s=>s==="ACTIVE"
+    ).length;
+
+  document.getElementById(
+    "progressClients"
+  ).textContent =
+    statuses.filter(
+      s=>s==="ON PROGRESS"
+    ).length;
+
+  document.getElementById(
+    "expiringClients"
+  ).textContent =
+    statuses.filter(
+      s=>s==="EXPIRING"
+    ).length;
+
+  document.getElementById(
+    "expiredClients"
+  ).textContent =
+    statuses.filter(
+      s=>s==="EXPIRED"
+    ).length;
+
+}
+
+
+/* =========================================================
+   DASHBOARD TABLE
+========================================================= */
+
+function renderDashboard(){
+
+  const tbody =
+    document.getElementById(
+      "dashboardTable"
+    );
+
+  const list =
+    clients.slice(0,8);
+
+  if(!list.length){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="5">
+          <div class="empty">
+            Belum ada client.
+          </div>
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+  tbody.innerHTML =
+    list.map(client=>{
+
+      const status =
+        getStatus(client);
+
+      const days =
+        daysLeft(client.endDate);
+
+      let activeText = "—";
+
+      if(days !== null){
+
+        if(days < 0){
+          activeText = "Expired";
+        }else{
+          activeText =
+            days + " hari";
+        }
+
+      }
+
+      return `
+        <tr>
+
+          <td>
+            <strong>
+              ${escapeHtml(client.brand)}
+            </strong>
+
+            <small>
+              ${escapeHtml(client.owner)}
+            </small>
+          </td>
+
+          <td>
+            ${escapeHtml(client.package)}
+          </td>
+
+          <td>
+            ${activeText}
+          </td>
+
+          <td>
+            ${statusBadge(status)}
+          </td>
+
+          <td>
+            <button
+              class="icon-btn"
+              onclick="viewClient('${client.id}')"
+            >
+              ↗
+            </button>
+          </td>
+
+        </tr>
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================================================
+   CLIENT FILTER
+========================================================= */
+
+function getFilteredClients(){
+
+  const search =
+    (
+      document.getElementById(
+        "searchInput"
+      )?.value || ""
+    ).toLowerCase();
+
+  const statusFilter =
+    document.getElementById(
+      "statusFilter"
+    )?.value || "ALL";
+
+  const packageFilter =
+    document.getElementById(
+      "packageFilter"
+    )?.value || "ALL";
+
+  return clients.filter(client=>{
+
+    const text = [
+      client.brand,
+      client.owner,
+      client.website,
+      client.email,
+      client.phone,
+      client.package
+    ]
+      .join(" ")
+      .toLowerCase();
+
+    const matchSearch =
+      !search ||
+      text.includes(search);
+
+    const status =
+      getStatus(client);
+
+    const matchStatus =
+      statusFilter === "ALL" ||
+      status === statusFilter;
+
+    const matchPackage =
+      packageFilter === "ALL" ||
+      client.package === packageFilter;
+
+    return (
+      matchSearch &&
+      matchStatus &&
+      matchPackage
+    );
+
+  });
+
+}
+
+
+/* =========================================================
+   CLIENT TABLE
+========================================================= */
+
+function renderClients(){
+
+  const tbody =
+    document.getElementById(
+      "clientsTable"
+    );
+
+  const list =
+    getFilteredClients();
+
+  if(!list.length){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7">
+          <div class="empty">
+            Tidak ada data client.
+          </div>
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+  tbody.innerHTML =
+    list.map(client=>{
+
+      const status =
+        getStatus(client);
+
+      const days =
+        daysLeft(client.endDate);
+
+      let activeText = "—";
+
+      if(days !== null){
+
+        activeText =
+          days < 0
+            ? "Expired"
+            : days + " hari";
+
+      }
+
+      const website =
+        client.website
+          ? `
+            <a
+              href="${escapeHtml(client.website)}"
+              target="_blank"
+              rel="noopener"
+            >
+              ${escapeHtml(client.website)}
+            </a>
+          `
+          : "—";
+
+      return `
+        <tr>
+
+          <td>
+            <strong>
+              ${escapeHtml(client.brand)}
+            </strong>
+
+            <small>
+              ${escapeHtml(client.email || "")}
+            </small>
+          </td>
+
+          <td>
+            ${escapeHtml(client.owner)}
+          </td>
+
+          <td>
+            ${escapeHtml(client.package)}
+          </td>
+
+          <td>
+            ${website}
+          </td>
+
+          <td>
+            ${activeText}
+          </td>
+
+          <td>
+            ${statusBadge(status)}
+          </td>
+
+          <td>
+
+            <div class="action-group">
+
+              <button
+                class="icon-btn"
+                onclick="viewClient('${client.id}')"
+                title="Detail"
+              >
+                ↗
+              </button>
+
+              <button
+                class="icon-btn"
+                onclick="editClient('${client.id}')"
+                title="Edit"
+              >
+                ✎
+              </button>
+
+              <button
+                class="icon-btn"
+                onclick="deleteClient('${client.id}')"
+                title="Hapus"
+              >
+                ×
+              </button>
+
+            </div>
+
+          </td>
+
+        </tr>
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+function renderProgress(){
+
+  const container =
+    document.getElementById(
+      "progressList"
+    );
+
+  const list =
+    clients.filter(
+      client =>
+        getStatus(client) ===
+        "ON PROGRESS"
+    );
+
+  if(!list.length){
+
+    container.innerHTML = `
+      <div class="empty">
+        Tidak ada client on progress.
+      </div>
+    `;
+
+    return;
+
+  }
+
+  container.innerHTML =
+    list.map(client=>{
+
+      return `
+        <div class="progress-item">
+
+          <div class="progress-top">
+
+            <div>
+
+              <div class="progress-brand">
+                ${escapeHtml(client.brand)}
+              </div>
+
+              <div class="progress-owner">
+                Owner:
+                ${escapeHtml(client.owner)}
+              </div>
+
+            </div>
+
+            ${statusBadge("ON PROGRESS")}
+
+          </div>
+
+          <div class="progress-meta">
+
+            <div class="progress-meta-box">
+
+              <label>Website</label>
+
+              <strong>
+                ${escapeHtml(
+                  client.website || "—"
+                )}
+              </strong>
+
+            </div>
+
+            <div class="progress-meta-box">
+
+              <label>Paket</label>
+
+              <strong>
+                ${escapeHtml(
+                  client.package
+                )}
+              </strong>
+
+            </div>
+
+            <div class="progress-meta-box">
+
+              <label>Tahap</label>
+
+              <strong>
+                ${escapeHtml(
+                  client.stage || "Planning"
+                )}
+              </strong>
+
+            </div>
+
+            <div class="progress-meta-box">
+
+              <label>Tanggal Mulai</label>
+
+              <strong>
+                ${formatDate(
+                  client.startDate
+                )}
+              </strong>
+
+            </div>
+
+          </div>
+
+          <div
+            class="actions"
+            style="margin-top:12px"
+          >
+
+            <button
+              class="btn"
+              onclick="viewClient('${client.id}')"
+            >
+              Detail
+            </button>
+
+            <button
+              class="btn"
+              onclick="editClient('${client.id}')"
+            >
+              Edit
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================================================
+   MONITOR CARD
+========================================================= */
+
+function monitorCards(limit = 999){
+
+  const list =
+    clients
+      .filter(
+        client => client.website
+      )
+      .slice(0,limit);
+
+  if(!list.length){
+
+    return `
+      <div class="empty">
+        Belum ada website yang
+        bisa dimonitor.
+      </div>
+    `;
+
+  }
+
+  return list.map(client=>{
+
+    const result =
+      monitorResults[client.id] || {
+        state:"NOT CHECKED",
+        response:"—",
+        time:"—"
+      };
+
+    let dot =
+      "status-dot";
+
+    if(result.state === "ONLINE"){
+      dot += " dot-online";
+    }
+
+    if(result.state === "ERROR"){
+      dot += " dot-error";
+    }
+
+    if(result.state === "CHECKING"){
+      dot += " dot-checking";
+    }
+
+    return `
+      <div class="monitor-item">
+
+        <div class="monitor-top">
+
+          <div class="monitor-name">
+            ${escapeHtml(client.brand)}
+          </div>
+
+          <div>
+            <span class="${dot}"></span>
+            ${escapeHtml(result.state)}
+          </div>
+
+        </div>
+
+        <div class="monitor-url">
+          ${escapeHtml(client.website)}
+        </div>
+
+        <div class="monitor-meta">
+
+          <span>
+            Response:
+            ${escapeHtml(
+              result.response || "—"
+            )}
+          </span>
+
+          <span>
+            Checked:
+            ${escapeHtml(
+              result.time || "—"
+            )}
+          </span>
+
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
+
+}
+
+
+/* =========================================================
+   MONITOR RENDER
+========================================================= */
+
+function renderMonitor(){
+
+  document.getElementById(
+    "monitorList"
+  ).innerHTML =
+    monitorCards();
+
+  document.getElementById(
+    "dashboardMonitor"
+  ).innerHTML =
+    monitorCards(4);
+
+}
+
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+function renderAlerts(){
+
+  const container =
+    document.getElementById(
+      "alertList"
+    );
+
+  const alerts = [];
+
+  clients.forEach(client=>{
+
+    const status =
+      getStatus(client);
+
+    const days =
+      daysLeft(client.endDate);
+
+    if(status === "EXPIRING"){
+
+      alerts.push(`
+        <div class="alert">
+
+          <div class="alert-title">
+            ${escapeHtml(client.brand)}
+            · Masa aktif ${days} hari lagi
+          </div>
+
+          <div class="alert-text">
+            Owner:
+            ${escapeHtml(client.owner)}
+            · Berakhir:
+            ${formatDate(client.endDate)}
+          </div>
+
+        </div>
+      `);
+
+    }
+
+    if(status === "EXPIRED"){
+
+      alerts.push(`
+        <div class="alert">
+
+          <div class="alert-title">
+            ${escapeHtml(client.brand)}
+            · Masa aktif sudah habis
+          </div>
+
+          <div class="alert-text">
+            Berakhir:
+            ${formatDate(client.endDate)}
+          </div>
+
+        </div>
+      `);
+
+    }
+
+    const monitor =
+      monitorResults[client.id];
+
+    if(
+      monitor &&
+      monitor.state === "ERROR"
+    ){
+
+      alerts.push(`
+        <div class="alert">
+
+          <div class="alert-title">
+            ${escapeHtml(client.brand)}
+            · Website bermasalah
+          </div>
+
+          <div class="alert-text">
+            ${escapeHtml(
+              monitor.error ||
+              "Tidak dapat diakses"
+            )}
+          </div>
+
+        </div>
+      `);
+
+    }
+
+  });
+
+  container.innerHTML =
+    alerts.length
+      ? alerts.join("")
+      : `
+        <div class="empty">
+          Tidak ada alert aktif.
+        </div>
+      `;
+
+}
+
+
+/* =========================================================
+   OPEN MODAL
+========================================================= */
+
+function openClientModal(
+  forcedStatus = ""
+){
+
+  document
+    .getElementById("clientForm")
+    .reset();
+
+  document.getElementById(
+    "clientId"
+  ).value = "";
+
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
+    forcedStatus === "ON PROGRESS"
+      ? "Add Client On Progress"
+      : "Add Client";
+
+  document.getElementById(
+    "status"
+  ).value =
+    forcedStatus || "ACTIVE";
+
+  document.getElementById(
+    "clientModal"
+  ).classList.add("show");
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
+
+function closeClientModal(){
+
+  document
+    .getElementById("clientModal")
+    .classList.remove("show");
+
+}
+
+
+/* =========================================================
+   FORM SUBMIT
+========================================================= */
+
+document
+  .getElementById("clientForm")
+  .addEventListener(
+    "submit",
+    function(event){
+
+      event.preventDefault();
+
+      const id =
+        document.getElementById(
+          "clientId"
+        ).value;
+
+      const data = {
+
+        id:
+          id || generateId(),
+
+        brand:
+          document.getElementById(
+            "brand"
+          ).value.trim(),
+
+        owner:
+          document.getElementById(
+            "owner"
+          ).value.trim(),
+
+        phone:
+          document.getElementById(
+            "phone"
+          ).value.trim(),
+
+        email:
+          document.getElementById(
+            "email"
+          ).value.trim(),
+
+        website:
+          document.getElementById(
+            "website"
+          ).value.trim(),
+
+        package:
+          document.getElementById(
+            "package"
+          ).value,
+
+        startDate:
+          document.getElementById(
+            "startDate"
+          ).value,
+
+        endDate:
+          document.getElementById(
+            "endDate"
+          ).value,
+
+        status:
+          document.getElementById(
+            "status"
+          ).value,
+
+        stage:
+          document.getElementById(
+            "stage"
+          ).value,
+
+        notes:
+          document.getElementById(
+            "notes"
+          ).value.trim()
+
+      };
+
+
+      if(id){
+
+        clients =
+          clients.map(client =>
+            client.id === id
+              ? data
+              : client
+          );
+
+      }else{
+
+        clients.unshift(data);
+
+      }
+
+
+      saveClients();
+
+      closeClientModal();
+
+    }
+  );
+
+
+/* =========================================================
+   EDIT CLIENT
+========================================================= */
+
+function editClient(id){
+
+  const client =
+    clients.find(
+      item => item.id === id
+    );
+
+  if(!client){
+    return;
+  }
+
+  document.getElementById(
+    "clientId"
+  ).value = client.id;
+
+  document.getElementById(
+    "brand"
+  ).value = client.brand;
+
+  document.getElementById(
+    "owner"
+  ).value = client.owner;
+
+  document.getElementById(
+    "phone"
+  ).value = client.phone || "";
+
+  document.getElementById(
+    "email"
+  ).value = client.email || "";
+
+  document.getElementById(
+    "website"
+  ).value = client.website || "";
+
+  document.getElementById(
+    "package"
+  ).value = client.package;
+
+  document.getElementById(
+    "startDate"
+  ).value = client.startDate || "";
+
+  document.getElementById(
+    "endDate"
+  ).value = client.endDate || "";
+
+  document.getElementById(
+    "status"
+  ).value = client.status;
+
+  document.getElementById(
+    "stage"
+  ).value =
+    client.stage || "Planning";
+
+  document.getElementById(
+    "notes"
+  ).value =
+    client.notes || "";
+
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
+    "Edit Client";
+
+  document.getElementById(
+    "clientModal"
+  ).classList.add("show");
+
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+function deleteClient(id){
+
+  const client =
+    clients.find(
+      item => item.id === id
+    );
+
+  if(!client){
+    return;
+  }
+
+  const confirmed =
+    confirm(
+      `Hapus client "${client.brand}"?`
+    );
+
+  if(!confirmed){
+    return;
+  }
+
+  clients =
+    clients.filter(
+      item => item.id !== id
+    );
+
+  saveClients();
+
+}
+
+
+/* =========================================================
+   DETAIL
+========================================================= */
+
+function viewClient(id){
+
+  const client =
+    clients.find(
+      item => item.id === id
+    );
+
+  if(!client){
+    return;
+  }
+
+  const status =
+    getStatus(client);
+
+  const days =
+    daysLeft(client.endDate);
+
+  let activeText = "—";
+
+  if(days !== null){
+
+    activeText =
+      days < 0
+        ? "Sudah habis"
+        : days + " hari";
+
+  }
+
+  const website =
+    client.website
+      ? `
+        <a
+          href="${escapeHtml(client.website)}"
+          target="_blank"
+          rel="noopener"
+        >
+          ${escapeHtml(client.website)}
+        </a>
+      `
+      : "—";
+
+
+  document.getElementById(
+    "detailContent"
+  ).innerHTML = `
+
+    <div class="detail-grid">
+
+      <div class="detail-box">
+        <label>Nama Brand</label>
+        <strong>
+          ${escapeHtml(client.brand)}
+        </strong>
+      </div>
+
+      <div class="detail-box">
+        <label>Owner</label>
+        <strong>
+          ${escapeHtml(client.owner)}
+        </strong>
+      </div>
+
+      <div class="detail-box">
+        <label>Nomor HP</label>
+        <strong>
+          ${escapeHtml(
+            client.phone || "—"
+          )}
+        </strong>
+      </div>
+
+      <div class="detail-box">
+        <label>Email</label>
+        <strong>
+          ${escapeHtml(
+            client.email || "—"
+          )}
+        </strong>
+      </div>
+
+      <div class="detail-box">
+        <label>Website / Domain</label>
+        <strong>
+          ${website}
+        </strong>
+      </div>
+
+      <div class="detail-box">
+        <label>Paket</label>
+        <strong>
+          ${escapeHtml(client.package)}
+        </strong>
+      </div>
+
+      <div class="detail-box">
+        <label>Tanggal Mulai</label>
+        <strong>
+          ${formatDate(client.startDate)}
+        </strong>
+      </div>
+
+      <div class="detail-box">
+        <label>Tanggal Berakhir</label>
+        <strong>
+          ${formatDate(client.endDate)}
+        </strong>
+      </div>
+
+      <div class="detail-box">
+        <label>Sisa Masa Aktif</label>
+        <strong>
+          ${activeText}
+        </strong>
+      </div>
+
+      <div class="detail-box">
+        <label>Status</label>
+        <strong>
+          ${statusBadge(status)}
+        </strong>
+      </div>
+
+      <div class="detail-box">
+        <label>Tahap</label>
+        <strong>
+          ${escapeHtml(
+            client.stage || "—"
+          )}
+        </strong>
+      </div>
+
+      <div class="detail-box">
+        <label>Website Monitor</label>
+        <strong>
+          ${
+            monitorResults[client.id]?.state ||
+            "NOT CHECKED"
+          }
+        </strong>
+      </div>
+
+    </div>
+
+    <div class="detail-note">
+
+      <strong>Catatan</strong><br>
+
+      ${escapeHtml(
+        client.notes ||
+        "Tidak ada catatan."
+      )}
+
+    </div>
+
+  `;
+
+  document
+    .getElementById("detailModal")
+    .classList.add("show");
+
+}
+
+
+/* =========================================================
+   CLOSE DETAIL
+========================================================= */
+
+function closeDetailModal(){
+
+  document
+    .getElementById("detailModal")
+    .classList.remove("show");
+
+}
+
+
+/* =========================================================
+   WEBSITE CHECK
+========================================================= */
+
+async function checkWebsite(client){
+
+  if(!client.website){
+    return;
+  }
+
+  let url =
+    client.website.trim();
+
+  if(
+    !/^https?:\/\//i.test(url)
+  ){
+    url =
+      "https://" + url;
+  }
+
+
+  monitorResults[client.id] = {
+
+    state:"CHECKING",
+
+    response:"...",
+
+    time:
+      new Date()
+        .toLocaleTimeString(
+          "id-ID"
+        )
+
+  };
+
+  renderMonitor();
+
+
+  const started =
+    performance.now();
+
+
+  try{
+
+    const controller =
+      new AbortController();
+
+    const timeout =
+      setTimeout(
+        ()=>controller.abort(),
+        8000
+      );
+
+
+    await fetch(
+      url,
+      {
+        method:"HEAD",
+        mode:"cors",
+        cache:"no-store",
+        signal:controller.signal
+      }
+    );
+
+
+    clearTimeout(timeout);
+
+
+    monitorResults[client.id] = {
+
+      state:"ONLINE",
+
+      response:
+        Math.round(
+          performance.now() -
+          started
+        ) + " ms",
+
+      time:
+        new Date()
+          .toLocaleTimeString(
+            "id-ID"
+          )
+
+    };
+
+
+  }catch(error){
+
+    monitorResults[client.id] = {
+
+      state:"ERROR",
+
+      response:"—",
+
+      time:
+        new Date()
+          .toLocaleTimeString(
+            "id-ID"
+          ),
+
+      error:
+        error.name === "AbortError"
+          ? "TIMEOUT"
+          : "Tidak dapat diverifikasi dari browser. Kemungkinan CORS atau network."
+
+    };
+
+  }
+
+
+  renderAll();
+
+}
+
+
+/* =========================================================
+   CHECK ALL
+========================================================= */
+
+async function runAllChecks(){
+
+  const list =
+    clients.filter(
+      client =>
+        client.website
+    );
+
+  if(!list.length){
+
+    alert(
+      "Belum ada client dengan website."
+    );
+
+    return;
+
+  }
+
+  for(
+    const client of list
+  ){
+
+    await checkWebsite(client);
+
+  }
+
+}
+
+
+/* =========================================================
+   RENDER ALL
+========================================================= */
+
+function renderAll(){
+
+  renderStats();
+
+  renderDashboard();
+
+  renderClients();
+
+  renderProgress();
+
+  renderMonitor();
+
+  renderAlerts();
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
+========================================================= */
+
+document
+  .getElementById("clientModal")
+  .addEventListener(
+    "click",
+    function(event){
+
+      if(
+        event.target === this
+      ){
+        closeClientModal();
+      }
+
+    }
+  );
+
+
+document
+  .getElementById("detailModal")
+  .addEventListener(
+    "click",
+    function(event){
+
+      if(
+        event.target === this
+      ){
+        closeDetailModal();
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   ESC CLOSE
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key !== "Escape"){
+      return;
+    }
+
+    closeClientModal();
+
+    closeDetailModal();
+
+  }
+);
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+loadClients();
+
+renderAll();
+
+</script>
+
+</body>
+</html>
